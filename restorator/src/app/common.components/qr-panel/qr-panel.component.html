@@ -1,0 +1,22 @@
+<div class="popup" [class.active]="active">
+  <div class="p-overlay" (click)="close()"></div>
+  <div class="p-win">
+    <ng-container *ngIf="item">
+      <div class="pw-content">
+        <div class="pw-txt"># {{item.no}}</div>
+        <div class="qr">
+          <div class="qr-content">
+            <a [href]="qrtext" target="_blank"><img [src]="imgUrl"></a>
+            <div class="qr-print">
+              <a [href]="imgLink" target="_blank"><span>{{words['restorator-floors']['print-versions'][currentLang.slug]}}</span></a>
+            </div>
+            <div class="qr-link">
+              <a [href]="qrtext" target="_blank"><span>{{words['restorator-floors']['link'][currentLang.slug]}}</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="pw-close" (click)="close()"><span></span></div>
+  </div>
+</div>

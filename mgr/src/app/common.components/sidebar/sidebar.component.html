@@ -1,0 +1,114 @@
+<aside [class]="active ? 'active' : ''">
+  <div id="aside-left">
+    <div id="user" *ngIf="authenticated" [routerLink]="'/admins/edit/'+admin.id">
+      <div id="u-imgwrap" [style.background-image]="admin.img ? 'url(/images/admins/'+admin.img+')' : 'none'">
+        <span *ngIf="!admin.img">{{shortAdminName}}</span>
+      </div>
+      <div id="u-info">
+        <div id="u-name">{{admin.name}}</div>
+        <div id="u-email">{{admin.email}}</div>
+      </div>
+    </div>
+    <div id="login" *ngIf="!authenticated">
+      <div id="login-head"><span></span></div>
+      <form (submit)="login();">
+        <input type="email" name="email" [placeholder]="currentLang.phrases['sidebar-email']" [(ngModel)]="email"
+               [class]="errorEmail ? 'error' : ''">
+        <input type="password" name="password" [placeholder]="currentLang.phrases['sidebar-password']"
+               [(ngModel)]="password" [class]="errorPassword ? 'error' : ''">
+        <button type="submit">{{currentLang.phrases['sidebar-enter']}}</button>
+      </form>
+    </div>
+    <div id="navwrap" *ngIf="authenticated">
+      <nav>
+        <div class="nav-item" [class.active]="currentUrl.parts[0] === 'settings'">
+          <a (click)="toggleSub(0);">
+            <span class="nav-settings">{{currentLang.phrases['sidebar-module-settings']}}</span>
+          </a>
+        </div>
+        <div class="nav-sub" [class.active]="subActive[0]">
+          <div class="nav-item" [class.active]="currentUrl.parts[0] === 'settings' && !currentUrl.parts[1]"><a
+            routerLink="/settings/settings"><span>{{currentLang.phrases['sidebar-submodule-settings']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'payments'"><a
+            routerLink="/settings/payments"><span>{{currentLang.phrases['sidebar-submodule-settings-payments']}}</span></a>
+          </div>
+        </div>
+
+        <div class="nav-item" [class.active]="currentUrl.parts[0] === 'admins'"><a routerLink="/admins"><span
+          class="nav-admins">{{currentLang.phrases['sidebar-module-admins']}}</span></a></div>
+
+        <div class="nav-item" [class.active]="currentUrl.parts[0] === 'localization'"><a (click)="toggleSub(1);"><span
+          class="nav-localization">{{currentLang.phrases['sidebar-module-localization']}}</span></a></div>
+        <div class="nav-sub" [class.active]="subActive[1]">
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'langs'"><a
+            routerLink="/localization/langs"><span>{{currentLang.phrases['sidebar-submodule-langs']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'wordbooks'"><a
+            routerLink="/localization/wordbooks"><span>{{currentLang.phrases['sidebar-submodule-wordbooks']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'currencies'"><a
+            routerLink="/localization/currencies"><span>{{currentLang.phrases['sidebar-submodule-currencies']}}</span></a>
+          </div>
+        </div>
+
+        <div class="nav-item" [class.active]="currentUrl.parts[0] === 'restaurants'"><a (click)="toggleSub(2);"><span
+          class="nav-restaurants">{{currentLang.phrases['sidebar-module-restaurants']}}</span></a></div>
+        <div class="nav-sub" [class.active]="subActive[2]">
+
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'restaurants'"><a
+            routerLink="/restaurants/restaurants"><span>{{currentLang.phrases['sidebar-submodule-restaurants']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'facility-types'"><a
+            routerLink="/restaurants/facility-types"><span>{{currentLang.phrases['sidebar-submodule-fc-types']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'transactions'"><a
+            routerLink="/restaurants/transactions"><span>{{currentLang.phrases['sidebar-submodule-transactions']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'employees'"><a
+            routerLink="/restaurants/employees"><span>{{currentLang.phrases['sidebar-submodule-employees']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'employee-statuses'"><a
+            routerLink="/restaurants/employee-statuses"><span>{{currentLang.phrases['sidebar-submodule-employee-statuses']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'halls'"><a
+            routerLink="/restaurants/halls"><span>{{currentLang.phrases['sidebar-submodule-halls']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'floors'"><a
+            routerLink="/restaurants/floors"><span>{{currentLang.phrases['sidebar-submodule-floors']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'room-types'"><a
+            routerLink="/restaurants/room-types"><span>{{currentLang.phrases['sidebar-submodule-room-types']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'cats'"><a
+            routerLink="/restaurants/cats"><span>{{currentLang.phrases['sidebar-submodule-cats']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'products'"><a
+            routerLink="/restaurants/products"><span>{{currentLang.phrases['sidebar-submodule-products']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'ingredients'"><a
+            routerLink="/restaurants/ingredients"><span>{{currentLang.phrases['sidebar-submodule-ingredients']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'units'"><a
+            routerLink="/restaurants/units"><span>{{currentLang.phrases['sidebar-submodule-units']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'orders'"><a
+            routerLink="/restaurants/orders"><span>{{currentLang.phrases['sidebar-submodule-orders']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'icons'"><a
+            routerLink="/restaurants/icons"><span>{{currentLang.phrases['sidebar-submodule-icons']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'servings'"><a
+            routerLink="/restaurants/servings"><span>{{currentLang.phrases['sidebar-submodule-servings']}}</span></a>
+          </div>
+        </div>
+
+        <div class="nav-item" [class.active]="currentUrl.parts[0] === 'utils'"><a (click)="toggleSub(3);"><span
+          class="nav-utils">{{currentLang.phrases['sidebar-module-utils']}}</span></a></div>
+        <div class="nav-sub" [class.active]="subActive[3]">
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'auth-logs'"><a
+            routerLink="/utils/auth-logs"><span>{{currentLang.phrases['sidebar-submodule-logs']}}</span></a></div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'mailtemplates'"><a
+            routerLink="/utils/mailtemplates"><span>{{currentLang.phrases['sidebar-submodule-mailtemplates']}}</span></a>
+          </div>
+          <div class="nav-item" [class.active]="currentUrl.parts[1] === 'wsservers'"><a
+            routerLink="/utils/wsservers"><span>{{currentLang.phrases['sidebar-submodule-wsservers']}}</span></a></div>
+        </div>
+      </nav>
+    </div>
+  </div>
+  <div id="aside-right" (click)="close();"></div>
+</aside>

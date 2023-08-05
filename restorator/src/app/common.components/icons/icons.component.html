@@ -1,0 +1,15 @@
+<div class="de-icons">
+  <div *ngIf="showFilter" class="de-icons-search">
+    <input type="text" name="ilfilter" [(ngModel)]="filter"
+           [placeholder]="words['restorator-cats']['icon-filter'][currentLang.slug]">
+    <div class="de-icons-reset" *ngIf="filter" (click)="resetFilter()"><span></span></div>
+  </div>
+  <div class="de-icons-itemswrap">
+    <div class="de-icons-items">
+      <div class="de-icons-item" [class.active]="selected === i.id" *ngFor="let i of filterIcons"
+           (click)="select(i.id)">
+        <img src="{{staticPath}}icons/{{i.img}}" [title]="i.name[currentLang.slug]">
+      </div>
+    </div>
+  </div>
+</div>

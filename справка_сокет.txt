@@ -1,0 +1,10 @@
+1) ставите nginx (https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04-ru)
+2) ставите node.js (https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04-ru)
+3) кладете папку ws1 на сервер, заходите в нее, выполняете npm install
+4) выполняете npm run build
+5) запускаете скрипт: node dist/main.js
+но лучше поставить pm2 (https://timeweb.com/ru/community/articles/ispolzuem-process-menedzhment-na-maksimum-ustanovka-i-nastroyka-pm2-1)
+6) направляете домен на запущенное приложение
+
+- Why '@liaoliaots/nestjs-redis' is used in package.json instead of 'nestjs-redis'?
+https://github.com/skunight/nestjs-redis/issues/97

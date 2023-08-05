@@ -1,0 +1,50 @@
+  <div class="dash">
+  <a class="dash-btn back" routerLink="/orders/my"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data orders">
+  <ng-container *ngIf="isReady">
+    <ng-container *ngIf="ol.length">
+      <div class="group-control-row">
+        Group orders: <checkbox-slider [(value)]="isGrouped" (valueChange)="groupOrders()"></checkbox-slider>
+      </div>
+      <div class="group-control-row">
+        <button class="btn" (click)="collapseAll()">{{words['restorator-orders']['collapse-all'][currentLang.slug]}}</button>
+      </div>
+
+      <div *ngFor="let order of ol" class="dataedit de-group">
+        <order-accordion
+          [order]="order"
+          (unNeed)="onUnNeed(order, $event)"
+          [isActive]="this.openOrders.get(order.id) || false"
+          [emitter]="accordionEmitter"
+          [parentEmitter]="collapseEmitter"
+          [title]="'#' + order.id.toString()"
+        >
+            <the-order
+              *ngIf="order"
+              [x]="order"
+              [hl]="hl"
+              [sl]="sl"
+              [fl]="fl"
+              [showCancel]="true"
+              [adminMode]="false"
+              [confirmCancel]="false"
+              [confirmComplete]="false"
+              (complete)="olOnComplete(order)"
+              (cancel)="olOnCancel(order)"
+              (save)="olUpdate(order)"
+            ></the-order>
+        </order-accordion>
+      </div>
+
+    </ng-container>
+    <ng-container *ngIf="!ol.length">{{words['common']['none'][currentLang.slug]}}</ng-container>
+  </ng-container>
+  <ng-container *ngIf="!isReady">
+    <div class="loading"><span></span></div>
+  </ng-container>
+</div>
+
+<the-confirm [(active)]="olCancelConfirmActive" [msg]="words['restorator-orders']['confirm-cancel'][currentLang.slug]" (confirmed)="olCancel()"></the-confirm>
+<the-confirm [(active)]="unNeedConfirmActive" [msg]="olUnNeedConfirmMsg" (confirmed)="unNeed()"></the-confirm>
+<the-confirm [(active)]="olCompleteConfirmActive" [msg]="words['restorator-orders']['confirm-complete'][currentLang.slug]" (confirmed)="olComplete()"></the-confirm>

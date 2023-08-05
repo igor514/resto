@@ -1,0 +1,8 @@
+<div class="input-text">
+    <div *ngIf="!editable else valueInput" class="in-value">{{value}}</div>
+</div>
+
+<ng-template #valueInput>
+  <input type="text" class="in-value" [(ngModel)]="value" (keyup)="sanitize($event.target.value)" [value]="value"/>
+</ng-template>
+

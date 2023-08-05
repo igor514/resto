@@ -1,0 +1,250 @@
+<div class="dash">
+    <a class="dash-btn create" routerLink="/orders/all/create"><span>{{words['common']['create'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <ng-container *ngIf="olChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="olLoading"></div>
+            <div class="dld-summary">
+                <div>
+                    <div>{{words['restorator-orders']['orders-q'][currentLang.slug]}}: <strong>{{olAllLength}}</strong></div>
+                    <div>{{words['restorator-orders']['sum'][currentLang.slug]}}: <strong>{{olSum | number:'1.2-2'}}</strong></div>
+                </div>
+                <div>
+                    <div class="dlds-export" (click)="olExport()"><span>{{words['restorator-orders']['export'][currentLang.slug]}}</span></div>
+                </div>
+            </div>
+            <table>
+                <tr>
+                    <td><dateperiod-picker [(value)]="olFilterCreatedAt" (valueChange)="initOrders()"></dateperiod-picker></td>
+                    <td></td>
+                    <td class="align-center">
+                        <div class="dld-selectwrap">
+                            <select [(ngModel)]="olFilterHallId" (ngModelChange)="olFilterTableId = null; initOrders();">
+                                <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                                <option *ngFor="let h of hl" [ngValue]="h.id">{{h.name}}</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td class="align-center">
+                        <div class="dld-selectwrap">
+                            <select [(ngModel)]="olFilterTableId" (ngModelChange)="initOrders();">
+                                <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                                <option *ngFor="let t of tl" [ngValue]="t.id">{{t.no}}</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td class="align-center">
+                      <div class="dld-selectwrap">
+                        <select [(ngModel)]="olFilterFloorId" (ngModelChange)="olFilterRoomId = null; initOrders();">
+                          <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                          <option *ngFor="let f of fl" [ngValue]="f.id">{{f.number}}</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td class="align-center">
+                      <div class="dld-selectwrap">
+                        <select [(ngModel)]="olFilterRoomId" (ngModelChange)="initOrders();">
+                          <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                          <option *ngFor="let r of rm" [ngValue]="r.id">{{r.no}}</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td class="align-center">
+                        <div class="dld-selectwrap">
+                            <select [(ngModel)]="olFilterEmployeeId" (ngModelChange)="initOrders();">
+                                <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                                <option *ngFor="let e of el" [ngValue]="e.id">{{e.name}}</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td></td>
+                    <td class="align-center">
+                        <div class="dld-selectwrap">
+                            <select [(ngModel)]="olFilterStatus" (ngModelChange)="initOrders();">
+                                <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                                <option [ngValue]="statusActive">{{words['restorator-orders']['status-active'][currentLang.slug]}}</option>
+                                <option [ngValue]="statusCompleted">{{words['restorator-orders']['status-completed'][currentLang.slug]}}</option>
+                                <option [ngValue]="statusCancelled">{{words['restorator-orders']['status-cancelled'][currentLang.slug]}}</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="olSortBy === 'created_at' && olSortDir === 1" [class.sorted-backward]="olSortBy === 'created_at' && olSortDir === -1" (click)="changeSorting('created_at')">{{words['restorator-orders']['created-at'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['no'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['hall'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['table2'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['floor'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['room'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['employee'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label class="sortable" [class.sorted-forward]="olSortBy === 'sum' && olSortDir === 1" [class.sorted-backward]="olSortBy === 'sum' && olSortDir === -1" (click)="changeSorting('sum')">{{words['restorator-orders']['sum'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-orders']['status'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['common']['actions'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="ol.length">
+                    <tr *ngFor="let o of ol">
+                        <td>{{o.formattedCreatedAt}}</td>
+                        <td class="align-center">{{o.id}}</td>
+                        <td class="align-center">{{o?.hall?.name}}</td>
+                        <td class="align-center">{{o?.table?.no}}</td>
+                        <td class="align-center">{{o?.room?.floor?.number}}</td>
+                        <td class="align-center">{{o?.room?.no}}</td>
+                        <td class="align-center">{{o.employee?.name}}</td>
+                        <td class="align-center">{{o.sum | number:'1.2-2'}}</td>
+                        <td class="align-center"><span [class.red]="o.status === statusCancelled" [class.green]="o.status === statusCompleted">{{getStatusName(o.status)}}</span></td>
+                        <td class="align-center nowrap">
+                            <a *ngIf="o.status !== statusActive" class="datalist-btn activate" (click)="olOnActivate(o)" [title]="words['common']['activate'][currentLang.slug]"><span></span></a>
+                            <a *ngIf="o.status === statusActive" class="datalist-btn complete" (click)="olOnComplete(o)" [title]="words['common']['complete'][currentLang.slug]"><span></span></a>
+                            <a *ngIf="o.status === statusActive" class="datalist-btn cancel" (click)="olOnCancel(o)" [title]="words['common']['cancel'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn edit" [routerLink]="'/orders/all/edit/'+o.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn delete" (click)="olOnDelete(o)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!ol.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="olLoading"></div>
+            <!-- dash -->
+            <div class="dlm-dash">
+                <!-- summary -->
+                <div class="dlmd-head">{{words['common']['summary'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['orders-q'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{olAllLength}}</div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['sum'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{olSum | number:'1.2-2'}}</div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-export" (click)="olExport()"><span>{{words['restorator-orders']['export'][currentLang.slug]}}</span></div>
+                </div>
+                <!-- filter -->
+                <div class="dlmd-head">{{words['common']['filter'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['created-at'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><dateperiod-picker [(value)]="olFilterCreatedAt" (valueChange)="initOrders()"></dateperiod-picker></div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['hall'][currentLang.slug]}}:</div>
+                    <div class="dlmd-selectwrap">
+                        <select [(ngModel)]="olFilterHallId" (ngModelChange)="olFilterTableId = null; initOrders();">
+                            <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                            <option *ngFor="let h of hl" [ngValue]="h.id">{{h.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['table2'][currentLang.slug]}}:</div>
+                    <div class="dlmd-selectwrap">
+                        <select [(ngModel)]="olFilterTableId" (ngModelChange)="initOrders();">
+                            <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                            <option *ngFor="let t of tl" [ngValue]="t.id">{{t.no}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['employee'][currentLang.slug]}}:</div>
+                    <div class="dlmd-selectwrap">
+                        <select [(ngModel)]="olFilterEmployeeId" (ngModelChange)="initOrders();">
+                            <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                            <option *ngFor="let e of el" [ngValue]="e.id">{{e.name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-orders']['status'][currentLang.slug]}}:</div>
+                    <div class="dlmd-selectwrap">
+                        <select [(ngModel)]="olFilterStatus" (ngModelChange)="initOrders();">
+                            <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                            <option [ngValue]="statusActive">{{words['restorator-orders']['status-active'][currentLang.slug]}}</option>
+                            <option [ngValue]="statusCompleted">{{words['restorator-orders']['status-completed'][currentLang.slug]}}</option>
+                            <option [ngValue]="statusCancelled">{{words['restorator-orders']['status-cancelled'][currentLang.slug]}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- sorting -->
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsorting (change)="setSorting(mobsorting.value)">
+                            <option [selected]="olSortBy === 'created_at' && olSortDir === 1" [value]="0">{{words['restorator-orders']['created-at'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="olSortBy === 'created_at' && olSortDir === -1" [value]="1">{{words['restorator-orders']['created-at'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="olSortBy === 'sum' && olSortDir === 1" [value]="2">{{words['restorator-orders']['sum'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="olSortBy === 'sum' && olSortDir === -1" [value]="3">{{words['restorator-orders']['sum'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- list -->
+            <ng-container *ngIf="ol.length">
+                <div class="dlm-item" *ngFor="let o of ol">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['created-at'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{o.formattedCreatedAt}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['no'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{o.id}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['hall'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{o?.hall?.name}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['table2'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{o?.table?.no}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                      <div class="dlmi-title">{{words['restorator-orders']['floor'][currentLang.slug]}}:</div>
+                      <div class="dlmi-value">{{o.room?.floor?.number}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                      <div class="dlmi-title">{{words['restorator-orders']['room'][currentLang.slug]}}:</div>
+                      <div class="dlmi-value">{{o.room?.no}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['employee'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{o.employee?.name}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['sum'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{o.sum | number:'1.2-2'}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-orders']['status'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span [class.red]="o.status === statusCancelled" [class.green]="o.status === statusCompleted">{{getStatusName(o.status)}}</span></div>
+                    </div>
+                    <div class="dlmi-actions rtl-rev">
+                        <a *ngIf="o.status !== statusActive" class="datalist-btn activate" (click)="olOnActivate(o)" [title]="words['common']['activate'][currentLang.slug]"><span></span></a>
+                        <a *ngIf="o.status === statusActive" class="datalist-btn complete" (click)="olOnComplete(o)" [title]="words['common']['complete'][currentLang.slug]"><span></span></a>
+                        <a *ngIf="o.status === statusActive" class="datalist-btn cancel" (click)="olOnCancel(o)" [title]="words['common']['cancel'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn edit" [routerLink]="'/orders/all/edit/'+o.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn delete" (click)="olOnDelete(o)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!ol.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="olAllLength" [length]="olLength" [current]="olCurrentPart" (currentChanged)="olCurrentPart = $event; initOrders();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!olChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<the-confirm [(active)]="olDeleteConfirmActive" [msg]="olDeleteConfirmMsg" (confirmed)="olDelete()"></the-confirm>
+<the-confirm [(active)]="olCancelConfirmActive" [msg]="olCancelConfirmMsg" (confirmed)="olCancel()"></the-confirm>
+<the-confirm [(active)]="olCompleteConfirmActive" [msg]="olCompleteConfirmMsg" (confirmed)="olComplete()"></the-confirm>
+<the-confirm [(active)]="olActivateConfirmActive" [msg]="olActivateConfirmMsg" (confirmed)="olActivate()"></the-confirm>

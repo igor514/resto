@@ -1,0 +1,29 @@
+<ng-container *ngIf="plReady">
+    <div class="products rtl-grid-rev" *ngIf="pl.length">
+        <div class="product" *ngFor="let p of pl">
+            <div class="p-img" [style.background-image]="p.images.length ? 'url(' + staticPath + 'products/'+p.images[0].img+')' : 'url(' + staticPath + 'no-image.jpg)'" routerLink="/{{orderService.category}}/{{target.code}}/menu/{{catUrl}}/{{p.id}}">
+                <div class="p-recommended" *ngIf="p.recommended"><span></span></div>
+            </div>
+            <div class="p-name" [innerHTML]="p.name"></div>
+            <div class="p-params rtl-rev">
+                <div>
+                    <div class="p-param">{{words['customer-menu']['price']}}: {{p.price | number:'1.2-2'}} {{currencySymbol}}</div>
+                    <div class="p-param" *ngIf="p.weight">~{{p.weight}} {{getUnitName(p.unit)}}</div>
+                </div>
+                <div>
+                    <div class="p-param right" *ngIf="!p.alc && p.cal">~{{p.cal}} {{words['customer-menu']['kcal']}}</div>
+                    <div class="p-param right alc" *ngIf="p.alc"><span>{{p.alc_percent}}%</span></div>
+                    <div class="p-param right time" *ngIf="p.time"><span>{{p.time}}</span></div>
+                </div>
+            </div>
+            <div class="p-dash">
+                <a (click)="toCart(p)" [class.added]="p._added">
+                  <span [ngClass]="{hidden: !p._added}">{{words['customer-menu']['added']}}</span>
+                  <span [ngClass]="{hidden: p._added}">{{words['customer-menu']['to-cart']}}</span>
+                </a>
+                <a routerLink="/{{orderService.category}}/{{target.code}}/menu/{{catUrl}}/{{p.id}}">{{words['customer-menu']['more']}}</a>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!pl.length">{{words['common']['none']}}</div>
+</ng-container>

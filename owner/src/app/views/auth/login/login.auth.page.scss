@@ -1,0 +1,27 @@
+.auth-container {
+  .links-footer {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+
+    a:hover {
+      opacity: 0.5;
+    }
+
+    div {
+      text-align: center;
+    }
+
+    * {
+      text-decoration: none;
+    }
+  }
+}
+
+

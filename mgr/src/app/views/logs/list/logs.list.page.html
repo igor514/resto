@@ -1,0 +1,67 @@
+<div class="content">
+    <div class="content-head">
+        <h1>{{currentLang.phrases['workspace-logs-h1']}} ({{allLength}})</h1>
+        <div class="content-dash">
+
+        </div>
+    </div>
+    <div class="data">
+        <ng-container *ngIf="ready">
+            <div class="data-tablewrap">
+                <table class="data-table">
+                    <tr class="no-border no-selection">
+                        <td>{{currentLang.phrases['workspace-filter']}}:</td>
+                        <td></td>
+                        <td>
+                            <div class="dt-inputwrap">
+                                <select [(ngModel)]="filterAdminId" (change)="rebuildList();">
+                                    <option [ngValue]="null">{{currentLang.phrases['workspace-any']}}</option>
+                                    <option *ngFor="let a of admins" [ngValue]="a.id">{{a.name}} ({{a.id}})</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                          <div class="dt-inputwrap">
+                            <select [(ngModel)]="filterEmployeeId" (change)="rebuildList();">
+                              <option [ngValue]="null">{{currentLang.phrases['workspace-any']}}</option>
+                              <option *ngFor="let e of employees" [ngValue]="e.id">{{e.name}} ({{e.id}})</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr class="no-selection">
+                        <th><label [class]="sortBy === 'created_at' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('created_at');">{{currentLang.phrases['workspace-logs-created-at']}}</label></th>
+                        <th>{{currentLang.phrases['workspace-logs-category']}}</th>
+                        <th>{{currentLang.phrases['workspace-logs-admin']}}</th>
+                        <th>{{currentLang.phrases['workspace-logs-employee']}}</th>
+                        <th><label [class]="sortBy === 'device' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('device');">{{currentLang.phrases['workspace-logs-device']}}</label></th>
+                        <th><label [class]="sortBy === 'browser' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('browser');">{{currentLang.phrases['workspace-logs-browser']}}</label></th>
+                        <th><label [class]="sortBy === 'ip' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('ip');">{{currentLang.phrases['workspace-logs-ip']}}</label></th>
+                    </tr>
+                    <ng-container *ngIf="xl.length">
+                        <tr *ngFor="let x of xl">
+                            <td>{{x.formattedCreatedAt}}</td>
+                            <td>{{x.target}}</td>
+                            <td>{{x?.admin?.name}}</td>
+                            <td>{{x?.employee?.name}}</td>
+                            <td>{{x.device}}</td>
+                            <td>{{x.browser}}</td>
+                            <td>{{x.ip}}</td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!xl.length">
+                        <tr><td>{{currentLang.phrases['workspace-empty']}}</td></tr>
+                    </ng-container>
+                </table>
+            </div>
+            <pagination [allLength]="allLength" [length]="length" [current]="currentPart" (currentChanged)="currentPart = $event; rebuildList ();"></pagination>
+        </ng-container>
+        <ng-container  *ngIf="!ready">
+            <loading-table [columns]="4"></loading-table>
+        </ng-container>
+        <ng-container *ngIf="reloading">
+            <div class="reloading"><span></span></div>
+        </ng-container>
+    </div>
+</div>

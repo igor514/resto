@@ -1,0 +1,32 @@
+@import "../../common.styles/var.scss";
+
+.the-confirmer {
+    position: fixed; z-index: 20; left: 100%; top:0; width:100%; height: 100%; overflow: hidden; transition: 0.3s;
+    &.active {left: 0;}
+    .tc-bg {position: absolute; left: 0; top:0; width:100%; height: 100%; background-color: $color-bg-dark; z-index: 21;}
+    .tc-win {
+        width: 300px; background-color: white; position: absolute; z-index: 22; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #666;
+        .tc-head {
+            padding: 10px 15px; display: flex; justify-content: flex-end;
+            .tc-close {
+                cursor: pointer; font-size: 20px;
+                span::before {font-family: "awesome-solid"; content: "\f00d";}
+            }
+        }
+        .tc-content {
+            padding: 0 15px 15px 15px;
+            .tc-txt {margin-bottom: 5px;}
+            .tc-inputwrap {
+                margin-bottom: 5px;
+                input {height: 30px; width:100%; border:1px #666 solid; padding: 0 10px; color: #666;}
+            }
+            .tc-btnwrap {
+                text-align: center;
+                button {
+                    display: inline-block; height: 30px; padding: 0 30px; color: white; background-color: $color-grey; cursor: pointer; transition: 0.3s;
+                    &:hover {background-color: $color-grey-light;}
+                }
+            }
+        }
+    }
+}

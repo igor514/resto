@@ -1,0 +1,195 @@
+<div class="data-tabs">
+    <div class="data-tab" [class.active]="tab === 1" (click)="tab = 1;">{{currentLang.phrases['workspace-orders-tab-params']}}</div>
+    <div class="data-tab" [class.active]="tab === 2" (click)="tab = 2;">{{currentLang.phrases['workspace-orders-tab-products']}}</div>
+</div>
+
+<ng-container *ngIf="tab === 1">
+    <div class="data-form padded">
+        <div class="df-title">ID:</div>
+        <div class="df-inputwrap">{{x.id}}</div>
+
+        <div class="df-title">{{currentLang.phrases['workspace-orders-created-at']}}:</div>
+        <div class="df-inputwrap">{{x.formattedCreatedAt}}</div>
+
+        <div class="df-title">{{currentLang.phrases['workspace-orders-accepted-at']}}:</div>
+        <div class="df-inputwrap">{{x.formattedAcceptedAt}}</div>
+
+        <div class="df-title">{{currentLang.phrases['workspace-orders-completed-at']}}:</div>
+        <div class="df-inputwrap">{{x.formattedCompletedAt}}</div>
+
+        <div class="df-title">{{currentLang.phrases['workspace-orders-restaurant']}}:</div>
+        <div class="df-inputwrap"><span *ngIf="x.restaurant">{{x.restaurant.name}} ({{x.restaurant.id}})</span></div>
+
+        <div class="df-title" [class.required]="isRequired('hall_id')">{{currentLang.phrases['workspace-orders-hall']}}:</div>
+        <div class="df-inputwrap">
+            <select [(ngModel)]="x.hall_id" (change)="x.table_id = null">
+                <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+                <option *ngFor="let h of hl" [ngValue]="h.id">{{h.name}}</option>
+            </select>
+        </div>
+
+      <div class="df-title" [class.required]="isRequired('room_id')">{{currentLang.phrases['workspace-orders-room']}}:</div>
+      <div class="df-inputwrap">
+        <select [(ngModel)]="x.room_id">
+          <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+          <option *ngFor="let r of rm" [ngValue]="r.id">{{r.no}} ({{r.id}})</option>
+        </select>
+      </div>
+
+      <div class="df-title" [class.required]="isRequired('table_id')">{{currentLang.phrases['workspace-orders-table']}}:</div>
+        <div class="df-inputwrap">
+            <select [(ngModel)]="x.table_id">
+                <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+                <option *ngFor="let t of tl" [ngValue]="t.id"># {{t.no}}</option>
+            </select>
+        </div>
+
+        <div class="df-title" [class.required]="isRequired('employee_id')">{{currentLang.phrases['workspace-orders-employee']}}:</div>
+        <div class="df-inputwrap">
+            <select [(ngModel)]="x.employee_id">
+                <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+                <option *ngFor="let e of el" [ngValue]="e.id">{{e.name}}</option>
+            </select>
+        </div>
+
+        <div class="df-title" [class.required]="isRequired('customer_comment')">{{currentLang.phrases['workspace-orders-customer-comment']}}:</div>
+        <div class="df-inputwrap"><textarea [(ngModel)]="x.customer_comment"></textarea></div>
+
+        <div class="df-title" [class.required]="isRequired('employee_comment')">{{currentLang.phrases['workspace-orders-employee-comment']}}:</div>
+        <div class="df-inputwrap"><textarea [(ngModel)]="x.employee_comment"></textarea></div>
+
+        <div class="df-title" [class.required]="isRequired('need_waiter')">{{currentLang.phrases['workspace-orders-need-waiter']}}:</div>
+        <div class="df-inputwrap"><checkbox-slider [(value)]="x.need_waiter"></checkbox-slider></div>
+
+        <div class="df-title" [class.required]="isRequired('need_invoice')">{{currentLang.phrases['workspace-orders-need-invoice']}}:</div>
+        <div class="df-inputwrap"><checkbox-slider [(value)]="x.need_invoice"></checkbox-slider></div>
+
+        <div class="df-title" [class.required]="isRequired('need_products')">{{currentLang.phrases['workspace-orders-need-products']}}:</div>
+        <div class="df-inputwrap"><checkbox-slider [(value)]="x.need_products"></checkbox-slider></div>
+
+        <div class="df-title" [class.required]="isRequired('discount_percent')">{{currentLang.phrases['workspace-orders-discount-percent']}}:</div>
+        <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="x.discount_percent"></div>
+
+        <div class="df-title" [class.required]="isRequired('sum')">{{currentLang.phrases['workspace-orders-sum']}}:</div>
+        <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="x.sum"></div>
+
+        <div class="df-title" [class.required]="isRequired('status')">{{currentLang.phrases['workspace-orders-status']}}:</div>
+        <div class="df-inputwrap">
+            <select [(ngModel)]="x.status">
+                <option [ngValue]="statusActive">{{currentLang.phrases['workspace-orders-status-active']}}</option>
+                <option [ngValue]="statusCompleted">{{currentLang.phrases['workspace-orders-status-completed']}}</option>
+                <option [ngValue]="statusCancelled">{{currentLang.phrases['workspace-orders-status-cancelled']}}</option>
+            </select>
+        </div>
+
+        <div class="df-title" [class.required]="isRequired('paymethod')">{{currentLang.phrases['workspace-orders-paymethod']}}:</div>
+        <div class="df-inputwrap">
+            <select [(ngModel)]="x.paymethod">
+                <option [ngValue]="payCash">{{currentLang.phrases['workspace-orders-paymethod-cash']}}</option>
+                <option [ngValue]="payCard">{{currentLang.phrases['workspace-orders-paymethod-card']}}</option>
+            </select>
+        </div>
+
+        <div class="df-title"></div>
+        <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="tab === 2">
+    <div class="data-tablewrap padded compact">
+        <!-- add btn -->
+        <div class="data-head">
+            <div class="datahead-dash">
+                <div class="dhd-btn create" [title]="currentLang.phrases['workspace-create']" (click)="productsSubformActive = !productsSubformActive;"><span></span></div>
+            </div>
+        </div>
+        <!-- form -->
+        <div class="data-form subform" [class.active]="productsSubformActive">
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-img']}}:</div>
+            <div class="df-inputwrap">
+                <ng-container *ngIf="product.img">
+                    <div class="df-imgwrap">
+                        <div class="df-imgwrap2"><img src="/images/{{productsImgFolder}}/{{product.img}}"></div>
+                        <div class="df-imgbtns">
+                            <div class="df-magnify" [title]="currentLang.phrases['workspace-viewimg']" (click)="imgView(product.img);"><span></span></div>
+                            <div class="df-deletefile" [title]="currentLang.phrases['workspace-removeimg']" (click)="productsImgDelete();"><span></span></div>
+                        </div>
+                    </div>
+                </ng-container>
+                <input #productsimginput type="file" (change)="productsImgUploadResize($event); productsimginput.value = null;">
+                <progressbar [progress]="productsImgProgress" *ngIf="productsImgProgress"></progressbar>
+            </div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-serving']}}:</div>
+            <div class="df-inputwrap">
+                <select [(ngModel)]="product.serving_id">
+                    <option *ngFor="let s of sl" [ngValue]="s.id">{{s.translationByLang(ll[0].id).name}}</option>
+                </select>
+            </div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-code']}}:</div>
+            <div class="df-inputwrap"><input type="text" [(ngModel)]="product.code" (keydown)="productsOnSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-name']}}:</div>
+            <div class="df-inputwrap"><input type="text" [(ngModel)]="product.name" (keydown)="productsOnSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-price']}}:</div>
+            <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="product.price" (keydown)="productsOnSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-q']}}:</div>
+            <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="product.q" (keydown)="productsOnSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-orders-products-completed']}}:</div>
+            <div class="df-inputwrap"><checkbox-slider [(value)]="product.completed"></checkbox-slider></div>
+
+            <div class="df-title"></div>
+            <div class="df-inputwrap"><button type="button" (click)="productsAdd();">OK</button></div>
+        </div>
+        <!-- list -->
+        <table class="data-table">
+            <tr class="no-selection">
+                <th>{{currentLang.phrases['workspace-orders-products-img']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-serving']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-code']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-name']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-price']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-q']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-ingredients']}}</th>
+                <th>{{currentLang.phrases['workspace-orders-products-completed']}}</th>
+                <th>{{currentLang.phrases['workspace-actions']}}</th>
+            </tr>
+            <ng-container *ngIf="x.products.length">
+                <tr *ngFor="let p of x.products; let i = index;">
+                    <td><div class="dt-imgwrap"><img *ngIf="p.img" src="/images/products/{{p.img}}"></div></td>
+                    <td>
+                        <select [(ngModel)]="p.serving_id">
+                            <option *ngFor="let s of sl" [ngValue]="s.id">{{s.translationByLang(ll[0].id).name}}</option>
+                        </select>
+                    </td>
+                    <td><div class="dt-inputwrap"><input type="text" [(ngModel)]="p.code"></div></td>
+                    <td><div class="dt-inputwrap"><input type="text" [(ngModel)]="p.name"></div></td>
+                    <td><div class="dt-inputwrap"><input type="number" class="small" [(ngModel)]="p.price"></div></td>
+                    <td><div class="dt-inputwrap"><input type="number" class="small" [(ngModel)]="p.q"></div></td>
+                    <td>
+                        <div class="dt-listitem" *ngFor="let ing of p.ingredients; let j = index;">
+                            <input type="checkbox" [(ngModel)]="ing.included"><input type="text" [(ngModel)]="ing.name"><div class="remove" (click)="productsRemoveIngredient(i, j)"><span></span></div>
+                        </div>
+                        <div class="dt-listitem center"><div class="create" (click)="productsCreateIngredient(i)"><span></span></div></div>
+                    </td>
+                    <td><checkbox-slider [(value)]="p.completed"></checkbox-slider></td>
+                    <td>
+                        <div class="dt-actions">
+                            <div class="dt-btn delete" [title]="currentLang.phrases['workspace-delete']" (click)="productsRemove(i);"><span></span></div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-container *ngIf="!x.products.length">
+                <tr><td>{{currentLang.phrases['workspace-empty']}}</td></tr>
+            </ng-container>
+        </table>
+    </div>
+    <button type="submit">{{currentLang.phrases['workspace-save']}}</button>
+</ng-container>
+
+<image-viewer [img]="imgToView" [(active)]="imgViewerActive" [imgFolder]="productsImgFolder"></image-viewer>

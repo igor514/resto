@@ -1,0 +1,22 @@
+<div *ngIf="product" class="order-product" [class.highlight]="product._highlight">
+    <div class="op-left">
+        <div class="op-img" [style.background-image]="product.img ? 'url(' + staticPath + 'products/'+product.img+')' : 'url(' + staticPath + 'no-image.jpg)'"></div>
+    </div>
+    <div class="op-right">
+        <div class="op-name" [innerHTML]="product.name"></div>
+        <div class="op-code">{{words['restorator-orders']['code'][currentLang.slug]}}: <strong>{{product.code}}</strong></div>
+        <div class="op-serving">
+            <div class="ops-item" *ngFor="let s of sl" (click)="product.serving_id = s.id"><radio-simple [checked]="product.serving_id === s.id" [title]="s.name[currentLang.slug]"></radio-simple></div>
+        </div>
+        <div class="op-calc"><input-number [(value)]="product.q" [min]="1"></input-number><span>&nbsp;x&nbsp;{{product.price | number:'1.2-2'}}&nbsp;{{currency_symbol}}</span></div>
+        <div class="op-ingredients" *ngIf="product.ingredients.length">
+            <div class="op-ingredient" *ngFor="let i of product.ingredients" (click)="i.included = !i.included">
+                <checkbox-simple [value]="i.included"></checkbox-simple><div class="opi-name" [class.not-included]="!i.included">{{i.name}}</div>
+            </div>
+        </div>
+        <div class="op-completed">
+            <span>{{words['restorator-orders']['completed'][currentLang.slug]}}</span>&nbsp;<checkbox-slider [(value)]="product.completed"></checkbox-slider>
+        </div>
+        <div class="op-delete" (click)="onDelete()"><span></span></div>
+    </div>
+</div>

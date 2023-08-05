@@ -1,0 +1,8 @@
+<div class="head-desktop">
+    <div class="hd-left"><!-- пока не используется --></div>
+    <div class="hd-right">    
+        <a *ngIf="showLogout" class="hd-logout" routerLink="/auth/logout" [title]="words['common']['logout'][currentLang.slug]"><span></span></a> 
+        <div class="hd-langs" [title]="words['common']['lang'][currentLang.slug]" (click)="langPanelActive = true;"><span></span></div>                     
+    </div>    
+    <div class="hd-title">{{title}}</div>
+</div>

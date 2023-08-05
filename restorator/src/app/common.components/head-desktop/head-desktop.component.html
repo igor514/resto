@@ -1,0 +1,18 @@
+<div class="head-desktop">
+  <div class="hd-left"><!-- пока не используется --></div>
+  <div class="hd-right">
+    <div *ngIf="showMoney" class="hd-money">
+      <a class="hdm-btn" (click)="openRechargePanel()">
+        <span>{{words['restorator-common']['recharge'][currentLang.slug]}}</span>
+      </a>
+      <div class="hdm-status">
+        <strong>{{restaurant.money | number:'1.2-2'}} {{currency}}</strong>
+      </div>
+    </div>
+    <a *ngIf="showLogout" class="hd-logout" routerLink="/auth/logout"
+       [title]="words['common']['logout'][currentLang.slug]"><span></span></a>
+    <div class="hd-langs" [title]="words['common']['lang'][currentLang.slug]" (click)="langPanelActive = true;">
+      <span></span></div>
+  </div>
+  <div class="hd-title">{{title}}</div>
+</div>

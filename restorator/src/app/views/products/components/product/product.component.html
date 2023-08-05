@@ -1,0 +1,166 @@
+<form (submit)="onSave();">
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['code'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="code" [(ngModel)]="x.code"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['name'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="name" [(ngModel)]="x.name" [class.error]="errorName"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['price'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="number" name="price" [(ngModel)]="x.price"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['weight'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="number" name="weight" [(ngModel)]="x.weight"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['unit'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-selectwrap">
+        <select name="unit" [(ngModel)]="x.unit">
+          <option [ngValue]="unitG">{{words['restorator-products']['g'][this.currentLang.slug]}}</option>
+          <option [ngValue]="unitMl">{{words['restorator-products']['ml'][this.currentLang.slug]}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['cal'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="number" name="cal" [(ngModel)]="x.cal"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['time'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="time" [(ngModel)]="x.time"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['alc'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap">
+        <checkbox-slider [(value)]="x.alc"></checkbox-slider>
+      </div>
+    </div>
+  </div>
+  <div class="de-row" *ngIf="x.alc">
+    <div class="de-title">{{words['restorator-products']['alc-percent'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="number" name="alc_percent" [(ngModel)]="x.alc_percent"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['about'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><textarea name="about" [(ngModel)]="x.about"></textarea></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['pos'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="number" name="pos" [(ngModel)]="x.pos"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['active'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap">
+        <checkbox-slider [(value)]="x.active"></checkbox-slider>
+      </div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['restorator-products']['recommended'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap">
+        <checkbox-slider [(value)]="x.recommended"></checkbox-slider>
+      </div>
+    </div>
+  </div>
+  <div class="de-space"></div>
+  <!-- images -->
+  <div class="de-head">{{words['restorator-products']['images'][currentLang.slug]}}</div>
+  <div class="de-note">{{words['restorator-products']['images-note'][currentLang.slug]}}</div>
+  <div class="de-images" [sortablejs]="x.images" [sortablejsOptions]="imgSortableOptions">
+    <div class="de-image" *ngFor="let img of x.images; let i = index;"
+         [style.background-image]="'url(' + staticPath + '/products/'+img.img+')'">
+      <div class="de-image-remove" (click)="imgOnDelete(i)"><span></span></div>
+      <div class="de-image-handle"><span></span></div>
+    </div>
+    <div class="de-image-add" [class.loading]="imgLoading" (click)="imgOnUploadClick();">
+      <div><span></span></div>
+    </div>
+  </div>
+  <div class="de-space"></div>
+  <!-- ingredients -->
+  <div class="de-head margined">{{words['restorator-products']['ingredients'][currentLang.slug]}}
+    ({{words['restorator-ingr-units']['dish-price'][currentLang.slug]}}: {{total()}} {{currencySymbol}})
+  </div>
+  <div class="ingredients" cdkDropList (cdkDropListDropped)="ingreOnDrop($event)">
+    <div class="i-item" *ngFor="let ig of x.ingredients; let i = index;" cdkDrag cdkDragLockAxis="y">
+      <div class="i-left">
+        <div class="i-handle" cdkDragHandle><span></span></div>
+      </div>
+      <div class="i-right">
+        <div class="i-name">
+          <div class="i-controls">
+            <ng-select
+              class="ingredient"
+              [ngClass]="{'error': !ig.type_id && showIngErrors}"
+              name="ingredient-type-{{i}}"
+              [clearable]="false"
+              [items]="types"
+              [(ngModel)]="ig.type_id"
+              (change)="onTypeSelect(i, $event)"
+              bindLabel="name" bindValue="id"
+              [placeholder]="words['restorator-ingr-units']['ingredient'][currentLang.slug]"
+            ></ng-select>
+            <select (change)="onUnitSelect(i, $event)" [ngClass]="{'error': !ig.unit_id && showIngErrors}" name="select-unit" class="unit">
+              <option [selected]="!ig.unit_id"
+                      [value]="null">{{words['common']['none'][currentLang.slug]}}</option>
+              <option *ngFor="let unit of typeUnits(ig.type_id)"
+                      [selected]="ig.unit_id === unit.id"
+                      [value]="unit.id">{{unit.translationByLang(currentLang.id).name}}
+              </option>
+            </select>
+            <input [ngClass]="{'error': showIngErrors && (isNaN(ig.amount) || ig.amount < 0)}" [placeholder]="words['restorator-ingr-units']['amount'][currentLang.slug]" type="number" min="0"
+                   step="0.1" [ngModelOptions]="{standalone: true}" [(ngModel)]="ig.amount">
+            <span>{{price(ig)}} {{currencySymbol}}</span>
+          </div>
+          <div class="i-remove" (click)="ingreOnDelete(i)">
+            <span></span>
+          </div>
+        </div>
+        <div class="i-excludable" (click)="ig.excludable = !ig.excludable">
+          <checkbox-simple [value]="ig.excludable"></checkbox-simple>
+          <span>{{words['restorator-products']['excludable'][currentLang.slug]}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="i-add" (click)="ingreAdd()"><span></span></div>
+  </div>
+
+  <div class="de-space"></div>
+  <div class="de-btnwrap">
+    <button type="submit" [disabled]="loading" class="save"><span>{{words['common']['save'][currentLang.slug]}}</span>
+    </button>
+  </div>
+  <input class="hidden" type="file" #imgupload (change)="imgUpload($event); imgupload.value = null;"
+         accept=".png,.jpg,.jpeg">
+</form>
+
+<the-confirm [(active)]="imgDeleteConfirmActive" [msg]="this.words['common']['delete'][this.currentLang.slug] + '?'"
+             (confirmed)="imgDelete()"></the-confirm>
+<the-confirm [(active)]="ingreDeleteConfirmActive" [msg]="ingreDeleteConfirmMsg"
+             (confirmed)="ingreDelete()"></the-confirm>

@@ -1,0 +1,16 @@
+<div class="gal">
+    <div class="g-win" #win>
+        <div
+            class="g-container rtl-rev"
+            #container
+            [style.left]="-left+'px'"
+            (touchstart)="onDragStart($event);"
+            (mousedown)="onDragStart($event);"
+            (transitionend)="adjustInfiniteMotion()"
+        >
+            <div class="g-item" *ngFor="let x of xl" [style.width]="w+'px'" [style.background-image]="'url(' + staticPath + dir+'/'+x.img+')'"></div>
+        </div>
+    </div>
+    <div class="g-left" (click)="moveLeft();"><span></span></div>
+    <div class="g-right" (click)="moveRight();"><span></span></div>
+</div>

@@ -1,0 +1,43 @@
+.stat-yearly {    
+    width:100%;
+    .sy-title {
+        @media (min-width:0) {font-size: 14px;}
+        @media (min-width:1200px) {font-size: 16px;}
+        font-weight: bold; margin-bottom: 10px;
+    }
+    .sy-graph {        
+        height: 270px; border-bottom: 1px var(--color-grey) solid;  position: relative;
+        svg {
+            width: 100%; height: 100%;            
+            polyline {fill: none; stroke-width: 4;}            
+        } 
+        .sy-point {
+            width:12px; height: 12px; border-radius: 6px; position: absolute; z-index: 2; transform: translate(-50%,50%); animation-name: point-animation; animation-duration: 1s; animation-iteration-count: 1; transition: 0.3s;
+            &:hover {transform: translate(-50%,50%) scale(1.2);}
+            &.invisible {display: none;}
+        }       
+    } 
+    .sy-months {
+        height: 30px; position: relative;
+        div {
+            position: absolute; top: 5px; font-size: 10px; transform: translateX(-50%);
+            &:first-child {transform: none;}
+            &:last-child {transform: translateX(-100%);}
+        }
+    }       
+    .sy-date {
+        display: flex;
+        .syd-item {display: flex; align-items: center; margin-right: 15px;}
+        .syd-selectwrap {        
+            height: 30px; border-radius: 15px; position: relative; border:1px var(--color-grey) solid; background-color: white;
+            &::after {display: block; font-family: "fa-solid"; content: "\f078"; position: absolute; top:50%; transform: translateY(-50%); right:10px; pointer-events: none; color: var(--color-txt);}                                
+            select {width: 100%; height: 100%; appearance: none; background: none; border:none; padding: 0 25px 0 10px; color: black;}                            
+        }
+    }
+}
+
+@keyframes point-animation {
+    0% {opacity: 0;}
+    66% {opacity: 0;}
+    100% {opacity: 1;}
+}

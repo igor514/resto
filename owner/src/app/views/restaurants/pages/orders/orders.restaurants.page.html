@@ -1,0 +1,93 @@
+<div class="dash rtl-rev">
+    <div></div>
+    <a class="dash-btn back" [routerLink]="'/restaurants/'+type"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <ng-container *ngIf="olChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="olLoading"></div>
+            <table>
+                <tr *ngIf="restaurant">
+                    <td colspan="3" class="borderedbottom">
+                        <div>{{words['owner-orders']['restaurant'][currentLang.slug]}}: <strong>{{restaurant.name}}</strong></div>
+                        <div>{{words['owner-orders']['q'][currentLang.slug]}}: <strong>{{olAllLength}}</strong></div>
+                        <div>{{words['owner-orders']['sum'][currentLang.slug]}}: <strong>{{olSum | number:'1.2-2'}}</strong></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><dateperiod-picker [(value)]="olFilterCreatedAt" (valueChange)="initOrders()"></dateperiod-picker></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="align-left">{{words['owner-orders']['created-at'][currentLang.slug]}}</th>
+                    <th class="align-center">{{words['owner-orders']['sum'][currentLang.slug]}}</th>
+                    <th class="align-center">{{words['owner-orders']['status'][currentLang.slug]}}</th>
+                </tr>
+                <ng-container *ngIf="ol.length">
+                    <tr *ngFor="let o of ol">
+                        <td><span class="nowrap">{{o.formattedCreatedAt}}</span></td>
+                        <td class="align-center">{{o.sum | number:'1.2-2'}}</td>
+                        <td class="align-center"><span [class.red]="o.status === statusCancelled" [class.green]="o.status === statusCompleted">{{getStatusName(o.status)}}</span></td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!ol.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="olLoading"></div>
+            <!-- dash -->
+            <div class="dlm-dash">
+                <!-- summary -->
+                <div class="dlmd-head">{{words['owner-orders']['summary'][currentLang.slug]}}</div>
+                <div class="dlmd-param" *ngIf="restaurant">
+                    <div class="dlmd-title">{{words['owner-orders']['restaurant'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{restaurant.name}}</div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-orders']['q'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{olAllLength}}</div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-orders']['sum'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{olSum | number:'1.2-2'}}</div>
+                </div>
+                <!-- filter -->
+                <div class="dlmd-head">{{words['common']['filter'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-orders']['created-at'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><dateperiod-picker [(value)]="olFilterCreatedAt" (valueChange)="initOrders()"></dateperiod-picker></div>
+                </div>
+            </div>
+            <!-- list -->
+            <ng-container *ngIf="ol.length">
+                <div class="dlm-item" *ngFor="let o of ol">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['owner-orders']['created-at'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{o.formattedCreatedAt}}</span></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['owner-orders']['sum'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{o.sum | number:'1.2-2'}}</span></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['owner-orders']['status'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span [class.red]="o.status === statusCancelled" [class.green]="o.status === statusCompleted">{{getStatusName(o.status)}}</span></div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!ol.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="olAllLength" [length]="olLength" [current]="olCurrentPart" (currentChanged)="olCurrentPart = $event; initOrders();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!olChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>

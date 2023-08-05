@@ -1,0 +1,16 @@
+<div *ngIf="product" class="order-product" [class.highlight]="product._highlight">
+    <div class="op-left">
+        <div class="op-img" [style.background-image]="product.img ? 'url(' + staticPath + 'products/'+product.img+')' : 'url(' + staticPath + 'no-image.jpg)'"></div>
+    </div>
+    <div class="op-right">
+        <div class="op-name" [innerHTML]="product.name"></div>
+        <div class="op-code">{{words['restorator-orders']['code'][currentLang.slug]}}: <strong>{{product.code}}</strong></div>
+        <div class="op-serving">{{words['restorator-orders']['serving'][currentLang.slug]}}: {{product.serving.name[currentLang.slug]}}</div>
+        <div class="op-calc"><span>{{product.q}}&nbsp;x&nbsp;{{product.price | number:'1.2-2'}}&nbsp;{{currency_symbol}}</span></div>
+        <div class="op-ingredients" *ngIf="product.ingredients.length">
+            <div class="op-ingredient" *ngFor="let i of product.ingredients">
+                <div class="opi-name" [class.not-included]="!i.included">{{i.name}}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<error-notification></error-notification>
+<div class="wrap" *ngIf="ready">
+    <div class="win">
+        <div class="content rtl-rev">
+            <aside *ngIf="showSidebar">
+                <the-menu></the-menu>
+            </aside>
+            <main [class.compact]="showSidebar">
+                <head-desktop></head-desktop>
+                <head-mobile></head-mobile>
+                <router-outlet></router-outlet>
+                <the-alert [(active)]="balanceAlertActive" [msg]="balanceAlertMsg"></the-alert>
+            </main>
+        </div>
+    </div>
+    <lang-panel></lang-panel>
+</div>

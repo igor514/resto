@@ -1,0 +1,68 @@
+<div class="dash-placeholder"></div>
+<div class="data">
+  <div class="dataview">
+    <div class="dv-row">
+      <div class="dv-title">{{words['restorator-home']['signed-as'][currentLang.slug]}}:</div>
+      <div class="dv-value">
+        <div class="dv-txtwrap"><strong>{{employee.name}}</strong></div>
+      </div>
+    </div>
+    <div class="dv-row">
+      <div class="dv-title">{{words['restorator-home']['restaurant'][currentLang.slug]}}:</div>
+      <div class="dv-value">
+        <div class="dv-txtwrap">
+          <strong>
+            {{employee.restaurant.name}} {{employee.restaurant.type_id && "(" + employee.restaurant.type.translationByLang(currentLang.id).name + ")"}}
+          </strong>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="employee.is_admin">
+      <div class="dv-row">
+        <div class="dv-title">{{words['restorator-home']['acc-state'][currentLang.slug]}}:</div>
+        <div class="dv-value">
+          <div class="dv-txtwrap">
+            <strong class="nowrap">
+              {{employee.restaurant.money | number:'1.2-2'}} {{balanceCurrency}}</strong>&nbsp;&nbsp;
+            <a (click)="openRechargePanel()">
+              {{words['restorator-common']['recharge'][currentLang.slug]}}
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-title">{{words['restorator-home']['employees-q'][currentLang.slug]}}:</div>
+        <div class="dv-value">
+          <div class="dv-txtwrap"><strong><a routerLink="/employees">{{employee.restaurant.employees_q}}</a></strong>
+          </div>
+        </div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-title">{{words['restorator-home']['acc-daysleft'][currentLang.slug]}}:</div>
+        <div class="dv-value">
+          <div class="dv-txtwrap"><strong>{{employee.restaurant.daysleft}}</strong></div>
+        </div>
+      </div>
+      <div class="dv-row">
+        <div class="dv-title">{{words['restorator-home']['acc-nextcharge'][currentLang.slug]}}:</div>
+        <div class="dv-value">
+          <div class="dv-txtwrap"><strong>{{localPayTime}}</strong> ({{payTime}} System)</div>
+        </div>
+      </div>
+    </ng-container>
+    <div class="dv-row">
+      <div class="dv-title">{{words['restorator-home']['status'][currentLang.slug]}}:</div>
+      <div class="dv-value">
+        <div class="dv-statuseswrap">
+          <div class="dv-status" [class.black]="employee.employee_status_id === null"
+               (click)="setEmployeeStatus(null)">{{words['restorator-home']['status-none'][currentLang.slug]}}</div>
+          <div class="dv-status" *ngFor="let es of esl"
+               [style.background-color]="employee.employee_status_id === es.id ? es.color : 'var(--color-bg)'"
+               (click)="setEmployeeStatus(es.id)">{{es.name[currentLang.slug]}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<the-alert [(active)]="balanceAlertActive" [msg]="balanceAlertMsg"></the-alert>

@@ -1,0 +1,103 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn create" routerLink="/employees/create"><span>{{words['common']['create'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <ng-container *ngIf="elChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="elLoading"></div>
+            <table>
+                <tr>
+                    <td><dateperiod-picker [(value)]="elFilterCreatedAt" (valueChange)="initEmployees()"></dateperiod-picker></td>
+                    <td><input-search [(value)]="elFilterName" cssClass="inline-block" (apply)="initEmployees();"></input-search></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="elSortBy === 'created_at' && elSortDir === 1" [class.sorted-backward]="elSortBy === 'created_at' && elSortDir === -1" (click)="changeSorting('created_at')">{{words['restorator-employees']['created-at'][currentLang.slug]}}</label></th>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="elSortBy === 'name' && elSortDir === 1" [class.sorted-backward]="elSortBy === 'name' && elSortDir === -1" (click)="changeSorting('name')">{{words['restorator-employees']['name'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label class="sortable" [class.sorted-forward]="elSortBy === 'employee_status_id' && elSortDir === 1" [class.sorted-backward]="elSortBy === 'employee_status_id' && elSortDir === -1" (click)="changeSorting('employee_status_id')">{{words['restorator-employees']['status'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['common']['actions'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="el.length">
+                    <tr *ngFor="let e of el">
+                        <td><span class="nowrap">{{e.formattedCreatedAt}}</span></td>
+                        <td>
+                            <div>{{e.name}}</div>
+                            <div class="small" *ngIf="e.is_admin">({{words['restorator-employees']['admin'][currentLang.slug]}})</div>
+                        </td>
+                        <td class="align-center"><span *ngIf="e.status" [style.color]="e.status.color">{{e.status.name[currentLang.slug]}}</span></td>
+                        <td class="align-center nowrap">
+                            <a class="datalist-btn edit" [routerLink]="'/employees/edit/'+e.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn delete" [class.disabled]="e.defended" (click)="onDelete(e)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!el.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="elLoading"></div>
+            <div class="dlm-dash">
+                <div class="dlmd-head">{{words['common']['filter'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-employees']['created-at'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><dateperiod-picker [(value)]="elFilterCreatedAt" (valueChange)="initEmployees()"></dateperiod-picker></div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['restorator-employees']['name'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><input-search [(value)]="elFilterName" cssClass="adopt-block" (apply)="initEmployees();"></input-search></div>
+                </div>
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsorting (change)="setSorting(mobsorting.value)">
+                            <option [selected]="elSortBy === 'created_at' && elSortDir === 1" [value]="0">{{words['restorator-employees']['created-at'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="elSortBy === 'created_at' && elSortDir === -1" [value]="1">{{words['restorator-employees']['created-at'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="elSortBy === 'name' && elSortDir === 1" [value]="2">{{words['restorator-employees']['name'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="elSortBy === 'name' && elSortDir === -1" [value]="3">{{words['restorator-employees']['name'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="elSortBy === 'employee_status_id' && elSortDir === 1" [value]="4">{{words['restorator-employees']['status'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="elSortBy === 'employee_status_id' && elSortDir === -1" [value]="5">{{words['restorator-employees']['status'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="el.length">
+                <div class="dlm-item" *ngFor="let e of el">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-employees']['created-at'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{e.formattedCreatedAt}}</span></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-employees']['name'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">
+                            <div>{{e.name}}</div>
+                            <div class="small" *ngIf="e.is_admin">({{words['restorator-employees']['admin'][currentLang.slug]}})</div>
+                        </div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-employees']['status'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span *ngIf="e.status" [style.color]="e.status.color">{{e.status.name[currentLang.slug]}}</span></div>
+                    </div>
+                    <div class="dlmi-actions rtl-rev">
+                        <a class="datalist-btn edit" [routerLink]="'/employees/edit/'+e.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn delete" (click)="onDelete(e)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!el.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="elAllLength" [length]="elLength" [current]="elCurrentPart" (currentChanged)="elCurrentPart = $event; initEmployees();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!elChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<confirm-passworded [(active)]="deleteConfirmActive" [msg]="deleteConfirmMsg" (confirmed)="delete()"></confirm-passworded>

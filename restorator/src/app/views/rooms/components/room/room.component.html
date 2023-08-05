@@ -1,0 +1,10 @@
+<div class="the-room">
+    <div class="tt-no"># {{item.no}}</div>
+    <div class="tt-capacity">{{item.capacity}} {{words['common']['pers'][currentLang.slug]}}</div>
+    <div class="tt-img">
+        <img src="/assets/images/room.png">
+    </div>
+    <div class="tt-btn delete" *ngIf="canDelete" (click)="onDelete()" [title]="words['common']['delete'][currentLang.slug]"><span></span></div>
+    <div class="tt-btn qr" *ngIf="item.id" (click)="onQr()" [title]="words['common']['qr'][currentLang.slug]"><span></span></div>
+    <div class="tt-btn history" *ngIf="item.id" (click)="onHistory()" [title]="words['common']['order-history'][currentLang.slug]"><span></span></div>
+</div>

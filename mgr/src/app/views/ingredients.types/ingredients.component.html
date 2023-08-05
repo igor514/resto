@@ -1,0 +1,35 @@
+<div class="data-form">
+
+  <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-ingredients-name']}}:</div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name"></div>
+
+  <div class="df-title"
+       [class.required]="isRequired('unit_id')">{{currentLang.phrases['workspace-ingredients-unit']}}:
+  </div>
+  <div class="df-inputwrap">
+    <select [(ngModel)]="x.unit_id" [disabled]="x.defended">
+      <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+      <option *ngFor="let u of ut" [ngValue]="u.id">{{u.translationByLang(langId).name}}</option>
+    </select>
+  </div>
+
+  <div class="df-title"
+       [class.required]="isRequired('restaurant_id')">{{currentLang.phrases['workspace-ingredients-restaurant']}}:
+  </div>
+  <div class="df-inputwrap">
+    <select [(ngModel)]="x.restaurant_id" [disabled]="x.defended">
+      <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+      <option *ngFor="let r of rl" [ngValue]="r.id">{{r.name}}</option>
+    </select>
+  </div>
+
+  <div class="df-title" [class.required]="isRequired('price')">{{currentLang.phrases['workspace-ingredients-price']}}:</div>
+  <div class="df-inputwrap"><input type="number" min="0" [(ngModel)]="x.price"></div>
+
+
+  <div class="df-title"></div>
+  <div class="df-inputwrap">
+    <button type="submit">{{currentLang.phrases['workspace-save']}}</button>
+  </div>
+</div>
+

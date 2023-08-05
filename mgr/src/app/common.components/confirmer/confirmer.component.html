@@ -1,0 +1,15 @@
+<div class="the-confirmer" [class.active]="active">
+    <div class="tc-bg" (click)="close();"></div>
+    <div class="tc-win">
+        <div class="tc-head">
+            <div class="tc-close" (click)="close();"><span></span></div>
+        </div>
+        <div class="tc-content">
+            <form (submit)="doConfirm();">
+                <div class="tc-txt">Input '{{word}}' to confirm operation:</div>
+                <div class="tc-inputwrap"><input type="text" name="input" [(ngModel)]="input"></div>
+                <div class="tc-btnwrap"><button type="submit">Confirm</button></div>
+            </form>            
+        </div>
+    </div>
+</div>

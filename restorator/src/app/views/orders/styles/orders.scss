@@ -1,0 +1,88 @@
+.orders {
+    @media (min-width:0) {border: none; box-shadow: none; padding: 0;}
+    @media (min-width:1200px) {border: 10px var(--color-bg) solid; box-shadow: var(--block-shadow-inner); padding: 15px;}
+    border-radius: 45px; background-color: var(--color-bg);
+    .order {
+        margin-bottom: 15px;
+        &:last-child {margin-bottom: 0;}
+        .o-date {font-size: 12px; font-weight: bold; margin-bottom: 2px; padding: 0 15px;}
+
+    }
+
+    button.btn {
+      padding: 10px 5px;
+      border-radius: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer; border:none; margin: 0 5px;
+      &:disabled {background-color: var(--color-disabled);}
+    }
+
+    .group-control-row {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 5px 0;
+    }
+}
+
+.o-main {
+  &.main-sb {justify-content: space-between}
+  @media (min-width:0) {display: block;}
+  @media (min-width:1200px) {display: flex;}
+  background-color: var(--color-bg); box-shadow: var(--block-shadow); border-radius: 15px; padding: 15px; align-items: center;
+  &.highlight {animation-name: highlight-order; animation-duration: 1s; animation-iteration-count: infinite;}
+  .o-content {
+    @media (min-width:0) {margin: 0 0 15px 0;}
+    @media (min-width:1200px) {margin: 0 15px 0 0;}
+    flex: 1;
+
+  }
+  .oc-table {
+    &.table-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    @media (min-width:0) {justify-content: space-between;}
+    @media (min-width:1200px) {justify-content: flex-start;}
+    margin-bottom: 5px; display: flex; align-items: center;
+    .oct-title {padding-bottom: 5px; border-bottom: 1px var(--color-grey) solid; font-size: 20px; font-weight: bold; white-space: nowrap;}
+    .oct-btns {
+      display: flex;
+      &.my-btns {
+        .oct-btn {
+          margin: 10px 10px 10px 0;
+        }
+      }
+      .oct-btn {
+        width:30px; height: 30px; line-height: 30px; text-align: center; background-color: white; box-shadow: var(--block-shadow); border-radius: 20px; cursor: pointer; margin: 0 0 0 10px;
+        &.inactive {cursor: inherit;}
+        &.highlight {animation-name: highlight-status; animation-duration: 1s; animation-iteration-count: infinite;}
+        span::before {font-family: "fa-solid"; font-size: 16px;}
+        &.need-waiter {span::before {content: "\f0f3";}}
+        &.need-invoice {span::before {content: "\f543";}}
+        &.need-products {span::before {content: "\f055";}}
+      }
+    }
+  }
+  .o-dash {
+    @media (min-width:0) {justify-content: center;}
+    @media (min-width:1200px) {
+      justify-content: flex-end;
+      &.dash-top {
+        align-self: flex-start;
+      }
+    }
+    display: flex; align-items: center;
+    .od-title {
+      @media (min-width:0) {display: none;}
+      @media (min-width:1200px) {display: block;}
+    }
+    .od-btn {
+      width:40px; height: 40px; line-height: 40px; text-align: center; background-color: var(--color-bg); box-shadow: var(--block-shadow); border-radius: 20px; cursor: pointer; margin: 0 0 0 10px;
+      span::before {font-family: "fa-solid"; font-size: 20px;}
+      &.accept {span::before {content:"\f04b";}}
+      &.view {span::before {content:"\f06e";}}
+      &.cancel {span::before { content:"\f05e"; color: var(--color-red);}}
+      &.complete {span::before {content:"\f00c";}}
+    }
+  }
+}

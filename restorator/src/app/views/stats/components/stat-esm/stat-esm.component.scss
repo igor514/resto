@@ -1,0 +1,44 @@
+.stat-esm {    
+    width:100%; overflow:hidden;
+    .se-title {
+        @media (min-width:0) {font-size: 14px;}
+        @media (min-width:1200px) {font-size: 16px;}
+        font-weight: bold; margin-bottom: 5px;
+    }
+    .se-data {
+        @media (min-width:0) {height: auto; display: block;}
+        @media (min-width:1200px) {height: 300px; display: flex;}
+        margin-bottom: 10px; justify-content: space-between;
+        .se-graph {
+            @media (min-width:0) {height: auto; width:auto;}
+            @media (min-width:1200px) {height: 100%; width:49%;}
+            text-align: center;
+            svg {
+                width: 100%; height: 100%; max-width: 500px;
+                circle {fill: transparent; stroke-width: 3; transition: 0.3s;}
+            }
+        }
+        .se-legend {
+            @media (min-width:0) {height: auto; width:auto;}
+            @media (min-width:1200px) {height: 100%; width:50%;}
+            overflow-y: auto; display: flex;
+            .sel-content {
+                margin: auto 0;
+                .sel-employee {
+                    display: flex;
+                    .sele-mark {width:12px; height: 12px; border-radius: 6px; margin: 2px 5px 0 0;}
+                    .sele-data {font-size: 12px;}
+                }
+            }            
+        }
+    }    
+    .se-date {
+        display: flex;
+        .sed-item {display: flex; align-items: center; margin-right: 15px;}
+        .sed-selectwrap {        
+            height: 30px; border-radius: 15px; position: relative; border:1px var(--color-grey) solid; background-color: white;
+            &::after {display: block; font-family: "fa-solid"; content: "\f078"; position: absolute; top:50%; transform: translateY(-50%); right:10px; pointer-events: none; color: var(--color-txt);}                                
+            select {width: 100%; height: 100%; appearance: none; background: none; border:none; padding: 0 25px 0 10px; color: black;}                            
+        }
+    }
+}

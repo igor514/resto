@@ -1,0 +1,35 @@
+
+<div class="data-langs padded">
+    <div class="data-langs-title">{{currentLang.phrases['workspace-lang']}}:</div>
+    <div class="data-langs-btns">
+        <label *ngFor="let l of ll" (click)="selectedLang = l;"><input type="radio" [checked]="selectedLang.id === l.id">{{l.slug}}</label>
+    </div>
+</div>
+<div class="data-form">
+    <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-units-name']}}:</div>
+    <div class="df-inputwrap">
+        <ng-container *ngFor="let l of ll">
+            <input *ngIf="l.id === selectedLang.id" type="text" [(ngModel)]="x.translationByLang(l.id).name">
+        </ng-container>
+    </div>
+    <div class="df-title" [class.required]="isRequired('short')">{{currentLang.phrases['workspace-units-short']}}:</div>
+    <div class="df-inputwrap">
+      <ng-container *ngFor="let l of ll">
+        <input *ngIf="l.id === selectedLang.id" type="text" [(ngModel)]="x.translationByLang(l.id).short">
+      </ng-container>
+    </div>
+
+  <div class="df-title" [class.required]="isRequired('related_id')">{{currentLang.phrases['workspace-units-related-unit']}}:</div>
+    <div class="df-inputwrap">
+      <select [(ngModel)]="x.related_id">
+        <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+        <option *ngFor="let u of units" [ngValue]="u.id">{{u.translationByLang(ll[0].id).name}} ({{u.translationByLang(ll[0].id).short}})</option>
+      </select>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('conversion_ratio')">{{currentLang.phrases['workspace-units-convert-ratio']}}:</div>
+    <div class="df-inputwrap"><input class="small" type="number" [(ngModel)]="x.conversion_ratio"></div>
+
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>
+</div>

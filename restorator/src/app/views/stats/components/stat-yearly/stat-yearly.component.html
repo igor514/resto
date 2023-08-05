@@ -1,0 +1,29 @@
+<div class="stat-yearly">
+    <div class="sy-title">
+        <ng-container *ngIf="mode === 'sums'">{{words['restorator-stats']['stat-sy'][currentLang.slug]}}</ng-container>
+        <ng-container *ngIf="mode === 'orders'">{{words['restorator-stats']['stat-oy'][currentLang.slug]}}</ng-container>
+    </div>
+    <div class="sy-graph">        
+        <ng-container *ngIf="xlPoints.length">
+            <svg viewBox="0 0 110 100" preserveAspectRatio="none">
+                <polyline [attr.points]="xlPoints" [style.stroke]="color" vector-effect="non-scaling-stroke">
+                    <animate attributeName="points" dur="0.3s" [attr.from]="nullPoints" [attr.to]="xlPoints"></animate>
+                </polyline>
+            </svg>
+            <div class="sy-point" *ngFor="let x of xl; let i = index;" [style.left]="i*100/11 + '%'" [style.bottom]="sum2percent(x) + '%'" [style.background-color]="color" [class.invisible]="i > maxMonth - 1" [title]="x + ' ' + (mode === 'sums' ? words['common']['currency-name'][currentLang.slug] : '')"></div>        
+        </ng-container>        
+    </div>
+    <div class="sy-months">
+        <div *ngFor="let x of xl; let i = index;" [style.left]="i*100/11 + '%'">{{i+1}}</div>        
+    </div>
+    <div class="sy-date">        
+        <div class="syd-item">
+            <span>{{words['common']['year'][currentLang.slug]}}:&nbsp;</span>
+            <div class="syd-selectwrap">
+                <select [(ngModel)]="currentYear" (change)="initStats()">
+                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                </select>
+            </div>
+        </div>        
+    </div>
+</div>

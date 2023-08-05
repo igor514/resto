@@ -1,0 +1,10 @@
+<div class="data-form">            
+    <div class="df-title" [class.required]="isRequired('url')">{{currentLang.phrases['workspace-wsservers-url']}}:</div>
+    <div class="df-inputwrap"><input type="text" [(ngModel)]="x.url"></div>    
+    
+    <div class="df-title" [class.required]="isRequired('pos')">{{currentLang.phrases['workspace-wsservers-pos']}}:</div>
+    <div class="df-inputwrap"><input class="small" type="number" [(ngModel)]="x.pos"></div>    
+        
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>    
+</div>

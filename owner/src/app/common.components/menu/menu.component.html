@@ -1,0 +1,5 @@
+<div class="menu">
+    <div class="menu-item"><a routerLink="/restaurants/active" class="menu-btn" [class.active]="url[1] === 'restaurants' && url[2] === 'active'">{{words['owner-common']['menu-active'][currentLang.slug]}}</a></div>            
+    <div class="menu-item"><a routerLink="/restaurants/inactive" class="menu-btn" [class.active]="url[1] === 'restaurants' && url[2] === 'inactive'">{{words['owner-common']['menu-inactive'][currentLang.slug]}}</a></div>            
+    <div class="menu-item"><a routerLink="/auth/password" class="menu-btn" [class.active]="url[1] === 'auth' && url[2] === 'password'">{{words['owner-common']['menu-pw'][currentLang.slug]}}</a></div>            
+</div>  

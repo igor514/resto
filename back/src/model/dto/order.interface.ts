@@ -1,0 +1,40 @@
+import { Employee } from "src/model/orm/employee.entity";
+import { Hall } from "src/model/orm/hall.entity";
+import { OrderStatus, Paymethod } from "src/model/orm/order.entity";
+import { OrderProduct } from "src/model/orm/order.product.entity";
+import { Restaurant } from "src/model/orm/restaurant.entity";
+import { Table } from "src/model/orm/table.entity";
+import { IOrderProduct } from "../../api.restorator/orders/dto/order.product.interface";
+import {Room} from "../orm/room.entity";
+import {Floor} from "../orm/floor.entity";
+import {IOrderGroup} from "./order.group.interface";
+
+export class IOrder {
+    id: number;
+    table_id: number;
+    hall_id: number;
+    room_id: number;
+    floor_id: number;
+    restaurant_id: number;
+    employee_id: number;
+    customer_comment: string;
+    employee_comment: string;
+    need_waiter: boolean;
+    need_invoice: boolean;
+    need_products: boolean;
+    discount_percent: number;
+    sum: number;
+    status: OrderStatus;
+    paymethod: Paymethod;
+    created_at: Date;
+    accepted_at: Date;
+    completed_at: Date;
+    room?: Room;
+    floor?: Floor;
+    table?: Table;
+    hall?: Hall;
+    restaurant?: Restaurant;
+    employee?: Employee;
+    products?: OrderProduct[] | IOrderProduct[];
+    group?: IOrderGroup;
+}

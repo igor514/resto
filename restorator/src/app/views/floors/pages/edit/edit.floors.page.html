@@ -1,0 +1,15 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn save" [class.disabled]="!floor || formLoading" (click)="cmdSave.next(true)"><span>{{words['common']['save'][currentLang.slug]}}</span></a>
+    <a class="dash-btn back" routerLink="/floors-rooms/floor"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <div class="dataedit">
+        <the-floor
+            *ngIf="floor"
+            [x]="floor"
+            [loading]="formLoading"
+            [cmdSave]="cmdSave"
+            (save)="update();"
+        ></the-floor>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="popup" [class.active]="active">
+    <div class="p-overlay" (click)="close()"></div>
+    <form class="p-win" (submit)="onCreate()">
+        <div class="pw-content">
+            <div class="pw-form centered">
+                <div class="ct">
+                    <div class="ct-title">{{words['restorator-floors']['number'][currentLang.slug]}}:</div>
+                    <div><input-text [(value)]="item.no"></input-text></div>
+                    <div class="ct-title">{{words['restorator-floors']['capacity'][currentLang.slug]}}:</div>
+                    <div><input-number [editable]="true" [min]="1" [(value)]="item.capacity"></input-number></div>
+                    <div class="ct-title">{{words['restorator-floors']['room-type'][currentLang.slug]}}:</div>
+                    <div class="ct-rtype">
+                      <select name="type" [(ngModel)]="item.type_id">
+                        <option [ngValue]="null">{{words['common']['none'][currentLang.slug]}}</option>
+                        <option *ngFor="let t of types" [value]="t.id">{{t.translationByLang(currentLang.id).name}}</option>
+                      </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pw-buttons rtl-rev">
+            <button type="submit">{{words['common']['create'][currentLang.slug]}}</button>
+            <button type="button" (click)="close()">{{words['common']['cancel'][currentLang.slug]}}</button>
+        </div>
+        <div class="pw-close" (click)="close()"><span></span></div>
+    </form>
+</div>

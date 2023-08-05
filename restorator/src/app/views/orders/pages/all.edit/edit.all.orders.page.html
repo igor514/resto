@@ -1,0 +1,21 @@
+<div class="dash rtl-rev" >
+    <a class="dash-btn save" [class.disabled]="!order || formLoading" (click)="cmdSave.next(true)"><span>{{words['common']['save'][currentLang.slug]}}</span></a>
+    <a class="dash-btn back" routerLink="/orders/all"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <div class="dataedit">
+        <the-order
+            *ngIf="order"
+            [x]="order"
+            [hl]="hl"
+            [sl]="sl"
+            [el]="el"
+            [fl]="fl"
+            [adminMode]="true"
+            [loading]="formLoading"
+            [cmdSave]="cmdSave"
+            (save)="update()"
+            (complete)="complete()"
+        ></the-order>
+    </div>
+</div>

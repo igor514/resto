@@ -1,0 +1,28 @@
+<div class="stat-tsm">
+    <div class="st-title">{{words['restorator-stats']['stat-tsm'][currentLang.slug]}}</div>
+    <div class="st-graph beauty-scroll-h-compact">        
+        <div class="stg-columns">
+            <div class="stg-column" *ngFor="let x of xl" [style.height]="x.active ? sum2percent(x.sum)+'%' : 0" [title]="x.sum + ' ' + words['common']['currency-name'][currentLang.slug]">
+                <div class="stg-no">{{x.no}}</div>                    
+            </div>                                                
+        </div>        
+    </div>
+    <div class="st-date">
+        <div class="std-item">
+            <span>{{words['common']['month'][currentLang.slug]}}:&nbsp;</span>
+            <div class="std-selectwrap">
+                <select [(ngModel)]="currentMonth" (change)="initStats()">
+                    <option *ngFor="let m of months" [ngValue]="m">{{m}}</option>
+                </select>
+            </div>
+        </div> 
+        <div class="std-item">
+            <span>{{words['common']['year'][currentLang.slug]}}:&nbsp;</span>
+            <div class="std-selectwrap">
+                <select [(ngModel)]="currentYear" (change)="initStats()">
+                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                </select>
+            </div>
+        </div>        
+    </div>
+</div>

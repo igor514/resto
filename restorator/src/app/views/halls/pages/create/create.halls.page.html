@@ -1,0 +1,14 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn save" [class.disabled]="formLoading" (click)="cmdSave.next(true)"><span>{{words['common']['save'][currentLang.slug]}}</span></a>
+    <a class="dash-btn back" routerLink="/halls-tables/halls"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <div class="dataedit">
+        <the-hall
+            [x]="hall"
+            [loading]="formLoading"
+            [cmdSave]="cmdSave"
+            (save)="create();"
+        ></the-hall>
+    </div>
+</div>

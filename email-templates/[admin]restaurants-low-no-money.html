@@ -1,0 +1,12 @@
+<html>
+    <body>
+        <table>
+            <tr>
+                <td><strong>Название</strong></td><td><strong>E-mail администратора</strong></td><td><strong>Телефон</strong></td>
+            </tr>
+            {{foreach restaurants r}}
+            <tr><td>{{r.name}}</td><td>{{r.email}}</td><td>{{r.phone}}</td></tr>
+            {{endforeach}}
+        </table>
+    </body>
+</html>

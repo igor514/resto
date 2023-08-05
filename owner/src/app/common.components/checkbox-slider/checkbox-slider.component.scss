@@ -1,0 +1,11 @@
+@import "../../common.styles/var";
+
+.chbs {    
+    display: inline-block; width: 50px; height: 30px; border-radius: 15px; border: 1px var(--color-grey) solid; background-color: white; position: relative; cursor: pointer; box-shadow: inset 0px 3px 6px #00000029; transition: 0.3s; will-change: background-color;
+    .chbs-handle {height: 24px; width: 24px; border-radius: 12px; background-color: var(--color-bg); position: absolute; left: 2px; top:2px; border:1px var(--color-grey) solid; box-shadow: inset 0px 3px 3px white; transition: 0.3s; will-change: left;}
+    &.active {
+        background-color: var(--color-green);
+        .chbs-handle {left: calc(100% - 2px - 24px);}
+    }
+    &.disabled {background-color: var(--color-grey);}
+}

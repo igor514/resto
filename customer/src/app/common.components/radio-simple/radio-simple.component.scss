@@ -1,0 +1,8 @@
+.rs {
+    display: flex; gap: 5px; align-items: center;
+    .rs-btn {
+        width:15px; height: 15px; border-radius: 8px; border:1px var(--color-grey) solid; background-color: white; cursor: pointer;
+        .rs-mark {width:13px; height: 13px; border-radius: 8px; border:2px white solid; background-color: var(--color-txt);}
+    }
+    .rs-title {}
+}

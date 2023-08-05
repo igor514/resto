@@ -1,0 +1,57 @@
+<div class="content">
+  <div class="content-head">
+    <h1>{{currentLang.phrases['workspace-payments-info']}}</h1>
+  </div>
+  <div class="data">
+    <div *ngIf="ready" class="data-tabs">
+      <div
+        class="data-tab"
+        *ngFor="let type of paymentTypes"
+        [class.active]="activeFee.type === type" (click)="switchTab(type)"
+      >
+        {{type}}
+      </div>
+    </div>
+    <div *ngIf="ready" class="data-form">
+      <div></div>
+      <div class="df-block">
+        <div></div>
+        <div class="df-title">
+          {{currentLang.phrases['workspace-payments-enabled']}}
+        </div>
+      </div>
+      <div class="df-title">{{currentLang.phrases['workspace-payments-vat']}}</div>
+      <div class="df-block">
+        <div class="df-inputwrap"><input min="0" max="100" class="small-md percent" type="number"
+                                         (change)="sanitize($event, 'vat')" [(ngModel)]="activeFee.vat"></div>
+        <div class="df-inputwrap">
+          <checkbox-slider (valueChange)="updateParam('vat_enabled', !activeFee.vat_enabled)"
+                           [(value)]="activeFee.vat_enabled"></checkbox-slider>
+        </div>
+      </div>
+      <div class="df-title">{{currentLang.phrases['workspace-payments-tax']}}</div>
+      <div class="df-block">
+        <div class="df-inputwrap"><input min="0" max="100" class="small-md percent" type="number"
+                                         (change)="sanitize($event, 'tax')" [(ngModel)]="activeFee.tax"></div>
+        <div class="df-inputwrap">
+          <checkbox-slider (valueChange)="updateParam('tax_enabled', !activeFee.tax_enabled)"
+                           [(value)]="activeFee.tax_enabled"></checkbox-slider>
+        </div>
+      </div>
+      <div class="df-title">{{currentLang.phrases['workspace-payments-gateway-fee']}}</div>
+      <div class="df-block">
+        <div class="df-inputwrap"><input min="0" max="100" class="small-md percent" type="number"
+                                         (change)="sanitize($event, 'gateway_fee')" [(ngModel)]="activeFee.gateway_fee">
+        </div>
+        <div class="df-inputwrap">
+          <checkbox-slider (valueChange)="updateParam('gateway_fee_enabled', !activeFee.gateway_fee_enabled)"
+                           [(value)]="activeFee.gateway_fee_enabled"></checkbox-slider>
+        </div>
+      </div>
+
+    </div>
+    <ng-container *ngIf="!ready">
+      <loading-table [columns]="2"></loading-table>
+    </ng-container>
+  </div>
+</div>

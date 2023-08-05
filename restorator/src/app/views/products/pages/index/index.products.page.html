@@ -1,0 +1,64 @@
+<div class="dash">
+    <a class="dash-btn create" routerLink="/kitchen/products/create/{{plFilterCatId}}"><span class="rtl-rev">{{words['common']['create'][currentLang.slug]}}</span></a>
+</div>
+
+<!-- cats -->
+<div class="cats">
+    <div class="c-title">{{words['restorator-products']['cats'][currentLang.slug]}}:</div>
+    <div class="c-item" *ngFor="let c of cl" [class.active]="plFilterCatId === c.id" (click)="plFilterCatId = c.id; initProducts();">
+        <span class="rtl-rev" [innerHTML]="c.name"></span><img *ngIf="c.icon" src="{{staticPath}}icons/{{c.icon.img}}">
+    </div>
+</div>
+
+<!-- products -->
+<div class="products">
+    <div class="p-search">
+        <div class="ps-title">{{words['restorator-products']['filter'][currentLang.slug]}}:</div>
+        <div class="ps-input"><input-search [(value)]="plFilterNameCode" cssClass="inline-block" [placeholder]="words['restorator-products']['name-code'][currentLang.slug]" (apply)="initProducts();"></input-search></div>
+    </div>
+    <ng-container *ngIf="plReady">
+        <div class="p-items" *ngIf="pl.length" [sortablejs]="pl" [sortablejsOptions]="sortableOptions">
+            <div class="p-item" *ngFor="let p of pl">
+                <div class="pi-img" [style.background-image]="p.images.length ? 'url(' + staticPath + 'products/'+p.images[0].img+')' : 'url(' + staticPath + 'no-image.jpg)'" [routerLink]="'/kitchen/products/edit/'+p.id">
+                    <div class="pi-recommended" *ngIf="p.recommended"><span></span></div>
+                    <div class="pi-handle" *ngIf="!plFilterNameCode"><span></span></div>
+                </div>
+                <div class="pi-name" [innerHTML]="p.name"></div>
+                <div class="pi-code"><span *ngIf="p.code">{{words['restorator-products']['code'][currentLang.slug]}}: {{p.code}}</span></div>
+                <div class="pi-dish-price">
+                  <div class="pi-param">{{words['restorator-ingr-units']['dish-price'][currentLang.slug]}}: {{total(p) | number:'1.2-2'}} {{currencySymbol}}</div>
+                </div>
+                <div class="pi-params">
+                    <div>
+                        <div class="pi-param">{{words['restorator-products']['price'][currentLang.slug]}}: {{p.price | number:'1.2-2'}} {{currencySymbol}}</div>
+                        <div class="pi-param" *ngIf="p.weight">{{p.weight}} {{getUnitName(p.unit)}}</div>
+                    </div>
+                    <div>
+                        <div class="pi-param right" *ngIf="!p.alc && p.cal">{{p.cal}} {{words['restorator-products']['kcal'][currentLang.slug]}}</div>
+                        <div class="pi-param right alc" *ngIf="p.alc"><span>{{p.alc_percent}}%</span></div>
+                        <div class="pi-param right time" *ngIf="p.time"><span>{{p.time}}</span></div>
+                    </div>
+                </div>
+                <div class="pi-dash">
+                    <div class="pi-dash-side">
+                        <div class="pi-dash-title">{{words['restorator-products']['active'][currentLang.slug]}}:</div>
+                        <div><checkbox-slider [(value)]="p.active" (valueChange)="updateParam(p.id, 'active', p.active)"></checkbox-slider></div>
+                    </div>
+                    <div class="pi-dash-side">
+                        <div class="pi-dash-title right">{{words['common']['actions'][currentLang.slug]}}:</div>
+                        <div class="pi-dash-actions rtl-rev">
+                            <a class="edit" [routerLink]="'/kitchen/products/edit/'+p.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="delete" (click)="onDelete(p)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!pl.length">{{words['common']['none'][currentLang.slug]}}</div>
+    </ng-container>
+    <ng-container *ngIf="!plReady">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<the-confirm [(active)]="deleteConfirmActive" [msg]="deleteConfirmMsg" (confirmed)="delete()"></the-confirm>

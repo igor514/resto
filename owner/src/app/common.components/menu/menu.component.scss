@@ -1,0 +1,9 @@
+.menu {
+    .menu-item {
+        margin-bottom: 30px;
+        .menu-btn {
+            height: 60px; width:100%; border-radius: 30px; border:10px var(--color-bg) solid; background-color: var(--color-bg); box-shadow: var(--block-shadow); text-decoration: none; display: flex; justify-content: center; align-items: center; font-weight: bold; white-space: nowrap; cursor: pointer; color: var(--color-txt);
+            &.active {box-shadow: var(--activebtn-shadow);}
+        }
+    }
+}

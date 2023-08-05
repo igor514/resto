@@ -1,0 +1,71 @@
+.cats {
+    display: flex; flex-wrap: wrap;
+    .c-title {margin-right: 15px; white-space: nowrap; line-height: 30px;}
+    .c-item {
+        height: 30px; border-radius: 15px; transition: 0.3s; white-space: nowrap; display: flex; gap: 7px; align-items: center; padding: 0 15px; margin: 0 15px 15px 0; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer;
+        img {height: 20px; transition: 0.3s;}
+        &.active {
+            background-color: black; color: white;
+            img {filter: invert(1);}
+        }
+    }
+}
+
+.products {
+    .p-search {
+        margin-bottom: 15px; display: flex; align-items: center;
+        .ps-title {margin-right: 15px;}
+    }
+    .p-items {
+        @media (min-width:0) {grid-template-columns: 1fr;}
+        @media (min-width:500px) {grid-template-columns: 1fr 1fr;}
+        @media (min-width:1200px) {grid-template-columns: 1fr 1fr 1fr;}
+        display: grid; gap: 30px;
+        .pi-img {
+            padding-bottom: 75%; background-size: cover; background-position: center center; border-radius: 15px; margin-bottom: 10px; position: relative; cursor: pointer;
+            &.inactive {cursor: inherit;}
+            .pi-recommended {
+                position: absolute; right: 10px; top: 10px; width: 25px; height: 25px; background-color: white; border-radius: 13px; display: flex; justify-content: center; align-items: center;
+                span::before {font-family: "fa-regular"; content: "\f005";}
+            }
+            .pi-handle {
+                position: absolute; left: 10px; top: 10px; width: 25px; height: 25px; background-color: white; border-radius: 13px; display: flex; justify-content: center; align-items: center; cursor: move;
+                span::before {font-family: "fa-solid"; content: "\f0b2";}
+            }
+        }
+        .pi-name {font-weight: bold; text-align: center;}
+        .pi-code {text-align: center; margin-bottom: 10px;}
+        .pi-params {
+            margin-bottom: 10px; display: flex; justify-content: space-between;
+            .pi-param {
+                &.right {text-align: right;}
+                &.time {span::before {font-family: "fa-regular"; content: "\f017"; margin-right: 5px;}}
+                &.alc {span::before {font-family: "fa-regular"; content: "\f57b"; margin-right: 5px;}}
+            }
+        }
+        .pi-dash {
+            display: flex; justify-content: space-between;
+            .pi-dash-side {
+                .pi-dash-title {
+                    &.right {text-align: right;}
+                }
+                .pi-dash-actions {
+                    display: flex; justify-content: flex-end;
+                    a {
+                        height: 30px; width: 30px; line-height: 30px; text-align: center; border-radius: 20px; background: var(--color-bg); box-shadow: var(--block-shadow); cursor: pointer; display: inline-block; margin: 0 0 0 5px; color: var(--color-txt); text-decoration: none;
+                        span::before {font-size: 18px; font-family: "fa-solid";}
+                        &.delete {span::before {content: "\f00d"; color: var(--color-red);}}
+                        &.edit {span::before {content: "\f06e";}}
+                    }
+                }
+            }
+        }
+        .pi-cartdash {
+            display: flex; justify-content: space-between; align-items: center;
+            button {
+                height: 30px; width: 130px; flex:none; border-radius: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); cursor: pointer; transition: background-color 0.3s;
+                &.added {background-color: black; color: white;}
+            }
+        }
+    }
+}

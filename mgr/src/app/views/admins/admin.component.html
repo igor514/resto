@@ -1,0 +1,40 @@
+<div class="data-form">
+    <div [class]="isRequired('name') ? 'df-title required' : 'df-title'">{{currentLang.phrases['workspace-admins-name']}}:</div>
+    <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name"></div>
+
+    <div [class]="isRequired('email') ? 'df-title required' : 'df-title'">{{currentLang.phrases['workspace-admins-email']}}:</div>
+    <div class="df-inputwrap"><input type="email" [(ngModel)]="x.email"></div>
+
+    <div [class]="isRequired('password') ? 'df-title required' : 'df-title'">{{currentLang.phrases['workspace-admins-password']}}:</div>
+    <div class="df-inputwrap"><input type="password" [(ngModel)]="x.password"></div>
+
+    <div [class]="isRequired('admingroup_id') ? 'df-title required' : 'df-title'">{{currentLang.phrases['workspace-admins-group']}}:</div>
+    <div class="df-inputwrap">
+        <select [(ngModel)]="x.admingroup_id" [disabled]="x.defended">
+            <option *ngFor="let ag of agl" [ngValue]="ag.id">{{ag.title}}</option>
+        </select>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('img')">{{currentLang.phrases['workspace-admins-img']}}:</div>
+    <div class="df-inputwrap">
+        <ng-container *ngIf="x.img">
+            <div class="df-imgwrap">
+                <div class="df-imgwrap2"><img src="{{staticPath}}{{imgFolder}}/{{x.img}}"></div>
+                <div class="df-imgbtns">
+                    <div class="df-magnify" [title]="currentLang.phrases['workspace-viewimg']" (click)="imgViewerActive = true;"><span></span></div>
+                    <div class="df-deletefile" [title]="currentLang.phrases['workspace-removeimg']" (click)="imgDelete();"><span></span></div>
+                </div>
+            </div>
+        </ng-container>
+        <input #imginput type="file" (change)="imgUploadResize($event); imginput.value = null;">
+        <progressbar [progress]="imgProgress" *ngIf="imgProgress"></progressbar>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('active')">{{currentLang.phrases['workspace-admins-active']}}:</div>
+    <div class="df-inputwrap"><checkbox-slider [(value)]="x.active" [disabled]="x.defended"></checkbox-slider></div>
+
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>
+</div>
+
+<image-viewer [img]="x.img" [imgFolder]="imgFolder" [(active)]="imgViewerActive"></image-viewer>

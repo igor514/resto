@@ -1,0 +1,141 @@
+<div class="popup qr-popup" [class.active]="active">
+  <div class="p-overlay" (click)="close()"></div>
+  <div class="p-win">
+    <ng-container *ngIf="true">
+      <div class="pw-content">
+        <div class="pw-top">
+          <div class="pw-txt">{{words['restorator-common']['customize-qr'][currentLang.slug]}}</div>
+          <div class="qr-image">
+            <div #container [ngStyle]="{backgroundColor: options.backgroundOptions.color}"></div>
+          </div>
+        </div>
+        <div class="data">
+          <div class="dataedit">
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['size'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap">
+                  <input-number [disabled]="initLoading" [(value)]="options.width" (valueChange)="options.height = $event; onUpdate()"
+                                [min]="150" [max]="400"></input-number>
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['margin'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap"><input [disabled]="initLoading" type="range" name="margin" [(ngModel)]="options.margin"
+                                                 (ngModelChange)="onUpdate()" [min]="0" [max]="60"></div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['dot-type'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-selectwrap">
+                  <select [disabled]="initLoading" name="dot-type" (ngModelChange)="onUpdate()" [(ngModel)]="options.dotsOptions.type">
+                    <option *ngFor="let t of dotType" [ngValue]="t">{{t}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['dot-color'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap color-input">
+                  <input [disabled]="initLoading" type="color" name="dot-color" (ngModelChange)="onUpdate()"
+                         [(ngModel)]="options.dotsOptions.color">
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['corner-dot-type'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-selectwrap">
+                  <select [disabled]="initLoading" name="dot-type" (ngModelChange)="onUpdate()" [(ngModel)]="options.cornersDotOptions.type">
+                    <option *ngFor="let t of cornerDotType" [ngValue]="t">{{t}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['corner-dot-color'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap color-input">
+                  <input [disabled]="initLoading" type="color" name="dot-corner-color" (ngModelChange)="onUpdate()"
+                         [(ngModel)]="options.cornersDotOptions.color">
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['corner-type'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-selectwrap">
+                  <select [disabled]="initLoading" name="dot-type" (ngModelChange)="onUpdate()" [(ngModel)]="options.cornersSquareOptions.type">
+                    <option *ngFor="let t of cornerType" [ngValue]="t">{{t}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['corner-color'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap color-input">
+                  <input [disabled]="initLoading" type="color" name="dot-square-color" (ngModelChange)="onUpdate()"
+                         [(ngModel)]="options.cornersSquareOptions.color">
+                </div>
+              </div>
+            </div>
+            <div class="de-grid-row">
+              <div class="de-images">
+                <div class="de-title">{{words['restorator-qr']['image'][currentLang.slug]}}:</div>
+                <div class="de-image" *ngIf="file" [style.background-image]="'url(' + fileUrl + ')'">
+                  <div class="de-image-remove" (click)="onImageDelete()"><span></span></div>
+                </div>
+                <div class="de-image-add" *ngIf="!file" (click)="onUploadClick();">
+                  <div><span></span></div>
+                </div>
+                <input [disabled]="initLoading" type="file" class="hidden" #imageUpload (change)="onImageUpload(); imageUpload.value = null;"
+                       accept=".png,.jpg,.jpeg">
+              </div>
+              <div class="de-grid-col">
+                <div class="de-row">
+                <div class="de-title">{{words['restorator-qr']['image-margin'][currentLang.slug]}}:</div>
+                <div class="de-value">
+                  <div class="de-inputwrap"><input [disabled]="initLoading" type="range" name="image-margin"
+                                                   [(ngModel)]="options.imageOptions.margin"
+                                                   (ngModelChange)="onUpdate()" [min]="0" [max]="20"></div>
+                </div>
+              </div>
+                <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['image-size'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap"><input [disabled]="initLoading" type="range" name="image-margin"
+                                                 [(ngModel)]="options.imageOptions.imageSize"
+                                                 (ngModelChange)="onUpdate()" [min]="0" [step]="0.1" [max]="0.5"></div>
+              </div>
+            </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['background-color'][currentLang.slug]}}:</div>
+              <div class="de-value">
+                <div class="de-inputwrap color-input">
+                  <input [disabled]="initLoading" type="color" name="bg-color" (ngModelChange)="onUpdate()"
+                         [(ngModel)]="options.backgroundOptions.color">
+                </div>
+              </div>
+            </div>
+            <div class="de-row">
+              <div class="de-title">{{words['restorator-qr']['select-icon'][currentLang.slug]}}:</div>
+              <icons [selected]="icon_id" (selectIcon)="onIconSelect($event)" [icons]="icons" [showFilter]="false"></icons>
+            </div>
+            <div class="de-row-center">
+              <button [disabled]="submitLoading" (click)="saveConfig()">{{words['restorator-qr']['save'][currentLang.slug]}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+    <div class="pw-close" (click)="close()"><span></span></div>
+  </div>
+</div>

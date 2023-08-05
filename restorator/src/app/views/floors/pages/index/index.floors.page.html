@@ -1,0 +1,80 @@
+<div class="dash rtl-rev">
+  <a class="dash-btn create"
+     routerLink="/floors-rooms/floors/create">
+    <span>{{words['common']['create'][currentLang.slug]}}
+    </span>
+  </a>
+  <button class="dash-btn create">
+    <span>{{words['restorator-common']['customize-qr'][currentLang.slug]}}
+    </span>
+  </button>
+</div>
+<div class="data">
+    <ng-container *ngIf="flChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="flLoading"></div>
+            <table>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="flSortBy === 'number' && flSortDir === 1" [class.sorted-backward]="flSortBy === 'number' && flSortDir === -1" (click)="changeSorting('number')">{{words['restorator-floors']['number'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-floors']['places'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['common']['actions'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="fl.length">
+                    <tr *ngFor="let h of fl">
+                        <td [innerHTML]="h.number"></td>
+                        <td class="align-center">{{h.nx}}x{{h.ny}}</td>
+                        <td class="align-center nowrap">
+                            <a class="datalist-btn edit" [routerLink]="'/floors-rooms/floors/edit/'+h.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn delete" (click)="onDelete(h)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!fl.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="flLoading"></div>
+            <div class="dlm-dash">
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsorting (change)="setSorting(mobsorting.value)">
+                            <option [selected]="flSortBy === 'number' && flSortDir === 1" [value]="0">{{words['restorator-floors']['number'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="flSortBy === 'number' && flSortDir === -1" [value]="1">{{words['restorator-floors']['number'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="fl.length">
+                <div class="dlm-item" *ngFor="let h of fl">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-floors']['number'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value" [innerHTML]="h.number"></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-floors']['places'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{h.nx}}x{{h.ny}}</div>
+                    </div>
+                    <div class="dlmi-actions rtl-rev">
+                        <a class="datalist-btn edit" [routerLink]="'/floors-rooms/floors/edit/'+h.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn delete" (click)="onDelete(h)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!fl.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="flAllLength" [length]="flLength" [current]="flCurrentPart" (currentChanged)="flCurrentPart = $event; initFloors();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!flChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<the-confirm [(active)]="deleteConfirmActive" [msg]="deleteConfirmMsg" (confirmed)="delete()"></the-confirm>

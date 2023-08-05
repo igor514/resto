@@ -1,0 +1,1 @@
+export type Words = Object; // word['wordbook']['mark']['langslug']

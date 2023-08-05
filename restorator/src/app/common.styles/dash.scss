@@ -1,0 +1,27 @@
+.dash {
+    @media (min-width:0) {margin-bottom: 10px; height: 30px;}
+    @media (min-width:1200px) {margin-bottom: 15px; height: 45px;}
+    display: flex; justify-content: space-between;
+    .dash-btn {
+        @media (min-width: 0) {padding: 0 15px;}
+        @media (min-width: 1200px) {padding: 0 30px;}
+        border: none; outline: none;
+        height: 100%; display: flex; align-items: center; border-radius: 23px; background-color: var(--color-bg); box-shadow: var(--block-shadow); color: var(--color-txt); font-weight: bold; text-decoration: none; user-select: none;
+        &:hover {cursor: pointer}
+        span {
+            display: flex; gap: 10px; align-items: center;
+            &::before {font-family: "fa-solid"; font-size: 18px;}
+        }
+        &.create {span::before {content: "\f067";}}
+        &.save {span::before {content: "\f0c7";}}
+        &.back {span::before {content: "\f053";}}
+        &.accept {span::before {content: "\f04b";}}
+        &.disabled {pointer-events: none; background-color: var(--color-disabled);}
+        &.invisible {opacity: 0; pointer-events: none;}
+    }
+}
+
+.dash-placeholder {
+    @media (min-width:0) {height: 0;}
+    @media (min-width:1200px) {height: 60px;}
+}

@@ -1,0 +1,105 @@
+<div class="data-tabs">
+    <div class="data-tab" [class.active]="tab === 1" (click)="tab = 1;">{{currentLang.phrases['workspace-floors-params']}}</div>
+    <div class="data-tab" [class.active]="tab === 2" (click)="tab = 2;">{{currentLang.phrases['workspace-floors-rooms']}}</div>
+</div>
+
+<ng-container *ngIf="tab === 1">
+    <div class="data-form padded">
+        <div class="df-title" [class.required]="isRequired('restaurant_id')">{{currentLang.phrases['workspace-floors-restaurant']}}:</div>
+        <div class="df-inputwrap">
+            <select [(ngModel)]="x.restaurant_id">
+                <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+                <option *ngFor="let r of rl" [ngValue]="r.id">{{r.name}}</option>
+            </select>
+        </div>
+
+        <div class="df-title" [class.required]="isRequired('number')">{{currentLang.phrases['workspace-floors-number']}}:</div>
+        <div class="df-inputwrap"><input type="text" [(ngModel)]="x.number"></div>
+
+        <div class="df-title" [class.required]="isRequired('nx')">{{currentLang.phrases['workspace-floors-nx']}}:</div>
+        <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="x.nx"></div>
+
+        <div class="df-title" [class.required]="isRequired('ny')">{{currentLang.phrases['workspace-floors-ny']}}:</div>
+        <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="x.ny"></div>
+
+        <div class="df-title"></div>
+        <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="tab === 2">
+    <div class="data-tablewrap compact padded">
+        <!-- add btn -->
+        <div class="data-head">
+            <div class="datahead-dash">
+                <div class="dhd-btn create" [title]="currentLang.phrases['workspace-create']" (click)="subformActive = !subformActive;"><span></span></div>
+            </div>
+        </div>
+        <!-- form -->
+        <div class="data-form subform" [class.active]="subformActive">
+            <div class="df-title">{{currentLang.phrases['workspace-floors-no']}}:</div>
+            <div class="df-inputwrap"><input type="text" class="small" [(ngModel)]="room.no" (keydown)="onSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-floors-capacity']}}:</div>
+            <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="room.capacity" (keydown)="onSubformKeyDown($event);"></div>
+
+          <div class="df-title">{{currentLang.phrases['workspace-floors-room-type']}}:</div>
+            <div class="dt-inputwrap">
+              <select [(ngModel)]="room.type_id">
+                <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+                <option *ngFor="let rt of roomTypes" [ngValue]="rt.id">{{rt.translations[0].name}}</option>
+              </select>
+            </div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-floors-x']}}:</div>
+            <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="room.x" (keydown)="onSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-floors-y']}}:</div>
+            <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="room.y" (keydown)="onSubformKeyDown($event);"></div>
+
+            <div class="df-title">{{currentLang.phrases['workspace-floors-code']}}:</div>
+            <div class="df-inputwrap"><input type="text" class="small" [(ngModel)]="room.code" (keydown)="onSubformKeyDown($event);"></div>
+
+            <div class="df-title"></div>
+            <div class="df-inputwrap"><button type="button" (click)="add();">OK</button></div>
+        </div>
+        <!-- list -->
+        <table class="data-table">
+            <tr class="no-selection">
+                <th><label [class]="sortBy === 'no' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('no');">{{currentLang.phrases['workspace-floors-no']}}</label></th>
+                <th><label [class]="sortBy === 'seats' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('capacity');">{{currentLang.phrases['workspace-floors-capacity']}}</label></th>
+                <th><label>{{currentLang.phrases['workspace-floors-room-type']}}</label></th>
+                <th><label>{{currentLang.phrases['workspace-floors-x']}}</label></th>
+                <th><label>{{currentLang.phrases['workspace-floors-y']}}</label></th>
+                <th><label>{{currentLang.phrases['workspace-floors-code']}}</label></th>
+                <th>{{currentLang.phrases['workspace-actions']}}</th>
+            </tr>
+            <ng-container *ngIf="x.rooms.length">
+                <tr *ngFor="let r of x.rooms; let i = index;">
+                    <td><div class="dt-inputwrap"><input type="number" class="small" [(ngModel)]="r.no"></div></td>
+                    <td><div class="dt-inputwrap"><input type="number" class="small" [(ngModel)]="r.capacity"></div></td>
+                    <td>
+                      <div class="dt-inputwrap">
+                        <select [(ngModel)]="r.type_id">
+                          <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+                          <option *ngFor="let rt of roomTypes" [ngValue]="rt.id">{{rt.translations[0].name}}</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td><div class="dt-inputwrap"><input type="number" class="small" [(ngModel)]="r.x"></div></td>
+                    <td><div class="dt-inputwrap"><input type="number" class="small" [(ngModel)]="r.y"></div></td>
+                    <td><div class="dt-inputwrap"><input type="text" class="small" [(ngModel)]="r.code"></div></td>
+                    <td>
+                        <div class="dt-actions">
+                            <div class="dt-btn delete" [title]="currentLang.phrases['workspace-delete']" (click)="remove(i);"><span></span></div>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-container *ngIf="!x.rooms.length">
+                <tr><td>{{currentLang.phrases['workspace-empty']}}</td></tr>
+            </ng-container>
+        </table>
+    </div>
+    <button type="submit">{{currentLang.phrases['workspace-save']}}</button>
+</ng-container>

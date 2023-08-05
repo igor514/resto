@@ -1,0 +1,26 @@
+<form (submit)="onSave();">
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-floors']['number'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input type="number" min="0" name="number" [(ngModel)]="x.number" [class.error]="errorName"></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-floors']['nx'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input-number [(value)]="x.nx" [min]="1"></input-number></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-floors']['ny'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input-number [(value)]="x.ny" [min]="1"></input-number></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title"></div>
+        <div class="de-value">
+            <div class="de-btnwrap"><button type="submit" [disabled]="loading" class="save"><span>{{words['common']['save'][currentLang.slug]}}</span></button></div>
+        </div>
+    </div>
+</form>

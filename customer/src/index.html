@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Restclick</title>
+	<base href="/">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">	
+	<link rel="icon" type="image/x-icon" href="favicon.ico">		
+</head>
+<body>
+	<!-- внешний вызов angular-функции для google translate -->
+	<script>function gtInit() {window.angularComponentReference.zone.run(() => window.angularComponentReference.gtInit());}</script>	
+
+	<!-- заставка -->
+	<style>#g-loading {position:fixed; left:0; top:0; width:100%; height:100%; overflow: hidden; background:#E8EFF4; z-index:1000; display: flex; justify-content: center; align-items: center;}</style>
+	<div id="g-loading"><img src="/assets/images/logo.svg" width="100"></div>		
+	<script>window.addEventListener('load', () => document.getElementById("g-loading").remove());</script>	
+
+	<!-- приложение -->
+	<app-root></app-root>	
+</body>
+</html>

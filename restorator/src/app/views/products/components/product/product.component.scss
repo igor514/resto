@@ -1,0 +1,73 @@
+.ingredients {
+    width: 100%;
+    margin-bottom: 15px; user-select: none;
+    .i-add {
+        height: 80px; border-radius: 15px; border: 2px var(--color-bg-highlight2) dashed; color:var(--color-bg-highlight2); cursor: pointer; display: flex; justify-content: center; align-items: center;
+        span::before {font-family: "fa-solid"; content:"\f067"; font-size: 36px;}
+    }
+}
+
+// элементы вынесены отдельно, т.к. используются в sortable-плагине
+.i-item {
+    background-color: var(--color-bg); box-shadow: var(--block-shadow); border-radius: 15px; padding: 15px; height: 80px; margin-bottom: 15px; display: flex; width:100%;
+    .i-left {
+        width: 20px;
+        .i-handle {
+            width:20px; height: 30px; cursor: move; display: flex; align-items: center;
+            span::before {font-family: "fa-solid"; content:"\f0b2";}
+        }
+    }
+    .i-right {
+        width: calc(100% - 20px);
+        .i-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            gap: 5px;
+            align-items: center;
+
+            .i-controls {
+              .error {
+                border-color: var(--color-red) !important;
+                > .ng-select-container { border-color: var(--color-red); }
+              }
+              ng-select {
+                border-radius: 15px;
+
+                > .ng-select-container { border-radius: 15px; border-color: var(--color-grey); }
+              }
+
+              span {
+                display: flex;
+                align-items: center;
+              }
+
+              display: grid;
+              gap: 15px;
+              grid-template-columns: 200px 150px 100px 100px;
+
+              @media (max-width:1200px) {
+                grid-template-columns: 120px 120px 80px auto;
+              }
+
+
+              > input, select.unit {
+                height: 100%;
+                font-size: 14px;
+                border-radius: 15px;
+                border:1px var(--color-grey) solid;
+                padding: 0 10px;
+                background: white;
+                max-width: 100%;
+              }
+            }
+            .i-remove {
+                grid-column: -1;
+                justify-self: flex-end;
+                height: 30px; background-color: var(--color-bg); box-shadow: var(--block-shadow); border-radius: 15px; display: flex; justify-content: center; align-items: center; cursor: pointer;
+                span::before {font-family: "fa-solid"; content: "\f00d"; color: var(--color-red);}
+            }
+        }
+        .i-excludable {height: 15px; overflow: hidden; font-size: 12px; display: flex; align-items: center;}
+    }
+}

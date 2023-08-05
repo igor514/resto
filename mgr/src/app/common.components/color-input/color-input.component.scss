@@ -1,0 +1,12 @@
+@import "../../common.styles/var.scss";
+
+.color-input {
+    @media (min-width:0) {width: 100%;}
+    @media (min-width:1000px) {width:400px;}   
+    .ci-tiwrap {input {width: 100%;}}
+    .ci-switch {
+        margin-bottom: 5px;
+        span {border-bottom: 1px $color-transparent dashed; cursor: pointer;}
+    }
+    .ci-picker {}
+}

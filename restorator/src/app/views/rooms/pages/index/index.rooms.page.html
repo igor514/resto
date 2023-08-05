@@ -1,0 +1,29 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn create" [class.disabled]="roomNew" (click)="createPanelActive = true;"><span>{{words['common']['create'][currentLang.slug]}}</span></a>
+    <button class="dash-btn create" (click)="openQR()">
+      <span>{{words['restorator-common']['customize-qr'][currentLang.slug]}}</span>
+    </button>
+</div>
+
+<div class="rooms rtl-rev" *ngIf="currentFloor" cdkDropListGroup>
+    <div class="t-newplace" cdkDropList [cdkDropListEnterPredicate]="cantDrop">
+        <the-room *ngIf="roomNew" [item]="roomNew" cdkDrag [cdkDragData]="roomNew.id" (delete)="roomNew = null"></the-room>
+    </div>
+    <div class="t-places beauty-scroll-h" [style.grid-template-columns]="'repeat('+currentFloor.nx+', 125px)'">
+        <ng-container *ngFor="let p of places">
+            <div class="t-place" cdkDropList [cdkDropListEnterPredicate]="canDrop(p)" (cdkDropListDropped)="onDrop($event, p)">
+                <the-room *ngIf="roomGet(p) as r" [item]="r" [canDelete]="!!r.id" cdkDrag [cdkDragData]="r.id" [cdkDragDisabled]="!r.id" (delete)="onDelete(r)" (qr)="onQr(r)" (history)="onHistory(r)"></the-room>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<div class="floors">
+    <div class="h-title">{{words['restorator-floors']['floors'][currentLang.slug]}}:</div>
+    <div class="h-item" *ngFor="let h of fl" [innerHTML]="h.number" [class.active]="h.id === currentFloor?.id" (click)="currentFloorSet(h)"></div>
+</div>
+
+<!-- helpers -->
+<create-room [(active)]="createPanelActive" [types]="types" (create)="roomNew = $event"></create-room>
+<the-confirm [(active)]="roomDeleteConfirmActive" [msg]="roomDeleteConfirmMsg" (confirmed)="remove()"></the-confirm>
+<qr-panel [(active)]="roomQrPanelActive" category="room" [timestamp]="qrTimestamp" [item]="roomQr"></qr-panel>
+<qr-customize (update)="onQRUpdate()" [(active)]="qrActive"></qr-customize>

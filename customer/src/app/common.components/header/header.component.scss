@@ -1,0 +1,19 @@
+header {
+    display: flex; position: fixed; z-index: 10; width:100%; left: 0; top:0; height: 60px; justify-content: center; align-items: center; background-color: var(--color-bg); border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; box-shadow: var(--block-shadow); user-select: none;
+    .h-title {width: calc(100% - 100px); text-align: center; font-size: 14px; font-weight: bold; overflow: hidden; text-overflow: ellipsis;}
+    .h-back {
+        position: absolute; left: 0; top:0; height: 100%; width: 50px; overflow: hidden; padding: 0 0 0 15px; display: flex; align-items: center; cursor: pointer;
+        span::before {font-family: "fa-solid"; content: "\f053"; font-size: 16px;}
+    }
+    .h-cart {
+        position: absolute; right: 0; top:0; height: 100%; width: 50px; overflow: hidden; padding: 0 15px 0 0; display: flex; gap: 10px; justify-content: flex-end; align-items: center; cursor: pointer; transition: 0.3s;
+        .hc-number {font-size: 10px; transition: 0.3s;}
+        .hc-icon {
+            font-size: 16px; transition: 0.3s;
+            &::before {font-family: "fa-solid"; content: "\f07a";}
+        }
+        &.highlight {
+            .hc-icon {transform: scaleX(-1);}
+        }
+    }
+}

@@ -1,0 +1,72 @@
+.popup {
+    .p-overlay {position: fixed; z-index: 99; left: -100%; top:0; width:100%; height: 100%; background-color: rgba(0,0,0,0.5); transition: 0.3s; will-change: left;}
+    .p-win {
+        @media (min-width:0) {width: 90%;}
+        @media (min-width:500px) {width:320px; }
+        position: fixed; z-index: 100; left: -100%; top:50%; transform: translate(-50%, -50%); background-color: var(--color-bg); padding: 30px; border-radius: 15px; transition: 0.3s; will-change: left; overflow: hidden;
+        .pw-content {
+            .pw-txt {display: flex; justify-content: center; text-align: center; font-weight: bold; margin-bottom: 30px;}
+            .pw-form {
+                margin-bottom: 30px;
+                &.centered {display: flex; justify-content: center;}
+                .pwf-param {
+                    margin-bottom: 10px;
+                    .pwf-title {font-size: 12px; margin-bottom: 3px; padding: 0 5px;}
+                    .pwf-value {
+                        input {
+                            width: 100%; height: 30px; border-radius: 15px; border:1px var(--color-grey) solid; padding: 0 10px; transition: 0.3s;
+                            &.error {border-color: var(--color-red);}
+                        }
+                        .pwf-txt {font-size: 14px; font-weight: bold; padding: 0 5px;}
+                    }
+                }
+                .pwf-error {color: var(--color-red); text-align: center; font-size: 12px;}
+            }
+            .pw-list {
+                ul {
+                    list-style: none; margin: 0; padding: 0;
+                    li {
+                        margin-bottom: 15px; display: flex; justify-content: center;
+                        &:last-child {margin-bottom: 0;}
+                        a {
+                            height: 40px; line-height: 40px; width: 200px; border-radius: 20px; border:3px var(--color-bg) solid; background-color: var(--color-bg); box-shadow: var(--block-shadow); text-decoration: none; display: flex; justify-content: center; align-items: center; font-weight: bold; white-space: nowrap; cursor: pointer; color: var(--color-txt);
+                            &.active {box-shadow: var(--activebtn-shadow);}
+                        }
+                    }
+                }
+            }
+            .pw-hr {margin: 15px 0; height: 1px; background-color: white;}
+            .pw-qr {
+                text-align: center; margin-bottom: 30px;
+                img {max-width: 100%; border-radius: 15px; box-shadow: var(--block-shadow);}
+            }
+        }
+        .pw-buttons {
+            display: flex; justify-content: center;
+            button {
+                height: 30px; width: 120px; border-radius: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer; border:none; font-size: 14px; margin: 0 5px;
+                &:disabled {background-color: var(--color-disabled);}
+            }
+        }
+        .pw-btnwrap {
+            text-align: center;
+            button {
+                height: 30px; width: 200px; border-radius: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer; border:none; font-size: 14px;
+                &:disabled {background-color: var(--color-disabled);}
+            }
+            a {
+                display: inline-flex; justify-content: center; align-items: center; height: 30px; padding: 0 15px; border-radius: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; font-size: 14px; text-decoration: none; user-select: none;
+                span::before {font-family: "fa-solid"; margin-right: 5px; font-size: 18px;}
+                &.print {span::before {content: "\f02f";}}
+            }
+        }
+        .pw-close {
+            position: absolute; right: 15px; top: 10px; cursor: pointer;
+            span::before {font-family: "fa-solid"; content:"\f00d";}
+        }
+    }
+    &.active {
+        .p-overlay {left: 0;}
+        .p-win {left: 50%;}
+    }
+}

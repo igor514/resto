@@ -1,0 +1,35 @@
+<div class="dpp-component" *ngIf="ready">
+    <div class="dpp-date">{{formattedValue(0)}}<span *ngIf="value[1]"> - {{formattedValue(1)}}</span></div>
+    <div class="dpp-btn active" (click)="toggle();"><span></span></div>
+    <div class="dpp-btn setnull" (click)="setNull();" *ngIf="value[0] || value[1]"><span></span></div>
+    <div class="dpp-picker" [class.active]="active" [class.single]="!mode">        
+        <div class="dpp-content">
+            <div class="dpp-mode" (click)="mode = mode === 1 ? 0 : 1"><checkbox-simple [value]="mode" [title]="this.words['common']['period'][currentLang.slug]"></checkbox-simple></div>
+            <div class="dpp-calendars">
+                <ng-container *ngFor="let v of value; let i = index;">
+                    <div class="dpp-calendar" *ngIf="i <= mode">
+                        <div class="dpp-month">
+                            <div class="dpp-month-back" (click)="onMonthBack(i);"><span></span></div>
+                            <div class="dpp-month-current"><span>{{monthAndYear(i)}}</span></div>
+                            <div class="dpp-month-forward" (click)="onMonthForward(i);"><span></span></div>
+                        </div>
+                        <div class="dpp-days">                
+                            <div class="dpp-days-content">
+                                <div class="head">{{this.words['common']['mo'][currentLang.slug]}}</div>
+                                <div class="head">{{this.words['common']['tu'][currentLang.slug]}}</div>
+                                <div class="head">{{this.words['common']['we'][currentLang.slug]}}</div>
+                                <div class="head">{{this.words['common']['th'][currentLang.slug]}}</div>
+                                <div class="head">{{this.words['common']['fr'][currentLang.slug]}}</div>
+                                <div class="head">{{this.words['common']['sa'][currentLang.slug]}}</div>
+                                <div class="head">{{this.words['common']['su'][currentLang.slug]}}</div>
+                                <div *ngFor="let day of days[i]" class="day" [class.hidden]="day.hidden" [class.holiday]="day.holiday" [class.current]="day.current" (click)="setDate(i, day);">{{day.n}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>                
+            </div>            
+            <div class="dpp-apply"><button type="button" (click)="apply();">{{this.words['common']['apply'][currentLang.slug]}}</button></div>
+        </div>        
+    </div>    
+    <div class="dpp-bgoverlay" [class.active]="active" (mousedown)="active = false;"></div> 
+</div>

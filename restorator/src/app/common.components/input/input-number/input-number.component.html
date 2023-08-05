@@ -1,0 +1,12 @@
+<div class="input-number">
+    <div class="in-btn" (click)="decrease()">&ndash;</div>
+
+  <div *ngIf="editable else valueInput" class="in-value">{{value}}</div>
+
+    <div class="in-btn" (click)="increase()">+</div>
+</div>
+
+<ng-template #valueInput>
+  <input [disabled]="disabled" type="number" [min]="min" [max]="max" [step]="step" class="in-value" [(ngModel)]="value" (change)="sanitize($event.target.value)" (keyup)="sanitize($event.target.value)" [value]="value"/>
+</ng-template>
+

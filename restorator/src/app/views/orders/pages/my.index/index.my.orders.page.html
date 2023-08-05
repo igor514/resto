@@ -1,0 +1,46 @@
+<div class="dash">
+    <a class="dash-btn create" routerLink="/orders/my/create"><span>{{words['common']['create'][currentLang.slug]}}</span></a>
+</div>
+<div class="orders">
+    <ng-container *ngIf="olReady">
+        <ng-container *ngIf="groups.length">
+            <div class="order" *ngFor="let item of groups">
+              <div class="o-content">
+                <div class="o-main main-sb">
+                <div class="oc-table table-row">
+                  <div class="oct-title">
+                    <span class="f-upper">{{words['restorator-orders'][item?.hall ? 'table' : 'room'][currentLang.slug]}}:</span>
+                    {{item.no}}
+                  </div>
+                  <div class="oct-btns my-btns">
+                    <div *ngIf="item.need_waiter" class="oct-btn need-waiter" [class.highlight]="item._highlightNeedWaiter" [title]="words['restorator-orders']['need-waiter'][currentLang.slug]"><span></span></div>
+                    <div *ngIf="item.need_products" class="oct-btn need-products" [class.highlight]="item._highlightNeedProducts" [title]="words['restorator-orders']['need-products'][currentLang.slug]"><span></span></div>
+                    <div *ngIf="item.need_invoice" class="oct-btn need-invoice" [class.highlight]="item._highlightNeedInvoice" [title]="words['restorator-orders']['need-invoice'][currentLang.slug]"><span></span></div>
+                  </div>
+                  <div>
+                    {{words['restorator-orders']['seats'][currentLang.slug]}}:
+                    <strong>{{item.capacity || item.seats}}</strong>, {{words['restorator-orders']['hall2'][currentLang.slug]}}:
+                    <strong>{{item?.hall?.name}}</strong>
+                  </div>
+                  <div>
+                    {{words['restorator-orders']['q'][currentLang.slug]}}:
+                    <strong>
+                      <a routerLink="/orders/my/edit/{{item.id}}">{{item.orders.length}}</a>
+                    </strong>
+                  </div>
+                </div>
+                <div class="o-dash">
+                  <div class="od-title">{{words['common']['actions'][currentLang.slug]}}:</div>
+                  <div class="od-btn view" [title]="words['common']['edit'][currentLang.slug]"
+                       [queryParams]="queryParams(item)" routerLink="/orders/my/group"><span></span></div>
+                </div>
+                </div>
+              </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!groups.length">{{words['common']['none'][currentLang.slug]}}</ng-container>
+    </ng-container>
+    <ng-container *ngIf="!olReady">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>

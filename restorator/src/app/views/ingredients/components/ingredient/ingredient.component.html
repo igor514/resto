@@ -1,0 +1,33 @@
+<form (submit)="onSave();">
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-ingr-units']['ingr-name'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input type="text" name="name" [(ngModel)]="x.name" [class.error]="errorName"></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-ingr-units']['ingr-price'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+          <div class="de-inputwrap">
+            <input type="number" min="0" name="price" (change)="sanitizePrice($event)" [(ngModel)]="x.price">
+          </div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-ingr-units']['ingr-unit'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+          <div class="de-selectwrap" [class.error]="errorUnit">
+            <select name="unit" [(ngModel)]="x.unit_id">
+              <option [ngValue]="null">{{words['common']['none'][this.currentLang.slug]}}</option>
+              <option *ngFor="let u of units" [ngValue]="u.id">{{u.translationByLang(this.currentLang.id).name}}</option>
+            </select>
+          </div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title"></div>
+        <div class="de-value">
+            <div class="de-btnwrap"><button type="submit" [disabled]="loading" class="save"><span>{{words['common']['save'][currentLang.slug]}}</span></button></div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,9 @@
+<div class="extraeditor" [class.active]="active">
+    <div class="ee-head"><div class="ee-close" (click)="close();"><span></span></div></div>
+    <div class="ee-content"> 
+        <div class="ck-wrap">            
+            <ckeditor [editor]="editor" [config]="editorCfg" [(ngModel)]="data"></ckeditor>
+        </div>        
+    </div>
+    <button type="button" (click)="apply();">OK</button>
+</div>

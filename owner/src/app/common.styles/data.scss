@@ -1,0 +1,203 @@
+.data {
+    // списки
+    .datalist-desktop {
+        @media (min-width:0) {display: none;}
+        @media (min-width:1200px) {display: block;}
+        border-radius: 45px; background-color: var(--color-bg-data); border: 10px var(--color-bg) solid; box-shadow: var(--block-shadow); padding: 15px; margin-bottom: 30px; position: relative;
+        table {
+            width: 100%;
+            th {
+                padding: 10px 5px;
+                label {
+                    &::after {font-family: "fa-solid"; margin-left: 5px;}
+                    &.sortable {
+                        cursor: pointer;
+                        &::after {content: "\f0dc";}
+                        &.sorted-forward::after {content: "\f0dd";}
+                        &.sorted-backward::after {content: "\f0de";}
+                    }
+                }
+            }
+            td {
+                padding: 10px 5px;
+                &.borderedbottom {border-bottom: 1px var(--color-grey) solid;}
+                .dld-selectwrap {
+                    display: inline-block; height: 30px; border-radius: 15px; position: relative; border:1px var(--color-grey) solid; background-color: white;
+                    &::after {display: block; font-family: "fa-solid"; content: "\f078"; position: absolute; top:50%; transform: translateY(-50%); right:10px; pointer-events: none; color: var(--color-txt);}
+                    select {width: 100%; height: 100%; appearance: none; background: none; border:none; padding: 0 25px 0 10px; color: black;}
+                }
+            }
+        }
+    }
+    .datalist-mobile {
+        @media (min-width:0) {display: block;}
+        @media (min-width:1200px) {display: none;}
+        position: relative;
+        .dlm-item {
+            background-color: var(--color-bg); box-shadow: var(--block-shadow); border-radius: 15px; padding: 15px; margin-bottom: 15px;
+            .dlmi-param {
+                margin-bottom: 5px;
+                .dlmi-title {font-size: 10px; font-weight: bold;}
+            }
+            .dlmi-actions {display: flex; justify-content: center;}
+        }
+        .dlm-dash {
+            padding: 15px 0;
+            .dlmd-head {font-size: 14px; font-weight: bold; margin-bottom: 10px;}
+            .dlmd-param {
+                margin-bottom: 10px;
+                &:last-child {margin-bottom: 0;}
+                .dlmd-title {font-size: 10px; margin-bottom: 3px; font-weight: bold;}
+                .dlmd-inputwrap {}
+                .dlmd-selectwrap {
+                    @media (min-width:0) {display: block;}
+                    @media (min-width:500px) {display: inline-block;}
+                    height: 30px; border-radius: 15px; position: relative; border:1px var(--color-grey) solid; background-color: white;
+                    &::after {display: block; font-family: "fa-solid"; content: "\f078"; position: absolute; top:50%; transform: translateY(-50%); right:10px; pointer-events: none; color: var(--color-txt);}
+                    select {width: 100%; height: 100%; appearance: none; background: none; border:none; padding: 0 25px 0 10px; color: black;}
+                }
+            }
+        }
+    }
+    .datalist-overlay {
+        @media (min-width:0) {border-radius: 0;}
+        @media (min-width:1200px) {border-radius: 45px;}
+        position: absolute; left: 0; top: 0; z-index: 5; background-color: rgba(255,255,255,0.5); width:0; height: 100%; opacity: 0; will-change: opacity, width; transition: width 0s linear 0.3s, opacity 0.3s ease 0s;
+        &.active {width: 100%; opacity: 1; transition: width 0s linear 0s, opacity 0.3s ease 0s;}
+    }
+    .datalist-btn {
+        height: 40px; width: 40px; line-height: 40px; text-align: center; border-radius: 20px; background: var(--color-bg); box-shadow: var(--block-shadow); cursor: pointer; display: inline-block; margin: 0 5px; color: var(--color-txt); text-decoration: none;
+        span::before {font-size: 20px;}
+        &.delete {font-family: "fa-solid"; span::before {content: "\f00d"; color: var(--color-red);}}
+        &.edit {font-family: "fa-solid"; span::before {content: "\f06e";}}
+        &.recharge {font-family: "fa-regular"; span::before {content: "\f873";}}
+        &.transactions {font-family: "fa-regular"; span::before {content: "\f688";}}
+        &.history {font-family: "fa-solid"; span::before {content: "\f1da";}}
+        &.disabled {opacity: 0.2; pointer-events: none;}
+    }
+
+    // редактирование элемента
+    .dataedit {
+        @media (min-width:0) {border-radius: 15px; border: 5px var(--color-bg) solid; padding: 15px;}
+        @media (min-width:1200px) {border-radius: 45px; border: 10px var(--color-bg) solid; padding: 30px;}
+        background-color: var(--color-bg-data); box-shadow: var(--block-shadow);
+        .de-row-payments {
+          display: grid !important;
+          @media (min-width:0) {
+            grid-template-columns: 20% 20%;
+            justify-content: space-between;
+          }
+          @media (min-width:1200px) {
+            grid-template-columns: 200px 500px;
+            justify-content: flex-start;
+            .de-value {
+              display: flex;
+              justify-content: flex-end;
+            }
+            .de-payment-title {
+              text-align: end;
+              padding-inline-end: 50px;
+            }
+          }
+        }
+        .de-row {
+            @media (min-width:0) {display: block;}
+            @media (min-width:1200px) {display: flex;}
+            margin-bottom: 15px; align-items: center;
+            .de-title {
+                @media (min-width:0) {width:100%; margin-bottom: 3px; font-size: 12px; font-weight: bold;}
+                @media (min-width:1200px) {width: 200px; margin-bottom: 0; font-size: 14px; font-weight: normal;}
+            }
+            .de-grid {
+              justify-content: space-between;
+              display: grid;
+              grid-template-columns: 20% 20%;
+              margin-bottom: 15px;
+              .de-title {
+                display: inline-block;
+              }
+            }
+            .de-value {
+                @media (min-width:0) {max-width: 100%;}
+                @media (min-width:1200px) {max-width: 500px;}
+                flex: 1;
+                .de-inputwrap {
+                    input {
+                        width: 100%; height: 45px; border-radius: 23px; border:1px var(--color-grey) solid; background: white; padding: 0 10px; transition: 0.3s;
+                        &:disabled {background-color: var(--color-disabled);}
+                        &.error {border-color: var(--color-red);}
+                    }
+                    textarea {
+                        height: 150px; width: 100%; border-radius: 23px; border:1px var(--color-grey) solid; background: white; padding: 10px; transition: 0.3s; resize: none; -ms-overflow-style: none; scrollbar-width: none;
+                        &::-webkit-scrollbar {display: none;}
+                        &:disabled {background-color: var(--color-disabled);}
+                        &.error {border-color: var(--color-red);}
+                    }
+                }
+                .de-selectwrap {
+                    height: 45px; border-radius: 23px; position: relative; border:1px var(--color-grey) solid; background-color: white;
+                    &::after {display: block; font-family: "fa-solid"; content: "\f078"; position: absolute; top:50%; transform: translateY(-50%); right:10px; pointer-events: none; color: var(--color-txt);}
+                    select {width: 100%; height: 100%; appearance: none; background: none; border:none; padding: 0 25px 0 10px; color: black;}
+                }
+                .de-txtwrap {
+                    padding: 0 10px; font-size: 14px;
+                    &.margined {margin-bottom: 10px;}
+                }
+            }
+        }
+        .de-error {color: var(--color-red); padding: 3px 0; font-size: 12px; padding: 0 10px;}
+        .de-divider {height: 1px; background-color: var(--color-grey);}
+        .de-note {
+            display: flex; margin-bottom: 15px;
+            .den-mark {
+                margin-right: 10px;
+                span::before {font-family: "fa-solid"; font-size: 20px; content: "\f071";}
+            }
+            .den-txt {}
+        }
+        .de-btnwrap {
+            @media (min-width:0) {justify-content: center;}
+            @media (min-width:1200px) {justify-content: flex-start;}
+            display: flex;
+        }
+        button {
+            @media (min-width:0) {font-size: 13px;}
+            @media (min-width:1200px) {font-size: 14px;}
+            display: block; flex: 1; height: 45px; max-width: 220px; border-radius: 23px; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer; border:none;
+            &:disabled {background-color: var(--color-disabled);}
+            span {
+                display: flex; gap: 10px; align-items: center; justify-content: center;
+                &::before {font-family: "fa-solid"; font-size: 18px;}
+            }
+            &.save {span::before {content: "\f0c7";}}
+            &.accept {span::before {content: "\f04b";}}
+            &.create {span::before {content: "\f067";}}
+        }
+      fieldset.de-payments {
+        display: inline;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        margin-bottom: 10px;
+
+        label {
+          margin-right: 10px;
+        }
+      }
+
+      .de-card-holder {
+        padding: 10px;
+        border: 1px var(--color-grey) solid;
+        border-radius: 15px;
+        margin-bottom: 10px;
+      }
+      .de-card-save {
+        justify-content: flex-start;
+        margin-bottom: 10px;
+      }
+      .card-error {
+        margin-bottom: 10px;
+      }
+    }
+}

@@ -1,0 +1,30 @@
+<div class="data-form">    
+    <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-cats-name']}}:</div>
+    <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name"></div>
+    
+    <div class="df-title" [class.required]="isRequired('restaurant_id')">{{currentLang.phrases['workspace-cats-restaurant']}}:</div>
+    <div class="df-inputwrap">
+        <select [(ngModel)]="x.restaurant_id">
+            <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+            <option *ngFor="let r of rl" [ngValue]="r.id">{{r.name}}</option>
+        </select>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('icon_id')">{{currentLang.phrases['workspace-cats-icon']}}:</div>
+    <div class="df-inputwrap">
+        <select [(ngModel)]="x.icon_id">
+            <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+            <option *ngFor="let i of il" [ngValue]="i.id">{{i.translationByLang(ll[0].id).name}}</option>
+        </select>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('pos')">{{currentLang.phrases['workspace-cats-pos']}}:</div>
+    <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="x.pos"></div>
+    
+    <div class="df-title" [class.required]="isRequired('active')">{{currentLang.phrases['workspace-cats-active']}}:</div>
+    <div class="df-inputwrap"><checkbox-slider [(value)]="x.active"></checkbox-slider></div>
+        
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>                    
+</div>
+

@@ -1,0 +1,12 @@
+<error-notification></error-notification>
+<div class="win" #win>
+    <div class="wrap" *ngIf="ready">
+        <router-outlet></router-outlet>
+        <the-header></the-header>
+        <the-footer></the-footer>
+        <cart-panel></cart-panel>
+        <invoice-panel></invoice-panel>
+        <lang-panel></lang-panel>
+    </div>
+    <div *ngIf="targetNotFound">[table not found]</div>
+</div>

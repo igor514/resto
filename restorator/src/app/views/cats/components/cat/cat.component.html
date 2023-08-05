@@ -1,0 +1,40 @@
+<form (submit)="onSave();">
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-cats']['name'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input type="text" name="name" [(ngModel)]="x.name" [class.error]="errorName"></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-cats']['icon'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-iconwrap margined">
+                <div class="de-icon" *ngIf="getIcon()">
+                    <img src="{{staticPath}}icons/{{getIcon()}}">
+                    <div class="de-icon-delete" (click)="x.icon_id = null"><span></span></div>
+                </div>
+                <div *ngIf="!getIcon()">{{words['common']['not-set'][currentLang.slug]}}</div>
+                <div><a [innerHTML]="ilActive ? words['common']['hide-list'][currentLang.slug] : words['common']['show-list'][currentLang.slug]" (click)="ilActive = !ilActive"></a></div>
+            </div>
+            <icons *ngIf="ilActive" [icons]="il" [selected]="x.icon_id" (selectIcon)="x.icon_id = $event"></icons>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-cats']['active'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><checkbox-slider [(value)]="x.active"></checkbox-slider></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-cats']['pos'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input-number [(value)]="x.pos"></input-number></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title"></div>
+        <div class="de-value">
+            <div class="de-btnwrap"><button type="submit" [disabled]="loading" class="save"><span>{{words['common']['save'][currentLang.slug]}}</span></button></div>
+        </div>
+    </div>
+</form>

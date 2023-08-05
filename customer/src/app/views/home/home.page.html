@@ -1,0 +1,6 @@
+<div class="cats">
+  <a routerLink="/{{orderService.category}}/{{target.code}}/menu/recommended"><span>{{words['customer-common']['recommended']}}</span><img
+    src="/assets/images/star.svg"></a>
+  <a *ngFor="let c of cl" routerLink="/{{orderService.category}}/{{target.code}}/menu/{{c.id}}"><span [innerHTML]="c.name"></span><img
+    *ngIf="c.icon" src="{{staticPath}}icons/{{c.icon.img}}"></a>
+</div>

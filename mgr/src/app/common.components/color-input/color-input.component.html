@@ -1,0 +1,5 @@
+<div class="color-input">
+    <div class="ci-tiwrap"><input type="text" [ngModel]="color" readonly [style.background-color]="color"></div>
+    <div class="ci-switch"><span (click)="pickerActive = !pickerActive;">{{pickerActive ? currentLang.phrases['workspace-hide-picker'] : currentLang.phrases['workspace-show-picker']}}</span></div>
+    <div class="ci-picker" *ngIf="pickerActive"><color-sketch [disableAlpha]="true" [color]="color" (onChange)="setColor($event.color.hex)"></color-sketch></div>
+</div>

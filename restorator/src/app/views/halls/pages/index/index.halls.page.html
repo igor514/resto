@@ -1,0 +1,80 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn create" routerLink="/halls-tables/halls/create"><span>{{words['common']['create'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <ng-container *ngIf="hlChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="hlLoading"></div>
+            <table>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="hlSortBy === 'name' && hlSortDir === 1" [class.sorted-backward]="hlSortBy === 'name' && hlSortDir === -1" (click)="changeSorting('name')">{{words['restorator-halls']['name'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-halls']['places'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label class="sortable" [class.sorted-forward]="hlSortBy === 'pos' && hlSortDir === 1" [class.sorted-backward]="hlSortBy === 'pos' && hlSortDir === -1" (click)="changeSorting('pos')">{{words['restorator-halls']['pos'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['common']['actions'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="hl.length">
+                    <tr *ngFor="let h of hl">
+                        <td [innerHTML]="h.name"></td>
+                        <td class="align-center">{{h.nx}}x{{h.ny}}</td>
+                        <td class="align-center">{{h.pos}}</td>
+                        <td class="align-center nowrap">
+                            <a class="datalist-btn edit" [routerLink]="'/halls-tables/halls/edit/'+h.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn delete" (click)="onDelete(h)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!hl.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="hlLoading"></div>
+            <div class="dlm-dash">
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsorting (change)="setSorting(mobsorting.value)">
+                            <option [selected]="hlSortBy === 'name' && hlSortDir === 1" [value]="0">{{words['restorator-halls']['name'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="hlSortBy === 'name' && hlSortDir === -1" [value]="1">{{words['restorator-halls']['name'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="hlSortBy === 'pos' && hlSortDir === 1" [value]="2">{{words['restorator-halls']['pos'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="hlSortBy === 'pos' && hlSortDir === -1" [value]="3">{{words['restorator-halls']['pos'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="hl.length">
+                <div class="dlm-item" *ngFor="let h of hl">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-halls']['name'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value" [innerHTML]="h.name"></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-halls']['places'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{h.nx}}x{{h.ny}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-halls']['pos'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{h.pos}}</div>
+                    </div>
+                    <div class="dlmi-actions rtl-rev">
+                        <a class="datalist-btn edit" [routerLink]="'/halls-tables/halls/edit/'+h.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn delete" (click)="onDelete(h)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!hl.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="hlAllLength" [length]="hlLength" [current]="hlCurrentPart" (currentChanged)="hlCurrentPart = $event; initHalls();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!hlChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<the-confirm [(active)]="deleteConfirmActive" [msg]="deleteConfirmMsg" (confirmed)="delete()"></the-confirm>

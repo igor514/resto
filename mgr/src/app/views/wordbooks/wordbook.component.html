@@ -1,0 +1,96 @@
+<div class="data-tabs">
+    <div class="data-tab" [class.active]="tab === 1" (click)="tab = 1;">{{currentLang.phrases['workspace-wordbooks-tab-params']}}</div>    
+    <div class="data-tab" [class.active]="tab === 2" (click)="tab = 2;">{{currentLang.phrases['workspace-wordbooks-tab-phrases']}}</div>    
+</div>
+
+<ng-container *ngIf="tab === 1">
+    <div class="data-form padded">        
+        <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-wordbooks-name']}}:</div>
+        <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name"></div>
+        
+        <div class="df-title" [class.required]="isRequired('pos')">{{currentLang.phrases['workspace-wordbooks-pos']}}:</div>
+        <div class="df-inputwrap"><input class="small" type="number" [(ngModel)]="x.pos"></div>            
+            
+        <div class="df-title"></div>
+        <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>                    
+    </div>
+</ng-container>
+
+<ng-container *ngIf="tab === 2">
+    <div class="data-langs padded">
+        <div class="data-langs-title">{{currentLang.phrases['workspace-lang']}}:</div>
+        <div class="data-langs-btns">
+            <label *ngFor="let l of ll" (click)="selectedLang = l;"><input type="radio" [checked]="selectedLang.id === l.id">{{l.slug}}</label>
+        </div>                    
+    </div>
+    <div class="data-tablewrap compact">
+        <!-- add btn -->
+        <div class="data-head">            
+            <div class="datahead-dash">
+                <div class="dhd-btn create" [title]="currentLang.phrases['workspace-create']" (click)="subformActive = !subformActive;"><span></span></div>
+            </div>
+        </div>
+        <!-- form -->            
+        <div class="data-form subform" [class.active]="subformActive">                
+            <div class="df-title">{{currentLang.phrases['workspace-wordbooks-mark']}}:</div>
+            <div class="df-inputwrap"><input type="text" [(ngModel)]="word.mark" (keydown)="onSubformKeyDown($event);"></div>                        
+
+            <div class="df-title">{{currentLang.phrases['workspace-wordbooks-text']}} ({{selectedLang.slug}}):</div>
+            <ng-container *ngFor="let l of ll;">
+                <div class="df-inputwrap flex"  *ngIf="l.id === selectedLang.id">
+                    <input type="text" [(ngModel)]="word.translationByLang(l.id).text" (keydown)="onSubformKeyDown($event);">
+                    <div class="data-inputoptions">
+                        <div class="dio-btn dio-editor" [title]="currentLang.phrases['workspace-editor']" (click)="eeBind(word.translationByLang(l.id), 'text');"><span></span></div>
+                    </div>
+                </div> 
+            </ng-container>                                   
+
+            <div class="df-title">{{currentLang.phrases['workspace-wordbooks-note']}}:</div>
+            <div class="df-inputwrap"><input type="text" [(ngModel)]="word.note" (keydown)="onSubformKeyDown($event);"></div>                        
+
+            <div class="df-title">{{currentLang.phrases['workspace-wordbooks-pos']}}:</div>
+            <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="word.pos" (keydown)="onSubformKeyDown($event);"></div>                                    
+
+            <div class="df-title"></div>
+            <div class="df-inputwrap"><button type="button" (click)="addWord();">OK</button></div> 
+        </div>           
+        <!-- list -->
+        <table class="data-table">
+            <tr class="no-selection">            
+                <th><label [class]="sortBy === 'mark' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('mark');">{{currentLang.phrases['workspace-wordbooks-mark']}}</label></th>
+                <th><label>{{currentLang.phrases['workspace-wordbooks-text']}} ({{selectedLang.slug}})</label></th>
+                <th><label>{{currentLang.phrases['workspace-wordbooks-note']}}</label></th>
+                <th><label [class]="sortBy === 'pos' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('pos');">{{currentLang.phrases['workspace-wordbooks-pos']}}</label></th>            
+                <th>{{currentLang.phrases['workspace-actions']}}</th>
+            </tr>   
+            <ng-container *ngIf="x.words.length">
+                <tr *ngFor="let w of x.words; let i = index;">            
+                    <td><div class="dt-inputwrap"><input type="text" [(ngModel)]="w.mark"></div></td>
+                    <td>
+                        <ng-container *ngFor="let l of ll;">
+                            <div class="dt-inputwrap flex"  *ngIf="l.id === selectedLang.id">
+                                <input type="text" [(ngModel)]="w.translationByLang(l.id).text">
+                                <div class="data-inputoptions">
+                                    <div class="dio-btn dio-editor" [title]="currentLang.phrases['workspace-editor']" (click)="eeBind(w.translationByLang(l.id), 'text');"><span></span></div>
+                                </div>
+                            </div>
+                        </ng-container>                        
+                    </td>
+                    <td><div class="dt-inputwrap"><input type="text" [(ngModel)]="w.note"></div></td>
+                    <td><div class="dt-inputwrap"><input class="small" type="number" [(ngModel)]="w.pos"></div></td>            
+                    <td>
+                        <div class="dt-actions">                    
+                            <div class="dt-btn delete" [title]="currentLang.phrases['workspace-delete']" (click)="deleteWord(i);"><span></span></div>
+                        </div>
+                    </td>
+                </tr>                            
+            </ng-container>
+            <ng-container *ngIf="!x.words.length">
+                <tr><td>{{currentLang.phrases['workspace-empty']}}</td></tr>
+            </ng-container>        
+        </table>        
+    </div>
+    <button type="submit">{{currentLang.phrases['workspace-save']}}</button>
+</ng-container>
+
+<extra-editor [(active)]="eeActive" [data]="eeData" (dataChange)="eeApply($event);"></extra-editor>

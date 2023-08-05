@@ -1,0 +1,69 @@
+@import "./var.scss";
+
+.generic-form {
+    max-width: 400px; margin-left: auto; margin-right: auto;
+    &.bottombordered {border-bottom: 1px white solid; margin-bottom: 30px; padding-bottom: 30px;}
+    &.toppadded {padding-top: 30px;}
+    .margined {margin-bottom: 15px;}
+    .gf-inputwrap {
+        input {
+            @media (min-width:0) {height: 45px;}
+            @media (min-width:1200px) {height: 60px;}
+            width: 100%; border-radius: 30px; border:5px var(--color-bg) solid; background: white; box-shadow: var(--block-shadow); padding: 0 10px; transition: 0.3s;
+            &:disabled {background-color: var(--color-disabled);}
+            &.error {border-color: var(--color-red);}
+        }
+        textarea {
+            height: 150px; width: 100%; border-radius: 30px; border:5px var(--color-bg) solid; background: white; box-shadow: var(--block-shadow); padding: 10px; transition: 0.3s; resize: none; -ms-overflow-style: none; scrollbar-width: none;
+            &::-webkit-scrollbar {display: none;}
+            &:disabled {background-color: var(--color-disabled);}
+            &.error {border-color: var(--color-red);}
+        }
+    }
+    .gf-selectwrap {
+        @media (min-width:0) {height: 45px;}
+        @media (min-width:1200px) {height: 60px;}
+        border-radius: 30px; position: relative; border:5px var(--color-bg) solid; box-shadow: var(--block-shadow); background-color: white;
+        &::after {display: block; font-family: "fa-solid"; content: "\f078"; position: absolute; top:50%; transform: translateY(-50%); right:10px; pointer-events: none; color: var(--color-txt);}
+        select {width: 100%; height: 100%; appearance: none; background: none; border:none; padding: 0 25px 0 10px; color: black;}
+    }
+    .gf-btnwrap {
+        text-align: center;
+        button {
+            @media (min-width:0) {height: 45px; font-size: 13px;}
+            @media (min-width:1200px) {height: 60px; font-size: 14px;}
+            width: 100%; border-radius: 30px; background-color: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer; border:none;
+            &.fixedwidth {width: 220px;}
+            &:disabled {background-color: var(--color-disabled);}
+        }
+    }
+    .gf-error {text-align: center; padding: 5px 0; font-size: 12px; color: var(--color-red);}
+    .gf-logo {
+        text-align: center;
+        img {max-height: 100px; width: auto;}
+    }
+    .gf-divider {margin: 30px 0; height: 1px; background-color: white;}
+    .gf-title {font-size: 12px; margin-bottom: 3px; padding: 0 15px;}
+}
+
+.socauth-form {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    .sf-btnwrap {
+        margin: 0 15px 15px 15px;
+        .sf-btn {
+            @media (min-width:0) {height: 45px; font-size: 13px;}
+            @media (min-width:1200px) {height: 60px; font-size: 14px;}
+            width: 220px; border-radius: 30px; background: var(--color-bg); box-shadow: var(--block-shadow); font-weight: bold; cursor: pointer; white-space: nowrap; display: flex; justify-content: center; align-items: center;
+            span {
+                display: flex; align-items: center; gap: 5px;
+                &::before {
+                    @media (min-width:0) {font-size: 26px;}
+                    @media (min-width:1200px) {font-size: 30px;}
+                    font-family: "fa-brands";
+                }
+            }
+            &.google {span::before {content: "\f1a0";}}
+            &.apple {span::before {content: "\f179";}}
+        }
+    }
+}

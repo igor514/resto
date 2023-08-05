@@ -1,0 +1,142 @@
+<div class="data-form">
+  <ng-container *ngIf="x.created_at">
+    <div class="df-title">{{currentLang.phrases['workspace-restaurants-created-at']}}:</div>
+    <div class="df-inputwrap">{{x.formattedCreatedAt}}</div>
+  </ng-container>
+
+  <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-restaurants-name']}}:
+  </div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name"></div>
+
+  <div class="df-title"
+       [class.required]="isRequired('ownername')">{{currentLang.phrases['workspace-restaurants-ownername']}}:
+  </div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.ownername"></div>
+
+  <div class="df-title" [class.required]="isRequired('type')">{{currentLang.phrases['workspace-restaurants-type']}}:
+  </div>
+  <div class="df-inputwrap">
+    <select [(ngModel)]="x.type_id">
+      <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+      <option *ngFor="let t of types" [ngValue]="t.id">{{t.translationByLang(ll[0].id).name}}</option>
+    </select>
+  </div>
+
+  <div class="df-title" [class.required]="isRequired('phone')">{{currentLang.phrases['workspace-restaurants-phone']}}:
+  </div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.phone"></div>
+
+  <div class="df-title"
+       [class.required]="isRequired('address')">{{currentLang.phrases['workspace-restaurants-address']}}:
+  </div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.address"></div>
+
+  <div class="df-title" [class.required]="isRequired('inn')">{{currentLang.phrases['workspace-restaurants-inn']}}:</div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.inn"></div>
+
+  <div class="df-title" [class.required]="isRequired('ogrn')">{{currentLang.phrases['workspace-restaurants-ogrn']}}:
+  </div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.ogrn"></div>
+
+  <div class="df-title" [class.required]="isRequired('domain')">{{currentLang.phrases['workspace-restaurants-domain']}}
+    :
+  </div>
+  <div class="df-inputwrap"><input type="text" [(ngModel)]="x.domain"></div>
+
+  <div class="df-title"
+       [class.required]="isRequired('comment')">{{currentLang.phrases['workspace-restaurants-comment']}}:
+  </div>
+  <div class="df-inputwrap"><textarea [(ngModel)]="x.comment"></textarea></div>
+
+  <div class="df-title"
+       [class.required]="isRequired('currency_id')">{{currentLang.phrases['workspace-restaurants-currency']}}:
+  </div>
+  <div class="df-inputwrap">
+    <select [(ngModel)]="x.currency_id">
+      <option *ngFor="let c of cl" [ngValue]="c.id">{{c.name}}</option>
+    </select>
+  </div>
+
+  <div class="df-title" [class.required]="isRequired('lang_id')">{{currentLang.phrases['workspace-restaurants-lang']}}
+    :
+  </div>
+  <div class="df-inputwrap">
+    <select [(ngModel)]="x.lang_id">
+      <option *ngFor="let l of ll" [ngValue]="l.id">{{l.slug}}</option>
+    </select>
+  </div>
+
+  <div class="df-title" [class.required]="isRequired('money')">{{currentLang.phrases['workspace-restaurants-money']}}:
+  </div>
+  <div class="df-inputwrap"><input type="number" class="small" [(ngModel)]="x.money"></div>
+
+  <div class="df-title" [class.required]="isRequired('active')">{{currentLang.phrases['workspace-admins-active']}}:
+  </div>
+  <div class="df-inputwrap">
+    <checkbox-slider [(value)]="x.active" [disabled]="x.defended"></checkbox-slider>
+  </div>
+
+  <div class="df-block row">
+    <div class="data-tabs local">
+      <div
+        class="data-tab"
+        *ngFor="let type of paymentTypes"
+        [class.active]="activeFee.payment_type === type" (click)="switchTab(type)"
+      >
+        {{type}}
+      </div>
+    </div>
+  </div>
+  <div class="df-title">{{currentLang.phrases['workspace-payments-info']}}</div>
+
+  <div class="df-block ">
+    <div></div>
+    <div class="df-title">{{currentLang.phrases['workspace-payments-disabled']}}</div>
+  </div>
+  <div class="df-title">{{currentLang.phrases['workspace-payments-vat']}}</div>
+  <div class="df-block defaults">
+    <div class="df-inputwrap"><input min="0" max="100" class="small-md percent" type="number"
+                                     (change)="sanitize($event, 'vat_balance')" [(ngModel)]="activeFee.vat_balance">
+    </div>
+    <div>
+      <ng-container *ngIf="(activeFee.vat_balance === null && !activeFee.vat_balance_disabled)">
+        {{currentLang.phrases['workspace-payments-default']}} {{globalFee.vat}}
+      </ng-container>
+    </div>
+    <div class="df-inputwrap">
+      <checkbox-slider [(value)]="activeFee.vat_balance_disabled"></checkbox-slider>
+    </div>
+  </div>
+  <div class="df-title">{{currentLang.phrases['workspace-payments-tax']}}</div>
+  <div class="df-block defaults">
+    <div class="df-inputwrap"><input min="0" max="100" class="small-md percent" type="number"
+                                     (change)="sanitize($event, 'tax_balance')" [(ngModel)]="activeFee.tax_balance">
+    </div>
+    <div>
+      <ng-container *ngIf="(activeFee.tax_balance === null && !activeFee.tax_balance_disabled)">
+        {{currentLang.phrases['workspace-payments-default']}} {{globalFee.tax}}
+      </ng-container>
+    </div>
+    <div class="df-inputwrap">
+      <checkbox-slider [(value)]="activeFee.tax_balance_disabled"></checkbox-slider>
+    </div>
+  </div>
+  <div class="df-title">{{currentLang.phrases['workspace-payments-gateway-fee']}}</div>
+  <div class="df-block defaults">
+    <div class="df-inputwrap"><input min="0" max="100" class="small-md percent" type="number"
+                                     (change)="sanitize($event, 'gateway_fee_balance')"
+                                     [(ngModel)]="activeFee.gateway_fee_balance"></div>
+    <div>
+      <ng-container *ngIf="(activeFee.gateway_fee_balance === null && !activeFee.gateway_fee_balance_disabled)">
+        {{currentLang.phrases['workspace-payments-default']}} {{globalFee.gateway_fee}}
+      </ng-container>
+    </div>
+    <div class="df-inputwrap">
+      <checkbox-slider [(value)]="activeFee.gateway_fee_balance_disabled"></checkbox-slider>
+    </div>
+  </div>
+  <div class="df-title"></div>
+  <div class="df-inputwrap">
+    <button type="submit">{{currentLang.phrases['workspace-save']}}</button>
+  </div>
+</div>

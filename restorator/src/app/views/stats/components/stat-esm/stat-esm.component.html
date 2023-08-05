@@ -1,0 +1,48 @@
+<div class="stat-esm">
+    <div class="se-title">{{words['restorator-stats']['stat-esm'][currentLang.slug]}}</div>
+    <div class="se-data">
+        <div class="se-graph">
+            <svg viewBox="0 0 40 40">
+                <circle
+                    *ngFor="let x of xl; let i = index;"
+                    cx="50%"
+                    cy="50%"
+                    [attr.r]="radius"
+                    [attr.stroke]="x.color"
+                    [attr.stroke-dasharray]="x.active ? strokeDashArray(x.sum) : '0 100'"
+                    [attr.stroke-dashoffset]="strokeDashOffset(i)"
+                >
+                </circle>
+            </svg>
+        </div>
+        <div class="se-legend beauty-scroll-v-compact">
+            <div class="sel-content">
+                <div class="sel-employee" *ngFor="let x of xl">
+                    <div class="sele-mark" [style.background-color]="x.color"></div>
+                    <div class="sele-data">
+                        <div [innerHTML]="x.name"></div>
+                        <div>{{x.sum}} {{currency}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="se-date">
+        <div class="sed-item">
+            <span>{{words['common']['month'][currentLang.slug]}}:&nbsp;</span>
+            <div class="sed-selectwrap">
+                <select [(ngModel)]="currentMonth" (change)="initStats()">
+                    <option *ngFor="let m of months" [ngValue]="m">{{m}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="sed-item">
+            <span>{{words['common']['year'][currentLang.slug]}}:&nbsp;</span>
+            <div class="sed-selectwrap">
+                <select [(ngModel)]="currentYear" (change)="initStats()">
+                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

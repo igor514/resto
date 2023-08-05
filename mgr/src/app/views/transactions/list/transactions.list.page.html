@@ -1,0 +1,53 @@
+<div class="content">
+    <div class="content-head">
+        <h1>{{currentLang.phrases['workspace-transactions-h1']}} ({{allLength}})</h1>
+        <div class="content-dash">
+            
+        </div>
+    </div>    
+    <div class="data">
+        <ng-container *ngIf="ready">            
+            <div class="data-tablewrap">
+                <table class="data-table">                    
+                    <tr class="no-border no-selection">                        
+                        <td>{{currentLang.phrases['workspace-filter']}}:</td>
+                        <td>
+                            <div class="dt-inputwrap">
+                                <select [(ngModel)]="filterRestaurantId" (change)="rebuildList();">
+                                    <option [ngValue]="null">{{currentLang.phrases['workspace-any']}}</option>                                    
+                                    <option *ngFor="let r of rl" [ngValue]="r.id">{{r.name}} ({{r.id}})</option> 
+                                </select>
+                            </div>
+                        </td>
+                        <td></td>                        
+                        <td></td>                                                
+                    </tr>
+                    <tr class="no-selection">                          
+                        <th><label [class]="sortBy === 'created_at' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('created_at');">{{currentLang.phrases['workspace-transactions-created-at']}}</label></th>                                                                                               
+                        <th>{{currentLang.phrases['workspace-transactions-restaurant']}}</th>
+                        <th>{{currentLang.phrases['workspace-transactions-type']}}</th>                                                                                               
+                        <th><label [class]="sortBy === 'amount' ? (sortDir === 1 ? 'sorted-forward' : 'sorted-backward') : 'sortable'" (click)="changeSorting('amount');">{{currentLang.phrases['workspace-transactions-amount']}}</label></th>                                                                                                                                               
+                    </tr>   
+                    <ng-container *ngIf="xl.length">
+                        <tr *ngFor="let x of xl">                            
+                            <td>{{x.formattedCreatedAt}}</td>
+                            <td><span *ngIf="x.restaurant">{{x.restaurant.name}} ({{x.restaurant.id}})</span></td>
+                            <td>{{x.type}}</td>
+                            <td>{{x.amount | number:'1.2-2'}}</td>
+                        </tr>                            
+                    </ng-container>
+                    <ng-container *ngIf="!xl.length">
+                        <tr><td>{{currentLang.phrases['workspace-empty']}}</td></tr>
+                    </ng-container>                    
+                </table>
+            </div>            
+            <pagination [allLength]="allLength" [length]="length" [current]="currentPart" (currentChanged)="currentPart = $event; rebuildList ();"></pagination>
+        </ng-container>
+        <ng-container  *ngIf="!ready">
+            <loading-table [columns]="4"></loading-table>
+        </ng-container>
+        <ng-container *ngIf="reloading">
+            <div class="reloading"><span></span></div>
+        </ng-container>        
+    </div>    
+</div>

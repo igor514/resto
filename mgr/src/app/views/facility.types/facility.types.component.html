@@ -1,0 +1,20 @@
+<div class="data-langs padded">
+    <div class="data-langs-title">{{currentLang.phrases['workspace-lang']}}:</div>
+    <div class="data-langs-btns">
+        <label *ngFor="let l of ll" (click)="selectedLang = l;"><input type="radio" [checked]="selectedLang.id === l.id">{{l.slug}}</label>
+    </div>
+</div>
+<div class="data-form">
+    <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-fc-types-name']}}:</div>
+    <div class="df-inputwrap">
+        <ng-container *ngFor="let l of ll">
+            <input *ngIf="l.id === selectedLang.id" type="text" [(ngModel)]="x.translationByLang(l.id).name">
+        </ng-container>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('is_hotel')">{{currentLang.phrases['workspace-fc-types-is-hotel']}}:</div>
+    <div class="df-inputwrap"><input class="small" type="checkbox" [(ngModel)]="x.is_hotel"></div>
+
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>
+</div>

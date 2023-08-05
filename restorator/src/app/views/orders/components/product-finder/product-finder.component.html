@@ -1,0 +1,55 @@
+<div class="product-finder" [class.active]="active">
+    <div class="pf-left" (click)="close()"></div>
+    <div class="pf-right">
+        <div class="pf-head">
+            <div class="pf-title">{{words['restorator-products']['title-finder'][currentLang.slug]}}</div>
+            <div class="pf-close" (click)="close()"><span></span></div>
+        </div>
+        <div class="pf-content beauty-scroll-v">
+            <!-- cats -->
+            <div class="cats">
+                <div class="c-title">{{words['restorator-products']['cats'][currentLang.slug]}}:</div>
+                <div class="c-item" *ngFor="let c of cl" [class.active]="plFilterCatId === c.id" (click)="plFilterCatId = c.id; initProducts();">
+                    <div><span [innerHTML]="c.name"></span><img *ngIf="c.icon" src="{{staticPath}}icons/{{c.icon.img}}"></div>
+                </div>
+            </div>
+            <!-- products -->
+            <div class="products">
+                <div class="p-search">
+                    <div class="ps-title">{{words['restorator-products']['filter'][currentLang.slug]}}:</div>
+                    <div class="ps-input"><input-search [(value)]="plFilterNameCode" cssClass="inline-block" [placeholder]="words['restorator-products']['name-code'][currentLang.slug]" (apply)="initProducts();"></input-search></div>
+                </div>
+                <ng-container *ngIf="plReady">
+                    <div class="p-items" *ngIf="pl.length">
+                        <div class="p-item" *ngFor="let p of pl">
+                            <div class="pi-img inactive" [style.background-image]="p.images.length ? 'url(' + staticPath + 'products/'+p.images[0].img+')' : 'url(' + staticPath + 'no-image.jpg)'">
+                                <div class="pi-recommended" *ngIf="p.recommended"><span></span></div>
+                            </div>
+                            <div class="pi-name" [innerHTML]="p.name"></div>
+                            <div class="pi-code"><span *ngIf="p.code">{{words['restorator-products']['code'][currentLang.slug]}}: {{p.code}}</span></div>
+                            <div class="pi-params">
+                                <div>
+                                    <div class="pi-param">{{words['restorator-products']['price'][currentLang.slug]}}: {{p.price | number:'1.2-2'}} {{currencySymbol}}</div>
+                                    <div class="pi-param" *ngIf="p.weight">{{p.weight}} {{getUnitName(p.unit)}}</div>
+                                </div>
+                                <div>
+                                    <div class="pi-param right" *ngIf="!p.alc && p.cal">{{p.cal}} {{words['restorator-products']['kcal'][currentLang.slug]}}</div>
+                                    <div class="pi-param right alc" *ngIf="p.alc"><span>{{p.alc_percent}}%</span></div>
+                                    <div class="pi-param right time" *ngIf="p.time"><span>{{p.time}}</span></div>
+                                </div>
+                            </div>
+                            <div class="pi-cartdash">
+                                <input-number [(value)]="p._q" [min]="1"></input-number>
+                                <button (click)="add(p)" [class.added]="p._added" [innerHTML]="p._added ? words['common']['added'][currentLang.slug] : words['common']['add'][currentLang.slug]"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!pl.length">{{words['common']['none'][currentLang.slug]}}</div>
+                </ng-container>
+                <ng-container *ngIf="!plReady">
+                    <div class="loading"><span></span></div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

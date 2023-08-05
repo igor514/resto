@@ -1,0 +1,171 @@
+<form (submit)="orderOnSave();">
+    <div class="de-row" *ngIf="x.id">
+        <div class="de-title">{{words['restorator-orders']['no'][currentLang.slug]}}:</div>
+        <div class="de-value">{{x.id}}</div>
+    </div>
+    <div class="de-row" *ngIf="x.id">
+        <div class="de-title">{{words['restorator-orders']['created-at'][currentLang.slug]}}:</div>
+        <div class="de-value">{{x.formattedCreatedAt}}</div>
+    </div>
+    <div class="de-row" *ngIf="x.id">
+      <div class="de-title">{{words['restorator-orders']['grouped-orders'][currentLang.slug]}}:</div>
+      <div class="de-value">{{x.group_id && x.group?.order_ids?.length ? x.group.order_ids.join(', ') : words['common']['none'][currentLang.slug]}}</div>
+    </div>
+    <div class="de-row" *ngIf="x.id && x.group_id">
+      <div class="de-title">{{words['restorator-orders']['grouped-sum'][currentLang.slug]}}:</div>
+      <div class="de-value">{{x.group.sum}} {{currency_symbol}}</div>
+    </div>
+    <div class="de-row" *ngIf="x.id && adminMode">
+        <div class="de-title">{{words['restorator-orders']['accepted-at'][currentLang.slug]}}:</div>
+        <div class="de-value">{{x.formattedAcceptedAt}}</div>
+    </div>
+    <div class="de-row" *ngIf="x.id && adminMode">
+        <div class="de-title">{{words['restorator-orders']['completed-at'][currentLang.slug]}}:</div>
+        <div class="de-value">{{x.formattedCompletedAt}}</div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['hall'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+            <div class="de-selectwrap" [class.error]="orderErrorParent">
+                <select name="hall_id" [(ngModel)]="x.hall_id" (change)="x.table_id = null; x.room_id = null; x.floor_id = null">
+                    <option [value]="null">{{words['common']['not-set'][currentLang.slug]}}</option>
+                    <option *ngFor="let h of hl" [value]="h.id">{{h.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['table2'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+            <div class="de-selectwrap" [class.error]="orderErrorChild">
+                <select name="table_id" [(ngModel)]="x.table_id" (change)="x.floor_id=null; x.room_id=null;">
+                    <option [ngValue]="null">{{words['common']['not-set'][currentLang.slug]}}</option>
+                    <option *ngFor="let t of tl" [ngValue]="t.id"># {{t.no}} ({{t.seats}} {{words['restorator-orders']['seats2'][currentLang.slug]}})</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['restorator-orders']['floor'][currentLang.slug]}}: <span class="red">*</span></div>
+      <div class="de-value">
+        <div class="de-selectwrap" [class.error]="orderErrorParent">
+          <select name="floor_id" [(ngModel)]="x.floor_id" (change)="x.room_id = null; x.table_id = null; x.hall_id = null;">
+            <option [ngValue]="null">{{words['common']['not-set'][currentLang.slug]}}</option>
+            <option *ngFor="let f of fl" [ngValue]="f.id" [innerHTML]="f.number"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['restorator-orders']['room'][currentLang.slug]}}: <span class="red">*</span></div>
+      <div class="de-value">
+        <div class="de-selectwrap" [class.error]="orderErrorChild">
+          <select name="room_id" [(ngModel)]="x.room_id" (change)="x.table_id = null; x.hall_id = null;">
+            <option [ngValue]="null">{{words['common']['not-set'][currentLang.slug]}}</option>
+            <option *ngFor="let r of rm" [ngValue]="r.id"># {{r.no}} ({{r.capacity}} {{words['restorator-orders']['seats2'][currentLang.slug]}})</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="de-row" *ngIf="adminMode">
+        <div class="de-title">{{words['restorator-orders']['employee'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-selectwrap">
+                <select name="employee_id" [(ngModel)]="x.employee_id">
+                    <option [ngValue]="null">{{words['common']['not-set'][currentLang.slug]}}</option>
+                    <option *ngFor="let e of el" [ngValue]="e.id">{{e.name}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="de-row" *ngIf="x.id && !adminMode">
+        <div class="de-title">{{words['restorator-orders']['statuses'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-statuses" *ngIf="x.need_waiter || x.need_products || x.need_invoice">
+                <div *ngIf="x.need_waiter" class="de-status need-waiter" [class.highlight]="x._highlightNeedWaiter" [title]="words['restorator-orders']['need-waiter'][currentLang.slug]" (click)="x.need_waiter = false"><span></span></div>
+                <div *ngIf="x.need_products" class="de-status need-products" [class.highlight]="x._highlightNeedProducts" [title]="words['restorator-orders']['need-products'][currentLang.slug]" (click)="x.need_products = false"><span></span></div>
+                <div *ngIf="x.need_invoice" class="de-status need-invoice" [class.highlight]="x._highlightNeedInvoice" [title]="words['restorator-orders']['need-invoice'][currentLang.slug]" (click)="x.need_invoice = false"><span></span></div>
+            </div>
+            <span *ngIf="!(x.need_waiter || x.need_products || x.need_invoice)">{{words['common']['empty'][currentLang.slug]}}</span>
+        </div>
+    </div>
+    <div class="de-row" *ngIf="adminMode">
+        <div class="de-title">{{words['restorator-orders']['need-waiter'][currentLang.slug]}}:</div>
+        <div class="de-value"><checkbox-slider [(value)]="x.need_waiter"></checkbox-slider></div>
+    </div>
+    <div class="de-row" *ngIf="adminMode">
+        <div class="de-title">{{words['restorator-orders']['need-products'][currentLang.slug]}}:</div>
+        <div class="de-value"><checkbox-slider [(value)]="x.need_products"></checkbox-slider></div>
+    </div>
+    <div class="de-row" *ngIf="adminMode">
+        <div class="de-title">{{words['restorator-orders']['need-invoice'][currentLang.slug]}}:</div>
+        <div class="de-value"><checkbox-slider [(value)]="x.need_invoice"></checkbox-slider></div>
+    </div>
+    <div class="de-row" *ngIf="x.id">
+        <div class="de-title">{{words['restorator-orders']['customer-comment'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div [innerHTML]="x.customer_comment || words['common']['empty'][currentLang.slug]"></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['employee-comment'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input type="text" name="employee_comment" [(ngModel)]="x.employee_comment"></div>
+        </div>
+    </div>
+    <!-- products -->
+    <div class="de-space"></div>
+    <div class="de-head margined">{{words['restorator-orders']['content'][currentLang.slug]}}</div>
+    <div class="de-products">
+        <order-product-editable *ngFor="let p of x.products" [product]="p" [sl]="sl" (delete)="productOnDelete(p)"></order-product-editable>
+        <div class="dep-add" (click)="productFinderActive = true"><span></span></div>
+    </div>
+    <!-- payment -->
+    <div class="de-space"></div>
+    <div class="de-head margined">{{words['restorator-orders']['payment'][currentLang.slug]}}</div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['paymethod'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-radios">
+                <div class="de-radio" (click)="x.paymethod = payCash"><radio-simple [checked]="x.paymethod === payCash" [title]="words['restorator-orders']['paymethod-cash'][currentLang.slug]"></radio-simple></div>
+                <div class="de-radio" (click)="x.paymethod = payCard"><radio-simple [checked]="x.paymethod === payCard" [title]="words['restorator-orders']['paymethod-card'][currentLang.slug]"></radio-simple></div>
+            </div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['subtotal'][currentLang.slug]}}:</div>
+        <div class="de-value">{{x.subtotal | number:'1.2-2'}} {{currency_symbol}}</div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['discount'][currentLang.slug]}}:</div>
+        <div class="de-value"><input-number [(value)]="x.discount_percent" [min]="0" [max]="100" [step]="5"></input-number></div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-orders']['total'][currentLang.slug]}}:</div>
+        <div class="de-value">{{x.total | number:'1.2-2'}} {{currency_symbol}}</div>
+    </div>
+    <!-- btn -->
+    <div class="de-space"></div>
+    <div class="de-2btnswrap">
+        <ng-container *ngIf="showSave">
+          <button type="submit" [disabled]="loading" class="save">
+            <span>{{words['common']['save'][currentLang.slug]}}</span>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="x.id && x.status === statusActive && showComplete">
+          <button type="button" [disabled]="loading" class="complete" (click)="orderOnComplete()">
+            <span>{{words['common']['complete'][currentLang.slug]}}</span>
+          </button>
+        </ng-container>
+        <ng-container *ngIf="x.id && x.status === statusActive && showCancel" class="save">
+          <button type="button" [disabled]="loading" class="reject" (click)="orderOnCancel()">
+            <span>{{words['common']['cancel'][currentLang.slug]}}</span>
+          </button>
+        </ng-container>
+    </div>
+</form>
+
+<the-confirm [(active)]="productDeleteConfirmActive" [msg]="productDeleteConfirmMsg" (confirmed)="productDelete()"></the-confirm>
+<the-confirm [(active)]="orderCompleteConfirmActive" [msg]="words['restorator-orders']['confirm-complete'][currentLang.slug]" (confirmed)="orderComplete()"></the-confirm>
+<the-confirm [(active)]="orderSaveConfirmActive" [msg]="words['restorator-orders']['confirm-save'][currentLang.slug]" (confirmed)="orderSave()"></the-confirm>
+<product-finder [(active)]="productFinderActive" [order]="x"></product-finder>

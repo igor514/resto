@@ -1,0 +1,31 @@
+//@import "../../common.styles/var.scss";
+
+.menu {
+    user-select: none;
+    .menu-item {
+        margin-bottom: 30px; position: relative;
+        .menu-btn {
+            height: 60px; width:100%; border-radius: 30px; border:10px var(--color-bg) solid; background-color: var(--color-bg); box-shadow: var(--block-shadow); text-decoration: none; display: flex; justify-content: center; align-items: center; font-weight: bold; white-space: nowrap; cursor: pointer; color: var(--color-txt);
+            &.active {box-shadow: var(--activebtn-shadow);}
+            &.disabled {background-color: var(--color-disabled); pointer-events: none;}
+        }
+        &.expandable {
+            margin-bottom: 15px;
+            .menu-btn span::after {font-family: "fa-solid"; content:"\f078"; margin-left: 7px; font-size: 12px;}
+        }
+        .mi-q {position: absolute; top: -10px; left: 30px; height: 20px; min-width: 20px; border-radius: 10px; background-color: var(--color-red); color: white; font-size: 10px; display: flex; justify-content: center; align-items: center; padding: 0 3px;}
+    }
+    .menu-sub {
+        max-height: 0; overflow: hidden; margin-bottom: 15px; transition: 0.3s;
+        &.sub.active.triple-item {max-height: 120px;}
+        &.sub.active {max-height: 90px;}
+        .menu-sub-item {
+            height: 30px; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center;
+            &:last-child {margin-bottom: 0;}
+            a {
+                text-decoration: none;
+                &.active {font-weight: bold;}
+            }
+        }
+    }
+}

@@ -1,0 +1,27 @@
+.pagination {
+    .pagination-head {margin: 0 0 5px 0;}
+    ul {
+        display: flex; list-style: none; margin: 0 0 10px 0; padding: 0;
+        li {
+            @media (min-width:0) {font-size: 10px; height: 20px; min-width: 30px;}
+            @media (min-width:1200px) {font-size: 14px; height: 30px; min-width: 45px;}
+            cursor: pointer; background-color: var(--color-bg); box-shadow: var(--block-shadow); transition: all 0.3s; display: flex; justify-content: center; align-items: center; border-radius: 15px; margin: 0 5px 0 0;
+            &:hover {background-color: white;}
+            &.active {background-color: white; cursor: inherit;}
+            &.skip {background: none; box-shadow: none; cursor: inherit;}
+            span::before {font-family: "fa-solid"; font-size: 12px;}
+            &.back {span::before {content: "\f060";}}
+            &.forward {span::before {content: "\f061";}}
+        }
+    }
+    input {
+        @media (min-width:0) {height: 20px; width: 65px;}
+        @media (min-width:1200px) {height: 30px; width:45px;}
+        border-radius: 15px; border:none; padding: 0 5px; text-align: center; background-color: white; box-shadow: var(--block-shadow);
+    }
+}
+
+html[dir=rtl] :host .pagination ul {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}

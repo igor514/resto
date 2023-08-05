@@ -1,0 +1,74 @@
+html[dir="rtl"] :host .invoice-panel {
+  left: unset;
+  right: -100%;
+  will-change: right;
+  flex-direction: row-reverse;
+
+  &.active {right: 0; left: unset;}
+}
+
+.invoice-panel {
+    position: fixed; z-index: 20; width:100%; height: 100%; overflow: hidden; left: 100%; top: 0; transition: 0.3s; will-change: left; display: flex;
+    &.active {left: 0;}
+    .ip-left {flex: 1; height: 100%; background-color: rgba(0,0,0,0.5);}
+    .ip-right {
+        @media (min-width: 0) {width:85%;}
+        @media (min-width: 500px) {width: 350px;}
+        height: 100%; background-color: var(--color-bg);
+        .ip-head {
+            height: 60px; display: flex; justify-content: center; align-items: center; font-weight: bold; position: relative; border-bottom:1px white dotted;
+            .ip-close {
+                position: absolute; right: 0; top:0; height: 100%; display: flex; align-items: center; padding: 0 15px; cursor: pointer;
+                span::before {font-family: "fa-solid"; content:"\f00d";}
+            }
+          .ip-back {
+            position: absolute; left: 0; top:0; height: 100%; display: flex; align-items: center; padding: 0 15px; cursor: pointer;
+            span::before {font-family: "fa-solid"; content:"\f053";}
+          }
+        }
+        .ip-content {
+            height: calc(100% - 120px); overflow-y: auto; padding: 15px; font-size: 12px;
+            .ip-info {margin-bottom: 15px;}
+            .ip-order {
+                margin-bottom: 15px;
+                .ipo-title {font-weight: bold; margin-bottom: 5px;}
+                .ipo-products {
+                    border-bottom: 1px white dotted; margin-bottom: 15px;
+                    .ipo-product {
+                        display: flex; margin-bottom: 15px;
+                        .ipop-left {
+                            width:20%; margin-right: 15px;
+                            .ipop-img {padding-bottom: 75%; border-radius: 5px; background-size: cover; background-position: center center;}
+                        }
+                        .ipop-right {flex:1;}
+                    }
+                }
+            }
+            .ipo-subtotal {margin-bottom: 5px; display: flex; justify-content: space-between;}
+            .ipo-discount {margin-bottom: 5px; display: flex; justify-content: space-between;}
+            .ipo-fee {margin-bottom: 5px; display: flex; justify-content: space-between;}
+            .ipo-total {display: flex; justify-content: space-between; font-weight: bold;}
+            .ip-payment {
+                margin-bottom: 15px;
+                .ipp-title {font-weight: bold; margin-bottom: 5px;}
+                .ipp-items {
+                    .ipp-item {
+                        margin-bottom: 5px;
+                        &:last-child {margin-bottom: 0;}
+                    }
+                }
+            }
+        }
+        .ip-payment-holder {
+          padding: 30px 15px;
+          min-height: 200px;
+        }
+        .ip-foot {
+            height: 60px; padding: 15px;
+            a {
+                display: block; width:100%; height: 30px; line-height: 30px; border-radius: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); text-align: center; white-space: nowrap; text-decoration: none; font-weight: bold;
+                &.disabled {pointer-events: none; background-color: var(--color-disabled);}
+            }
+        }
+    }
+}

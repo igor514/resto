@@ -1,0 +1,29 @@
+<div class="accordion" [ngClass]="{active: isActive}" (click)="setActive()">
+  <span>{{title}}</span>
+  <div class="de-statuses" *ngIf="order.need_waiter || order.need_products || order.need_invoice">
+    <div *ngIf="order.need_waiter" class="de-status need-waiter"
+         [class.highlight]="order._highlightNeedWaiter"
+         [title]="words['restorator-orders']['need-waiter'][currentLang.slug]"
+         (click)="onUnNeed($event,'need_waiter')"
+    >
+      <span></span>
+    </div>
+    <div *ngIf="order.need_products" class="de-status need-products"
+         [class.highlight]="order._highlightNeedProducts"
+         [title]="words['restorator-orders']['need-products'][currentLang.slug]"
+         (click)="onUnNeed($event,'need_products')"
+    >
+      <span></span>
+    </div>
+    <div *ngIf="order.need_invoice" class="de-status need-invoice"
+         [class.highlight]="order._highlightNeedInvoice"
+         [title]="words['restorator-orders']['need-invoice'][currentLang.slug]"
+         (click)="onUnNeed($event,'need_invoice')"
+    >
+      <span></span>
+    </div>
+  </div>
+</div>
+<div class="panel" #panel>
+  <ng-content></ng-content>
+</div>

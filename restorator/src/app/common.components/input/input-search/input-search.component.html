@@ -1,0 +1,4 @@
+<div [class]="'input-search '+cssClass">
+    <input type="text" [(ngModel)]="value" (ngModelChange)="onChange();" (keydown)="onKeyDown($event);" [placeholder]="placeholder">
+    <div class="is-reset" *ngIf="value.length" (click)="onReset();"><span></span></div>
+</div>

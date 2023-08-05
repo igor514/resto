@@ -1,0 +1,48 @@
+
+<div class="data-langs padded">
+    <div class="data-langs-title">{{currentLang.phrases['workspace-lang']}}:</div>
+    <div class="data-langs-btns">
+        <label *ngFor="let l of ll" (click)="selectedLang = l;"><input type="radio" [checked]="selectedLang.id === l.id">{{l.slug}}</label>
+    </div>
+</div>
+<div class="data-form">
+    <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-icons-name']}}:</div>
+    <div class="df-inputwrap">
+        <ng-container *ngFor="let l of ll">
+            <input *ngIf="l.id === selectedLang.id" type="text" [(ngModel)]="x.translationByLang(l.id).name">
+        </ng-container>
+    </div>
+
+    <div class="df-title">{{currentLang.phrases['workspace-icons-type']}}:</div>
+    <div class="df-value">
+      <div class="de-selectwrap">
+        <select [(ngModel)]="x.type" name="type">
+          <option [ngValue]="IconType.Category">{{IconType.Category}}</option>
+          <option [ngValue]="IconType.QR">{{IconType.QR}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('img')">{{currentLang.phrases['workspace-icons-img']}}:</div>
+    <div class="df-inputwrap">
+        <ng-container *ngIf="x.img">
+            <div class="df-imgwrap">
+                <div class="df-imgwrap2"><img src="{{staticPath}}{{imgFolder}}/{{x.img}}"></div>
+                <div class="df-imgbtns">
+                    <div class="df-magnify" [title]="currentLang.phrases['workspace-viewimg']" (click)="imgView(x.img)"><span></span></div>
+                    <div class="df-deletefile" [title]="currentLang.phrases['workspace-removeimg']" (click)="imgDelete();"><span></span></div>
+                </div>
+            </div>
+        </ng-container>
+        <input #imginput type="file" (change)="imgUpload($event); imginput.value = null;">
+        <progressbar [progress]="imgProgress" *ngIf="imgProgress"></progressbar>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('pos')">{{currentLang.phrases['workspace-icons-pos']}}:</div>
+    <div class="df-inputwrap"><input class="small" type="number" [(ngModel)]="x.pos"></div>
+
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>
+</div>
+
+<image-viewer [img]="imgToView" [imgFolder]="imgFolder" [(active)]="imgViewerActive"></image-viewer>

@@ -1,0 +1,20 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn save" [class.disabled]="!restaurant || formLoading" (click)="cmdSave.next(true)"><span>{{words['common']['save'][currentLang.slug]}}</span></a>
+    <a class="dash-btn back" [routerLink]="'/restaurants/'+type"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <div class="dataedit">
+        <the-restaurant
+            *ngIf="restaurant && paymentTypes"
+            [x]="restaurant"
+            [cl]="cl"
+            [ll]="ll"
+            [loading]="formLoading"
+            [cmdSave]="cmdSave"
+            [tt]="types"
+            [pt]="paymentTypes"
+            mode="edit"
+            (save)="update();"
+        ></the-restaurant>
+    </div>
+</div>

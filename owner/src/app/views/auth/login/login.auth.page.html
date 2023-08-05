@@ -1,0 +1,33 @@
+<div class="auth-container">
+
+  <form class="generic-form bottombordered" (submit)="login();">
+    <div class="gf-logo margined"><img src="/assets/images/logo.png"></div>
+    <div class="gf-param margined">
+      <div class="gf-inputwrap"><input type="email" name="email" [(ngModel)]="email"
+                                       [placeholder]="words['owner-login']['email'][currentLang.slug]"></div>
+    </div>
+    <div class="gf-param margined">
+      <div class="gf-inputwrap"><input type="password" name="password" [(ngModel)]="password"
+                                       [placeholder]="words['owner-login']['password'][currentLang.slug]"></div>
+    </div>
+    <div class="gf-btnwrap">
+      <button type="submit" class="fixedwidth"
+              [disabled]="formLoading">{{words['owner-login']['login'][currentLang.slug]}}</button>
+      <div class="gf-error" *ngIf="formErrorDenied">{{words['common']['error-401'][currentLang.slug]}}</div>
+    </div>
+  </form>
+
+  <div class="socauth-form">
+    <div class="sf-btnwrap">
+      <div class="sf-btn google" (click)="loginWithGoogle();">
+        <span>{{words['owner-login']['with-google'][currentLang.slug]}}</span></div>
+    </div>
+  </div>
+
+  <div class="links-footer">
+    <a href="https://resto-club.io/policy/This%20is%20automatically%20generated%20Privacy%20Policy%20of%20resto-club.io.pdf">
+      {{words['common']['privacy-policy'][currentLang.slug]}}
+    </a>
+    <div>{{words['common']['developed-by'][currentLang.slug]}}</div>
+  </div>
+</div>

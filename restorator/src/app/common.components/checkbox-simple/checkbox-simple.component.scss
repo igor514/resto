@@ -1,0 +1,11 @@
+.checkbox-simple {
+    display: flex; align-items: center;
+    .cs-mark {
+        width: 14px; height: 14px; border: 1px var(--color-txt) solid; border-radius: 3px; margin-right: 3px; position: relative; cursor: pointer;
+        &.active {
+            background-color: var(--color-txt);
+            &::after {position: absolute; left:50%; top:50%; transform: translate(-50%, -50%); content: "✓"; color: white; font-size: 12px;}
+        }        
+    }
+    .cs-title {}
+}

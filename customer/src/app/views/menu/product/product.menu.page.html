@@ -1,0 +1,53 @@
+<div class="product" *ngIf="product">
+    <div class="p-left" *ngIf="product.images.length">
+        <div class="p-images">
+            <div class="pi-content">
+                <the-gallery [images]="product.images" dir="products"></the-gallery>
+            </div>
+            <div class="pi-recommended" *ngIf="product.recommended"><span></span></div>
+            <div class="pi-like">
+                <div class="pil-number">{{product.likes}}</div>
+                <div class="pil-btn" (click)="like()"><span></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="p-right">
+        <div class="p-name">{{product.name}}</div>
+        <div class="p-code">{{words['customer-menu']['code']}}: {{product.code}}</div>
+        <div class="p-params-mobile">
+            <div>
+                <div class="ppm-param">{{words['customer-menu']['price']}}: {{product.price | number:'1.2-2'}} {{currencySymbol}}</div>
+                <div class="ppm-param" *ngIf="product.weight">~{{product.weight}} {{getUnitName(product.unit)}}</div>
+            </div>
+            <div>
+                <div class="ppm-param right" *ngIf="!product.alc && product.cal">~{{product.cal}} {{words['customer-menu']['kcal']}}</div>
+                <div class="ppm-param right alc" *ngIf="product.alc"><span>{{product.alc_percent}}%</span></div>
+                <div class="ppm-param right time" *ngIf="product.time"><span>{{product.time}}</span></div>
+            </div>
+        </div>
+        <div class="p-params-desktop">
+            <table>
+                <tr><td>{{words['customer-menu']['price']}}:</td><td>&nbsp;&nbsp;</td><td><strong>{{product.price | number:'1.2-2'}} {{currencySymbol}}</strong></td></tr>
+                <tr *ngIf="product.weight"><td>{{getMeasureName(product.unit)}}:</td><td>&nbsp;&nbsp;</td><td><strong>~{{product.weight}} {{getUnitName(product.unit)}}</strong></td></tr>
+                <tr *ngIf="!product.alc && product.cal"><td>{{words['customer-menu']['cal']}}:</td><td>&nbsp;&nbsp;</td><td><strong>~{{product.cal}} {{words['customer-menu']['kcal']}}</strong></td></tr>
+                <tr *ngIf="product.alc"><td>{{words['customer-menu']['alc']}}:</td><td>&nbsp;&nbsp;</td><td><strong>{{product.alc_percent}}%</strong></td></tr>
+                <tr *ngIf="product.time"><td>{{words['customer-menu']['time']}}:</td><td>&nbsp;&nbsp;</td><td><strong>{{product.time}}</strong></td></tr>
+            </table>
+        </div>
+        <div class="p-details" *ngIf="product.about">
+            <div class="pd-title">{{words['customer-menu']['about']}}:</div>
+            <div class="pd-content" [innerHTML]="product.about"></div>
+        </div>
+        <div class="p-ingredients" *ngIf="product.ingredients.length">
+            <div class="pi-title">{{words['customer-menu']['ingredients']}}:</div>
+            <div class="pi-item" *ngFor="let i of product.ingredients"><checkbox-slider [(value)]="i.included" [disabled]="!i.excludable"></checkbox-slider>&nbsp;<span [innerHTML]="i.name"></span></div>
+        </div>
+        <div class="p-quantity">
+            <div class="pq-title">{{words['customer-menu']['q']}}:</div>
+            <div class="pq-dash">
+                <div class="pq-number notranslate"><input-number classname="big" [min]="1" [(value)]="q"></input-number></div>
+                <div class="pq-tocart" (click)="toCart()" [class.added]="product._added"><span [innerHTML]="product._added ? words['customer-menu']['added'] : words['customer-menu']['to-cart']"></span></div>
+            </div>
+        </div>
+    </div>
+</div>

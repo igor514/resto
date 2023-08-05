@@ -1,0 +1,7 @@
+<footer [style.width]="'calc(100% - '+scrollWidth+'px)'">
+    <div class="f-call" (click)="onWaiterCall()"><span>{{words['customer-common']['call']}}</span></div>
+    <div class="f-invoice" (click)="invoicePanelActive = true"><span>{{words['customer-common']['invoice']}}</span></div>
+</footer>
+
+<the-confirm [msg]="words['customer-common']['confirm-waiter']" [(active)]="waiterConfirmPanelActive" (confirmed)="waiterCall()"></the-confirm>
+<the-alert [msg]="words['customer-common']['wait-waiter']" [(active)]="waiterAlertPanelActive"></the-alert>

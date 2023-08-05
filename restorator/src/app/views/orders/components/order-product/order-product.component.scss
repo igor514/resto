@@ -1,0 +1,24 @@
+.order-product {
+    @media (min-width:0) {width:auto;}
+    @media (min-width:500px) {width:400px;}
+    display: flex; gap: 15px; background-color: var(--color-bg); box-shadow: var(--block-shadow); border-radius: 15px; padding: 15px; margin-bottom: 15px;
+    &.highlight {animation-name: highlight-order; animation-duration: 1s; animation-iteration-count: infinite;}
+    .op-left {
+        width:20%;
+        .op-img {padding-bottom: 75%; border-radius: 5px; background-size: cover; background-position: center center;}
+    }
+    .op-right {
+        flex:1;
+        .op-name {font-weight: bold;}
+        .op-calc {}
+        .op-ingredients {
+            margin-top: 5px; padding-top: 5px; border-top:1px var(--color-grey) dotted;
+            .op-ingredient {
+                .opi-name {
+                    font-size: 12px;
+                    &.not-included {text-decoration: line-through;}
+                }
+            }
+        }
+    }
+}

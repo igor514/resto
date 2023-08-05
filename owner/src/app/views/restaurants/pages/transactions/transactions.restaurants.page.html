@@ -1,0 +1,117 @@
+<div class="dash rtl-rev">
+    <div></div>
+    <a class="dash-btn back" [routerLink]="'/restaurants/'+type"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <ng-container *ngIf="tlChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="tlLoading"></div>
+            <table>
+                <tr *ngIf="restaurant">
+                    <td colspan="3" class="borderedbottom">
+                        <div>{{words['owner-transactions']['restaurant'][currentLang.slug]}}: <strong>{{restaurant.name}}</strong></div>
+                        <div>{{words['owner-transactions']['sum'][currentLang.slug]}}: <strong>{{tlSum | number:'1.2-2'}}</strong></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><dateperiod-picker [(value)]="tlFilterCreatedAt" (valueChange)="initTransactions()"></dateperiod-picker></td>
+                    <td>
+                        <div class="dld-selectwrap">
+                            <select [(ngModel)]="tlFilterType" (ngModelChange)="initTransactions()">
+                                <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                                <option [ngValue]="'auto'">{{words['owner-transactions']['type-auto'][currentLang.slug]}}</option>
+                                <option [ngValue]="'employee'">{{words['owner-transactions']['type-employee'][currentLang.slug]}}</option>
+                                <option [ngValue]="'admin'">{{words['owner-transactions']['type-admin'][currentLang.slug]}}</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="tlSortBy === 'created_at' && tlSortDir === 1" [class.sorted-backward]="tlSortBy === 'created_at' && tlSortDir === -1" (click)="changeSorting('created_at')">{{words['owner-transactions']['created-at'][currentLang.slug]}}</label></th>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="tlSortBy === 'type' && tlSortDir === 1" [class.sorted-backward]="tlSortBy === 'balance_type' && tlSortDir === -1" (click)="changeSorting('balance_type')">{{words['owner-transactions']['type'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label class="sortable" [class.sorted-forward]="tlSortBy === 'amount' && tlSortDir === 1" [class.sorted-backward]="tlSortBy === 'amount' && tlSortDir === -1" (click)="changeSorting('amount')">{{words['owner-transactions']['amount'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="tl.length">
+                    <tr *ngFor="let t of tl">
+                        <td><span class="nowrap">{{t.formattedCreatedAt}}</span></td>
+                        <td>{{transactionType(t)}}</td>
+                        <td class="align-center">{{t.amount | number:'1.2-2'}}</td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!tl.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="tlLoading"></div>
+            <div class="dlm-dash">
+                <div class="dlmd-head">{{words['owner-transactions']['summary'][currentLang.slug]}}</div>
+                <div class="dlmd-param" *ngIf="restaurant">
+                    <div class="dlmd-title">{{words['owner-transactions']['restaurant'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{restaurant.name}}</div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-transactions']['sum'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap">{{tlSum | number:'1.2-2'}}</div>
+                </div>
+                <div class="dlmd-head">{{words['common']['filter'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-transactions']['created-at'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><dateperiod-picker [(value)]="tlFilterCreatedAt" (valueChange)="initTransactions()"></dateperiod-picker></div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-transactions']['type'][currentLang.slug]}}:</div>
+                    <div class="dlmd-selectwrap">
+                        <select [(ngModel)]="tlFilterType" (ngModelChange)="initTransactions()">
+                            <option [ngValue]="null">{{words['common']['any'][currentLang.slug]}}</option>
+                            <option [ngValue]="'auto'">{{words['owner-transactions']['type-auto'][currentLang.slug]}}</option>
+                            <option [ngValue]="'employee'">{{words['owner-transactions']['type-employee'][currentLang.slug]}}</option>
+                            <option [ngValue]="'admin'">{{words['owner-transactions']['type-admin'][currentLang.slug]}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsorting (change)="setSorting(mobsorting.value)">
+                            <option [selected]="tlSortBy === 'created_at' && tlSortDir === 1" [value]="0">{{words['owner-transactions']['created-at'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="tlSortBy === 'created_at' && tlSortDir === -1" [value]="1">{{words['owner-transactions']['created-at'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="tlSortBy === 'type' && tlSortDir === 1" [value]="2">{{words['owner-transactions']['type'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="tlSortBy === 'type' && tlSortDir === -1" [value]="3">{{words['owner-transactions']['type'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="tlSortBy === 'amount' && tlSortDir === 1" [value]="4">{{words['owner-transactions']['amount'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="tlSortBy === 'amount' && tlSortDir === -1" [value]="5">{{words['owner-transactions']['amount'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="tl.length">
+                <div class="dlm-item" *ngFor="let t of tl">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['owner-transactions']['created-at'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{t.formattedCreatedAt}}</span></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['owner-transactions']['type'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{transactionType(t)}}</span></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['owner-transactions']['amount'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{t.amount | number:'1.2-2'}}</span></div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!tl.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="tlAllLength" [length]="tlLength" [current]="tlCurrentPart" (currentChanged)="tlCurrentPart = $event; initTransactions();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!tlChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>

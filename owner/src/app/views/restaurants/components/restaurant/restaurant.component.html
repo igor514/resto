@@ -1,0 +1,187 @@
+<form (submit)="onSave();">
+  <ng-container *ngIf="mode === 'edit'">
+    <div class="de-row">
+      <div class="de-title">{{words['owner-restaurants']['created-at'][currentLang.slug]}}:</div>
+      <div class="de-value">
+        <div class="de-inputwrap">{{x.formattedCreatedAt}}</div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['name'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="name" [(ngModel)]="x.name" [class.error]="errorName"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['ownername'][currentLang.slug]}}: <span class="red">*</span>
+    </div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="ownername" [(ngModel)]="x.ownername"
+                                       [class.error]="errorOwnerName"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['phone'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="phone" [(ngModel)]="x.phone" [class.error]="errorPhone"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['domain'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="domain" [(ngModel)]="x.domain"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['address'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="address" [(ngModel)]="x.address" [class.error]="errorAddress">
+      </div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['inn'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="inn" [(ngModel)]="x.inn" [class.error]="errorInn"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['type'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-selectwrap">
+        <select [(ngModel)]="x.type_id" name="type">
+          <option [ngValue]="null">{{words['owner-restaurants']['type-none'][currentLang.slug]}}</option>
+          <option *ngFor="let t of tt" [ngValue]="t.id">{{t.translationByLang(currentLang.id).name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['ogrn'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-inputwrap"><input type="text" name="ogrn" [(ngModel)]="x.ogrn" [class.error]="errorOgrn"></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['currency'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-selectwrap">
+        <select [(ngModel)]="x.currency_id" name="currency">
+          <option *ngFor="let c of cl" [ngValue]="c.id">{{c.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['lang'][currentLang.slug]}}: <span class="red">*</span></div>
+    <div class="de-value">
+      <div class="de-selectwrap">
+        <select [(ngModel)]="x.lang_id" name="lang">
+          <option *ngFor="let l of ll" [ngValue]="l.id">{{l.title}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['comment'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap"><textarea name="comment" [(ngModel)]="x.comment"></textarea></div>
+    </div>
+  </div>
+  <div class="de-row">
+    <div class="de-title">{{words['owner-restaurants']['active'][currentLang.slug]}}:</div>
+    <div class="de-value">
+      <div class="de-inputwrap">
+        <checkbox-slider [(value)]="x.active"></checkbox-slider>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="mode === 'create'">
+    <div class="de-row">
+      <div class="de-title"></div>
+      <div class="de-value">
+        <div class="de-divider"></div>
+      </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['owner-restaurants']['admin-email'][currentLang.slug]}}: <span class="red">*</span>
+      </div>
+      <div class="de-value">
+        <div class="de-inputwrap"><input type="email" name="adminemail" [(ngModel)]="x.employees[0].email"
+                                         [class.error]="errorEmail || errorEmailDuplication"></div>
+        <div class="de-error"
+             *ngIf="errorEmailDuplication">{{words['owner-restaurants']['error-email-duplication'][currentLang.slug]}}</div>
+      </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['owner-restaurants']['admin-password'][currentLang.slug]}}: <span
+        class="red">*</span></div>
+      <div class="de-value">
+        <div class="de-inputwrap"><input type="password" name="adminpassword" [(ngModel)]="x.employees[0].password"
+                                         [class.error]="errorPassword"></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container>
+    <div class="de-row de-row-payments">
+        <div class="de-title">{{words['common-pay']['payment-info'][currentLang.slug]}}</div>
+        <div class="de-value">
+          <div class="de-title de-payment-title">{{words['common-pay']['disabled'][currentLang.slug]}}</div>
+        </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['common-pay']['tax'][currentLang.slug]}}:</div>
+      <div class="de-value">
+        <div class="de-inputwrap de-grid">
+          <div class="de-inputwrap"><input type="number" name="tax" (change)="sanitize($event, 'tax_order')"
+                                           [(ngModel)]="currFee.tax_order"></div>
+          <checkbox-slider [(value)]="currFee.tax_order_disabled"></checkbox-slider>
+        </div>
+      </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['common-pay']['vat'][currentLang.slug]}}:</div>
+      <div class="de-value">
+        <div class="de-inputwrap de-grid">
+          <div class="de-inputwrap"><input type="number" name="vat" (change)="sanitize($event, 'vat_order')"
+                                           [(ngModel)]="currFee.vat_order"></div>
+          <checkbox-slider [(value)]="currFee.vat_order_disabled"></checkbox-slider>
+        </div>
+      </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['common-pay']['service-fee'][currentLang.slug]}}:</div>
+      <div class="de-value">
+        <div class="de-inputwrap de-grid">
+          <div class="de-inputwrap"><input type="number" name="service_fee" (change)="sanitize($event, 'service_fee_order')"
+                                           [(ngModel)]="currFee.service_fee_order"></div>
+          <checkbox-slider [(value)]="currFee.service_fee_order_disabled"></checkbox-slider>
+        </div>
+      </div>
+    </div>
+    <div class="de-row">
+      <div class="de-title">{{words['common-pay']['gateway-fee'][currentLang.slug]}}:</div>
+      <div class="de-value">
+        <div class="de-inputwrap de-grid">
+          <div class="de-inputwrap"><input type="number" name="gateway" (change)="sanitize($event, 'gateway_fee_order')"
+                                           [(ngModel)]="currFee.gateway_fee_order"></div>
+          <checkbox-slider [(value)]="currFee.gateway_fee_order_disabled"></checkbox-slider>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <div class="de-row">
+    <div class="de-title"></div>
+    <div class="de-value">
+      <div class="de-btnwrap">
+        <button type="submit" [disabled]="loading" class="save">
+          <span>{{words['common']['save'][currentLang.slug]}}</span></button>
+      </div>
+    </div>
+  </div>
+</form>

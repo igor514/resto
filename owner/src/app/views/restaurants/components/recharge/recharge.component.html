@@ -1,0 +1,50 @@
+<div class="popup" [class.active]="active">
+  <div class="p-overlay" (click)="close()"></div>
+  <form class="p-win" (submit)="apply();">
+    <div class="pw-content">
+      <div class="pw-txt"><span>{{words['common-pay']['recharge'][currentLang.slug]}}</span></div>
+      <div class="pw-form">
+        <div class="pwf-param">
+          <div class="pwf-title">{{words['common-pay']['restaurant'][currentLang.slug]}}</div>
+          <div class="pwf-value">
+            <div class="pwf-txt">{{restaurant?.name}}</div>
+          </div>
+        </div>
+        <div class="pwf-param">
+          <div class="pwf-title">{{words['common-pay']['amount'][currentLang.slug]}}</div>
+          <div class="pwf-value">
+            <input id="recharge-amount" #amountInput type="number" name="amount" [(ngModel)]="amount"
+                   [class.error]="formErrorAmount">
+            <ng-container *ngIf="amountFees && amountFees.total !== amount && amountFees.total !== 0">
+              <table class="pw-table">
+                <tr *ngIf="amountFees.vat_fee">
+                  <td>VAT</td>
+                  <td>{{amountFees.vat_fee}}{{currency}}</td>
+                </tr>
+                <tr *ngIf="amountFees.tax_fee">
+                  <td>Tax</td>
+                  <td>{{amountFees.tax_fee}}{{currency}}</td>
+                </tr>
+                <tr *ngIf="amountFees.gateway_fee">
+                  <td>Payment gateway</td>
+                  <td>{{amountFees.gateway_fee}}{{currency}}</td>
+                </tr>
+              </table>
+            </ng-container>
+          </div>
+        </div>
+        <div class="pwf-error" *ngIf="formError401">{{words['common']['error-401'][currentLang.slug]}}</div>
+      </div>
+    </div>
+    <div class="pw-total">
+      <ng-container *ngIf="amountFees?.total">
+        {{words['common-pay']['to-be-debited'][currentLang.slug]}}: {{amountFees.total}}{{currency}}
+      </ng-container>
+    </div>
+    <div class="pw-buttons">
+      <button type="submit" [disabled]="formLoading">{{words['common']['continue'][currentLang.slug]}}</button>
+      <button type="button" (click)="close()">{{words['common']['cancel'][currentLang.slug]}}</button>
+    </div>
+    <div class="pw-close" (click)="close()"><span></span></div>
+  </form>
+</div>

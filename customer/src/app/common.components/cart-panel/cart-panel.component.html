@@ -1,0 +1,68 @@
+<div class="cart-panel" [class.active]="active">
+    <div class="cp-left" (click)="active = false"></div>
+    <div class="cp-right">
+        <div class="cp-head">
+            <span>{{words['customer-cart']['cart']}}</span>
+            <div class="cp-close" (click)="active = false"><span></span></div>
+        </div>
+        <div class="cp-content">
+            <ng-container *ngIf="cart.records.length">
+                <div class="cp-records">
+                    <div class="cp-record" *ngFor="let r of cart.records">
+                        <div class="cpr-left">
+                            <div class="cpr-img" [style.background-image]="r.product.images.length ? 'url(' + staticPath + 'products/'+r.product.images[0].img+')' : 'url(' + staticPath + '/no-image.jpg)'"></div>
+                        </div>
+                        <div class="cpr-right">
+                            <div class="cpr-name" [innerHTML]="r.product.name"></div>
+                            <div class="cpr-calc notranslate">
+                                <input-number [min]="0" [(value)]="r.q" (valueChange)="onQuantityChanged(r)"></input-number>
+                                <span>&nbsp;x&nbsp;{{r.product.price | number:'1.2-2'}}&nbsp;{{target.currency_symbol}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cp-total">
+                    <div>{{words['customer-cart']['total']}}:</div>
+                    <div>{{payment?.total || s | number:'1.2-2'}}&nbsp;{{target.currency_symbol}}</div>
+                </div>
+                <div class="cp-fees">
+                  <div *ngIf="payment?.tax_fee" class="cp-sub-total">
+                    <div>{{words['common-pay']['tax']}}</div>
+                    <div>{{payment?.tax_fee | number:'1.2-2'}}&nbsp;{{target.currency_symbol}}</div>
+                  </div>
+                  <div *ngIf="payment?.vat_fee" class="cp-sub-total">
+                    <div>{{words['common-pay']['vat']}}</div>
+                    <div>{{payment?.vat_fee | number:'1.2-2'}}&nbsp;{{target.currency_symbol}}</div>
+                  </div>
+                  <div *ngIf="payment?.service_fee" class="cp-sub-total">
+                    <div>{{words['common-pay']['service-fee']}}</div>
+                    <div>{{payment?.service_fee | number:'1.2-2'}}&nbsp;{{target.currency_symbol}}</div>
+                  </div>
+                  <div *ngIf="payment?.gateway_fee" class="cp-sub-total">
+                    <div>{{words['common-pay']['gateway-fee']}}</div>
+                    <div>{{payment?.gateway_fee | number:'1.2-2'}}&nbsp;{{target.currency_symbol}}</div>
+                  </div>
+                </div>
+                <div class="cp-serving">
+                    <div class="cps-title">{{words['customer-cart']['serving']}}:</div>
+                    <div class="cps-items">
+                        <div class="cps-item" *ngFor="let s of sl"><radio-simple [checked]="cart.serving_id === s.id" [title]="s.name" (click)="cart.serving_id = s.id"></radio-simple></div>
+                    </div>
+                </div>
+                <div class="cp-comment">
+                    <div class="cpc-title">{{words['customer-cart']['comment']}}:</div>
+                    <div class="cpc-tawrap"><textarea [(ngModel)]="cart.comment" [placeholder]="words['customer-cart']['comment-placeholder']"></textarea></div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!cart.records.length">
+                <span>{{words['customer-cart']['empty']}}</span>
+            </ng-container>
+        </div>
+        <div class="cp-foot" *ngIf="cart.records.length && !order?.need_invoice">
+            <a (click)="onOrderSend()" [class.disabled]="orderLoading">{{words['customer-cart']['order']}}</a>
+        </div>
+    </div>
+</div>
+
+<the-confirm [msg]="words['customer-cart']['confirm-sending']" [(active)]="orderConfirmPanelActive" (confirmed)="orderSend()"></the-confirm>
+<the-alert [msg]="words['customer-cart']['order-accepted']" [(active)]="orderAlertPanelActive"></the-alert>

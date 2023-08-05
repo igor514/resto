@@ -1,0 +1,19 @@
+.lang-panel {
+    position: fixed; width:120px; height: 30px; left: -90px; top:65px; background-color: var(--color-bg); box-shadow: var(--block-shadow); border-top-right-radius: 5px; border-bottom-right-radius: 5px; user-select: none; transition: 0.3s; will-change: left; display: flex;
+    &.active {left: 10px;}
+    .lp-handle {
+        width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; cursor: pointer;
+        span::before {font-family: "fa-solid"; content:"\f57d"; font-size: 14px;}
+    }
+    .lp-lang {
+        width: 30px; height: 30px; padding: 2px; display: flex; align-items: center;
+        img {
+            width:100%; cursor: pointer; display: block; border:1px white solid;
+            &.active {border-color: black;}
+        }
+    }
+}
+
+html[dir="rtl"] :host .lang-panel {
+  flex-direction: row-reverse;
+}

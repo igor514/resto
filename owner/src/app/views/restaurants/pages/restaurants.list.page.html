@@ -1,0 +1,136 @@
+<div class="dash rtl-rev dash-line">
+  <a class="dash-btn create" [routerLink]="'/restaurants/'+type+'/create'">
+      <span>
+        {{words['common']['create'][currentLang.slug]}}
+      </span>
+  </a>
+  <a *ngFor="let t of types" class="dash-btn create" [routerLink]="'/restaurants/'+type+'/create'"
+     [queryParams]="{type_id: t.id}">
+      <span>
+        {{words['common']['create'][currentLang.slug]}} ({{t.translationByLang(currentLang.id).name}})
+      </span>
+  </a>
+</div>
+<div class="data">
+    <ng-container *ngIf="rlChunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="rlLoading"></div>
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input-search [(value)]="rlFilterName" cssClass="inline-block" (apply)="initRestaurants();"></input-search></td>
+                    <td></td>
+                    <td class="align-center"><input-search [(value)]="rlFilterDaysleft" cssClass="inline-block" (apply)="initRestaurants();"></input-search></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="rlSortBy === 'created_at' && rlSortDir === 1" [class.sorted-backward]="rlSortBy === 'created_at' && rlSortDir === -1" (click)="changeSorting('created_at')">{{words['owner-restaurants']['created-at'][currentLang.slug]}}</label></th>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="rlSortBy === 'name' && rlSortDir === 1" [class.sorted-backward]="rlSortBy === 'name' && rlSortDir === -1" (click)="changeSorting('name')">{{words['owner-restaurants']['name'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label class="sortable" [class.sorted-forward]="rlSortBy === 'money' && rlSortDir === 1" [class.sorted-backward]="rlSortBy === 'money' && rlSortDir === -1" (click)="changeSorting('money')">{{words['owner-restaurants']['money'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label class="sortable" [class.sorted-forward]="rlSortBy === 'daysleft' && rlSortDir === 1" [class.sorted-backward]="rlSortBy === 'daysleft' && rlSortDir === -1" (click)="changeSorting('daysleft')">{{words['owner-restaurants']['daysleft'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['owner-restaurants']['type'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['common']['actions'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="rl.length">
+                    <tr *ngFor="let r of rl">
+                        <td [class.grey]="type === 'inactive'"><span class="nowrap">{{r.formattedCreatedAt}}</span></td>
+                        <td [class.grey]="type === 'inactive'">
+                            <div [innerHTML]="r.name"></div>
+                            <div class="small">({{words['owner-restaurants']['employees-q'][currentLang.slug]}}: {{r.employees_q}}, <span [class.red]="!r.active">{{r.active ? words['common']['is-active'][currentLang.slug] : words['common']['is-not-active'][currentLang.slug]}}</span>)</div>
+                        </td>
+                        <td class="align-center" [class.grey]="type === 'inactive'"><a [routerLink]="'/restaurants/'+type+'/transactions/'+r.id" [title]="words['owner-restaurants']['transactions'][currentLang.slug]">{{r.money | number:'1.2-2'}}{{currency}}</a></td>
+                        <td class="align-center">{{r.daysleft}}</td>
+                        <td class="align-center">{{r.type_id && getType(r.type_id) && getType(r.type_id).translationByLang(currentLang.id).name}}</td>
+                        <td class="align-center nowrap">
+                            <a class="datalist-btn recharge" (click)="onRecharge(r)" [title]="words['common-pay']['recharge'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn transactions" [routerLink]="'/restaurants/'+type+'/transactions/'+r.id" [title]="words['owner-restaurants']['transactions'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn history" [routerLink]="'/restaurants/'+type+'/orders/'+r.id" [title]="words['owner-restaurants']['history'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn edit" [routerLink]="'/restaurants/'+type+'/edit/'+r.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn delete" (click)="onDelete(r)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!rl.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="rlLoading"></div>
+            <div class="dlm-dash">
+                <div class="dlmd-head">{{words['common']['filter'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-restaurants']['name'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><input-search [(value)]="rlFilterName" cssClass="adopt-block" (apply)="initRestaurants();"></input-search></div>
+                </div>
+                <div class="dlmd-param">
+                    <div class="dlmd-title">{{words['owner-restaurants']['daysleft'][currentLang.slug]}}:</div>
+                    <div class="dlmd-inputwrap"><input-search [(value)]="rlFilterDaysleft" cssClass="adopt-block" (apply)="initRestaurants();"></input-search></div>
+                </div>
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsorting (change)="setSorting(mobsorting.value)">
+                            <option [selected]="rlSortBy === 'created_at' && rlSortDir === 1" [value]="0">{{words['owner-restaurants']['created-at'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="rlSortBy === 'created_at' && rlSortDir === -1" [value]="1">{{words['owner-restaurants']['created-at'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="rlSortBy === 'name' && rlSortDir === 1" [value]="2">{{words['owner-restaurants']['name'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="rlSortBy === 'name' && rlSortDir === -1" [value]="3">{{words['owner-restaurants']['name'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="rlSortBy === 'money' && rlSortDir === 1" [value]="4">{{words['owner-restaurants']['money'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="rlSortBy === 'money' && rlSortDir === -1" [value]="5">{{words['owner-restaurants']['money'][currentLang.slug]}} &#9650;</option>
+                            <option [selected]="rlSortBy === 'daysleft' && rlSortDir === 1" [value]="6">{{words['owner-restaurants']['daysleft'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="rlSortBy === 'daysleft' && rlSortDir === -1" [value]="7">{{words['owner-restaurants']['daysleft'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="rl.length">
+                <div class="dlm-item" *ngFor="let r of rl">
+                    <div class="dlmi-param" [class.grey]="type === 'inactive'">
+                        <div class="dlmi-title">{{words['owner-restaurants']['created-at'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><span class="nowrap">{{r.formattedCreatedAt}}</span></div>
+                    </div>
+                    <div class="dlmi-param" [class.grey]="type === 'inactive'">
+                        <div class="dlmi-title">{{words['owner-restaurants']['name'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">
+                            <div [innerHTML]="r.name"></div>
+                            <div>({{words['owner-restaurants']['employees-q'][currentLang.slug]}}: {{r.employees_q}}, <span [class.red]="!r.active">{{r.active ? words['common']['is-active'][currentLang.slug] : words['common']['is-not-active'][currentLang.slug]}}</span>)</div>
+                        </div>
+                    </div>
+                    <div class="dlmi-param" [class.grey]="type === 'inactive'">
+                        <div class="dlmi-title">{{words['owner-restaurants']['money'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value"><a [routerLink]="'/restaurants/'+type+'/transactions/'+r.id" [title]="words['owner-restaurants']['transactions'][currentLang.slug]">{{r.money | number:'1.2-2'}}{{currency}}</a></div>
+                    </div>
+                    <div class="dlmi-param" [class.grey]="type === 'inactive'">
+                        <div class="dlmi-title">{{words['owner-restaurants']['daysleft'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{r.daysleft}}</div>
+                    </div>
+                  <div class="dlmi-param" [class.grey]="type === 'inactive'">
+                    <div class="dlmi-title">{{words['owner-restaurants']['type'][currentLang.slug]}}:</div>
+                    <div class="dlmi-value">{{r.type_id && getType(r.type_id) && getType(r.type_id).translationByLang(currentLang.id).name}}</div>
+                  </div>
+                    <div class="dlmi-actions rtl-rev">
+                        <a class="datalist-btn recharge" (click)="onRecharge(r)" [title]="words['common-pay']['recharge'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn transactions" [routerLink]="'/restaurants/'+type+'/transactions/'+r.id" [title]="words['owner-restaurants']['transactions'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn history" [routerLink]="'/restaurants/'+type+'/orders/'+r.id" [title]="words['owner-restaurants']['history'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn edit" [routerLink]="'/restaurants/'+type+'/edit/'+r.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn delete" (click)="onDelete(r)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!rl.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="rlAllLength" [length]="rlLength" [current]="rlCurrentPart" (currentChanged)="rlCurrentPart = $event; initRestaurants();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!rlChunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<the-confirm [(active)]="deleteConfirmActive" [msg]="deleteConfirmMsg" (confirmed)="delete()"></the-confirm>
+<the-recharge [(active)]="rechargePanelActive" [restaurant]="rechargeRestaurant" (recharged)="initRestaurants()"></the-recharge>

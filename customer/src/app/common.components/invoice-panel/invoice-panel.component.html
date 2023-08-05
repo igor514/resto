@@ -1,0 +1,97 @@
+<div class="invoice-panel" [class.active]="active">
+    <div class="ip-left" (click)="close()"></div>
+    <div class="ip-right" [ngClass]="{hidden: paymentActive}">
+        <div class="ip-head">
+            <span>{{words['customer-invoice']['invoice']}}</span>
+            <div class="ip-close" (click)="close()"><span></span></div>
+        </div>
+        <div class="ip-content">
+            <ng-container *ngIf="order">
+                <div class="ip-info">
+                    <div><strong>{{words['customer-invoice']['no']}}:</strong> {{order.id}}</div>
+                    <div *ngIf="order.group?.id"><strong>Grouped with orders:</strong> {{order.group.order_ids.join(', ')}}</div>
+                    <div><strong>{{words['customer-invoice']['created-at']}}:</strong> {{orderCreatedAt}}</div>
+                    <div *ngIf="substatuses"><strong>{{words['customer-invoice']['status']}}:</strong> {{substatuses}}</div>
+                </div>
+                <ng-container *ngIf="order.products?.length">
+                    <div class="ip-order">
+                        <div class="ipo-title">{{words['customer-invoice']['your-order']}}</div>
+                        <div class="ipo-products">
+                            <div class="ipo-product" *ngFor="let p of products">
+                                <div class="ipop-left">
+                                    <div class="ipop-img" [style.background-image]="p.img ? 'url(' + staticPath + 'products/'+p.img+')' : 'url(' + staticPath + 'no-image.jpg)'"></div>
+                                </div>
+                                <div class="ipop-right">
+                                    <div [innerHTML]="p.name"></div>
+                                    <div><span>{{p.q}}&nbsp;x&nbsp;{{p.price | number:'1.2-2'}}&nbsp;{{currency}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ipo-subtotal">
+                            <div>{{words['customer-invoice']['subtotal']}}:</div>
+                            <div>{{orderSubtotal | number:'1.2-2'}}&nbsp;{{currency}}</div>
+                        </div>
+                        <div *ngIf="orderFees?.tax_fee" class="ipo-fee">
+                          <div>{{words['common-pay']['tax']}}:</div>
+                          <div>{{orderFees?.tax_fee | number:'1.2-2'}}&nbsp;{{currency}}</div>
+                        </div>
+                        <div *ngIf="orderFees?.vat_fee" class="ipo-fee">
+                          <div>{{words['common-pay']['vat']}}:</div>
+                          <div>{{orderFees?.vat_fee | number:'1.2-2'}}&nbsp;{{currency}}</div>
+                        </div>
+                        <div *ngIf="orderFees?.service_fee" class="ipo-fee">
+                          <div>{{words['common-pay']['service-fee']}}:</div>
+                          <div>{{orderFees?.service_fee | number:'1.2-2'}}&nbsp;{{currency}}</div>
+                        </div>
+                        <div *ngIf="orderFees?.gateway_fee" class="ipo-fee">
+                          <div>{{words['common-pay']['gateway-fee']}}:</div>
+                          <div>{{orderFees?.gateway_fee | number:'1.2-2'}}&nbsp;{{currency}}</div>
+                        </div>
+                        <div class="ipo-discount">
+                            <div>{{words['customer-invoice']['discount']}}:</div>
+                            <div>{{orderDiscount}}&nbsp;%</div>
+                        </div>
+                        <div class="ipo-total">
+                            <div>{{words['customer-invoice']['total']}}:</div>
+                            <div>{{orderTotal | number:'1.2-2'}}&nbsp;{{currency}}</div>
+                        </div>
+
+                    </div>
+                    <div class="ip-payment" *ngIf="!order.need_invoice">
+                        <div class="ipp-title">{{words['customer-invoice']['paymethod']}}</div>
+                        <div class="ipp-items">
+                            <div class="ipp-item"><radio-simple [checked]="payMethod === payCash" [title]="words['customer-invoice']['cash']" (click)="payMethod = payCash"></radio-simple></div>
+                            <div class="ipp-item"><radio-simple [checked]="payMethod === payCard" [title]="words['customer-invoice']['card']" (click)="payMethod = payCard"></radio-simple></div>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="!order">
+                <span>{{words['customer-invoice']['not-open']}}</span>
+            </ng-container>
+        </div>
+        <div class="ip-foot" *ngIf="order && order.products?.length && !order.need_invoice">
+            <a (click)="onOrderClose()" [class.disabled]="loading">{{words['customer-invoice']['close']}}</a>
+        </div>
+    </div>
+    <div class="ip-right" [ngClass]="{hidden: !paymentActive}">
+      <div class="ip-head">
+        <div class="ip-back" (click)="back()"><span></span></div>
+        <span>{{words['customer-invoice']['invoice']}}</span>
+        <div class="ip-close" (click)="close()"><span></span></div>
+      </div>
+      <div class="ip-content">
+        <div class="ipo-total">
+          <div>{{words['common-pay']['charge-for']}}:</div>
+          <div>{{orderTotal | number:'1.2-2'}}&nbsp;{{currency}}</div>
+        </div>
+        <div id="payment-holder" class="ip-payment-holder"></div>
+      </div>
+      <div class="ip-foot">
+        <a (click)="onOrderClose()" [class.disabled]="loading">{{words['customer-invoice']['close']}}</a>
+      </div>
+    </div>
+</div>
+
+<the-confirm [msg]="words['customer-invoice']['confirm-close']" [(active)]="confirmPanelActive" (confirmed)="orderClose()"></the-confirm>
+<the-alert [msg]="words['customer-invoice']['closed-msg']" [(active)]="alertPanelActive"></the-alert>

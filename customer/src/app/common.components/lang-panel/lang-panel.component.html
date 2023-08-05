@@ -1,0 +1,7 @@
+<div class="lang-panel" [class.active]="active" *ngIf="gtCurrentLang">
+    <div class="lp-lang"><img [class.active]="gtCurrentLang === 'ru'" src="/assets/images/langs/ru.gif" (click)="gtTranslate('ru')"></div>
+    <div class="lp-lang"><img [class.active]="gtCurrentLang === 'en'" src="/assets/images/langs/en.gif" (click)="gtTranslate('en')"></div>
+    <div class="lp-lang"><img [class.active]="gtCurrentLang === 'de'" src="/assets/images/langs/de.gif" (click)="gtTranslate('de')"></div>
+    <div class="lp-lang"><img [class.active]="gtCurrentLang === 'ar'" src="/assets/images/langs/ar.png" (click)="gtTranslate('ar')"></div>
+    <div class="lp-handle" (click)="active = !active"><span></span></div>
+</div>

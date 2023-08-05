@@ -1,0 +1,32 @@
+.input-number {
+  display: flex;
+  align-items: center;
+  user-select: none;
+
+  .in-btn {
+    width: 25px;
+    height: 25px;
+    border-radius: 15px;
+    background-color: var(--color-bg);
+    box-shadow: var(--block-shadow);
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .in-value {
+    min-width: 30px;
+    padding: 0 5px;
+    text-align: center;
+    font-weight: bold;
+    width: 80px;
+  }
+  input.in-value  {
+    border: none;
+    outline: none;
+    background: transparent;
+    display: inline;
+  }
+}

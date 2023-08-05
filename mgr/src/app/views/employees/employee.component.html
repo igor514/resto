@@ -1,0 +1,41 @@
+<div class="data-form">    
+    <ng-container *ngIf="x.created_at">
+        <div class="df-title">{{currentLang.phrases['workspace-restaurants-created-at']}}:</div>
+        <div class="df-inputwrap">{{x.formattedCreatedAt}}</div>
+    </ng-container>  
+
+    <div class="df-title" [class.required]="isRequired('email')">{{currentLang.phrases['workspace-employees-email']}}:</div>
+    <div class="df-inputwrap"><input type="email" [(ngModel)]="x.email"></div>
+    
+    <div class="df-title" [class.required]="isRequired('password')">{{currentLang.phrases['workspace-employees-password']}}:</div>
+    <div class="df-inputwrap"><input type="password" [(ngModel)]="x.password"></div>
+    
+    <div class="df-title" [class.required]="isRequired('name')">{{currentLang.phrases['workspace-employees-name']}}:</div>
+    <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name"></div>
+
+    <div class="df-title" [class.required]="isRequired('phone')">{{currentLang.phrases['workspace-employees-phone']}}:</div>
+    <div class="df-inputwrap"><input type="text" [(ngModel)]="x.phone"></div>
+    
+    <div class="df-title" [class.required]="isRequired('restaurant_id')">{{currentLang.phrases['workspace-employees-restaurant']}}:</div>
+    <div class="df-inputwrap">
+        <select [(ngModel)]="x.restaurant_id" [disabled]="x.defended">
+            <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+            <option *ngFor="let r of rl" [ngValue]="r.id">{{r.name}}</option>
+        </select>
+    </div>
+
+    <div class="df-title" [class.required]="isRequired('employee_status_id')">{{currentLang.phrases['workspace-employees-status']}}:</div>
+    <div class="df-inputwrap">
+        <select [(ngModel)]="x.employee_status_id">
+            <option [ngValue]="null">{{currentLang.phrases['workspace-none']}}</option>
+            <option *ngFor="let es of esl" [ngValue]="es.id">{{es.translationByLang(ll[0].id).name}}</option>
+        </select>
+    </div>    
+
+    <div class="df-title" [class.required]="isRequired('is_admin')">{{currentLang.phrases['workspace-employees-is-admin']}}:</div>
+    <div class="df-inputwrap"><checkbox-slider [(value)]="x.is_admin" [disabled]="x.defended"></checkbox-slider></div>
+        
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>                    
+</div>
+

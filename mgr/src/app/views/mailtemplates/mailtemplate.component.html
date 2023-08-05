@@ -1,0 +1,39 @@
+
+<div class="data-langs">
+    <div class="data-langs-title">{{currentLang.phrases['workspace-lang']}}:</div>
+    <div class="data-langs-btns">
+        <label *ngFor="let l of ll" (click)="selectedLang = l;"><input type="radio" [checked]="selectedLang.id === l.id">{{l.slug}}</label>
+    </div>                    
+</div>
+<div class="data-form">        
+    <div [class]="isRequired('name') ? 'df-title required' : 'df-title'">{{currentLang.phrases['workspace-mailtemplates-name']}}:</div>
+    <div class="df-inputwrap"><input type="text" [(ngModel)]="x.name" [disabled]="x.defended"></div>
+
+    <div class="df-title" [class.required]="isRequired('subject')">{{currentLang.phrases['workspace-mailtemplates-subject']}}:</div>
+    <div class="df-inputwrap">
+        <ng-container *ngFor="let l of ll">
+            <input *ngIf="l.id === selectedLang.id" type="text" [(ngModel)]="x.translationByLang(l.id).subject">
+        </ng-container>            
+    </div>   
+
+    <div class="df-title" [class.required]="isRequired('content')">{{currentLang.phrases['workspace-mailtemplates-content']}}:</div>
+    <div class="df-inputwrap">        
+        <ng-container *ngFor="let l of ll">
+            <ng-container *ngIf="contentMode === 'editor'">
+                <div class="ck-wrap" *ngIf="l.id === selectedLang.id"><ckeditor [editor]="editor" [config]="editorCfg" [(ngModel)]="x.translationByLang(l.id).content"></ckeditor></div>
+            </ng-container>
+            <ng-container *ngIf="contentMode === 'html'">
+                <textarea *ngIf="l.id === selectedLang.id" [(ngModel)]="x.translationByLang(l.id).content"></textarea>
+            </ng-container>            
+        </ng-container>           
+        <!--
+        <div class="df-modes">
+            <label (click)="contentMode = 'editor';"><input type="radio" [checked]="contentMode === 'editor'">{{currentLang.phrases['workspace-editor']}}</label>
+            <label (click)="contentMode = 'html';"><input type="radio" [checked]="contentMode === 'html'">{{currentLang.phrases['workspace-html']}}</label>
+        </div>
+        -->
+    </div>    
+            
+    <div class="df-title"></div>
+    <div class="df-inputwrap"><button type="submit">{{currentLang.phrases['workspace-save']}}</button></div>                    
+</div>

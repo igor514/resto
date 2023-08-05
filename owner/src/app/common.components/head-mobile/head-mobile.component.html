@@ -1,0 +1,20 @@
+<div class="head-mobile">
+    <div class="hm-title">{{title}}</div>
+    <!-- menu -->
+    <div *ngIf="showMenuBtn" class="hm-menubtn" [class.active]="menuPanelActive" (click)="menuPanelActive = !menuPanelActive; langPanelActive = false;"><span></span></div>    
+    <div class="hm-panel" [class.active]="menuPanelActive">
+        <ul>
+            <li><a routerLink="/restaurants/active" (click)="menuPanelActive = false;" [class.active]="url[1] === 'restaurants' && url[2] === 'active'">{{words['owner-common']['menu-active'][currentLang.slug]}}</a></li>            
+            <li><a routerLink="/restaurants/inactive" (click)="menuPanelActive = false;" [class.active]="url[1] === 'restaurants' && url[2] === 'inactive'">{{words['owner-common']['menu-inactive'][currentLang.slug]}}</a></li>            
+            <li><a routerLink="/auth/password" (click)="menuPanelActive = false;" [class.active]="url[1] === 'auth' && url[2] === 'password'">{{words['owner-common']['menu-pw'][currentLang.slug]}}</a></li>
+            <li><a routerLink="/auth/logout" (click)="menuPanelActive = false;">{{words['common']['logout'][currentLang.slug]}}</a></li>            
+        </ul>
+    </div>
+    <!-- langs -->
+    <div class="hm-langbtn" [class.active]="langPanelActive" (click)="langPanelActive = !langPanelActive; menuPanelActive = false;"><span></span></div>     
+    <div class="hm-panel" [class.active]="langPanelActive">
+        <ul>
+            <li *ngFor="let l of langs"><a (click)="setLang(l);" [class.active]="l.id === currentLang.id">{{l.shorttitle}}</a></li>
+        </ul>
+    </div>       
+</div>

@@ -1,0 +1,14 @@
+<ng-container *ngIf="langsReady">
+	<the-header 
+		[currentUrl]="currentUrl" 
+		[monitorContent]="monitorContent"
+		[authenticated]="authenticated"
+		[currentLang]="currentLang"
+	></the-header>
+	<the-sidebar 		
+		[(active)]="mmActive" 				
+	></the-sidebar>
+	<main>
+		<router-outlet></router-outlet>
+	</main>
+</ng-container>

@@ -1,0 +1,28 @@
+.products {
+    @media (min-width:0) {grid-template-columns: 1fr;}
+    @media (min-width:640px) {grid-template-columns: 1fr 1fr;}
+    display: grid; gap: 15px 30px;
+    .p-img {
+        padding-bottom: 75%; background-size: cover; background-position: center center; border-radius: 15px; margin-bottom: 10px; position: relative; cursor: pointer;
+        .p-recommended {
+            position: absolute; right: 10px; top: 10px; width: 25px; height: 25px; background-color: white; border-radius: 13px; display: flex; justify-content: center; align-items: center;
+            span::before {font-family: "fa-regular"; content: "\f005";}
+        }
+    }
+    .p-name {font-weight: bold; text-align: center; margin-bottom: 10px;}
+    .p-params {
+        margin-bottom: 10px; display: flex; justify-content: space-between;
+        .p-param {
+            &.right {text-align: right;}
+            &.time {span::before {font-family: "fa-regular"; content: "\f017"; margin-right: 5px;}}
+            &.alc {span::before {font-family: "fa-regular"; content: "\f57b"; margin-right: 5px;}}
+        }
+    }
+    .p-dash {
+        display: flex; justify-content: space-between; flex-wrap: wrap; user-select: none;
+        a {
+            display: block; text-decoration: none; background-color: var(--color-bg); box-shadow: var(--block-shadow); height: 30px; width: 150px; padding: 0 15px; overflow: hidden; line-height: 30px; text-align: center; font-weight: bold; border-radius: 23px; cursor: pointer; margin-bottom: 15px; transition: background-color 0.3s; white-space: nowrap; text-overflow: ellipsis;
+            &.added {background-color: black; color: white;}
+        }
+    }
+}

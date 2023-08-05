@@ -1,0 +1,101 @@
+<html>
+    <head>
+        <style>
+            @media (min-width:0) {.email-wrap {background-color: none; padding: 15px 0;}} 
+            @media (min-width:960px) {.email-wrap {background-color: #f1f1f7; padding: 40px 15px;}} 
+            @media (min-width:0) {.email-blk {padding: 0; background-color: inherit;}} 
+            @media (min-width:960px) {.email-blk {padding: 30px 60px; background-color: #ffffff;}}
+        </style>
+    </head>
+    <body>
+        <div style=" font-family: Verdana, Geneva, Tahoma, sans-serif; color:#000000;" class="email-wrap">
+            <div style="max-width:560px; margin:0 auto;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
+                    <tr><td align="center" height="72" valign="top"><img src="{{staticUrl}}/images/email/logo.png" width="40" height="40"></td></tr>
+                    <tr>
+                        <td class="email-blk">
+                            <div style="font-size: 16px; line-height: 26px; margin-bottom: 5px;"><b>Your order in the melink shop has been successfully created!</b></div>
+                            <div style="font-size: 16px; line-height: 26px; margin-bottom: 20px;">Thank you, we will contact you shortly.</div>
+                            <div style="margin-bottom: 20px;">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 14px;">
+                                    <tr><td width="50%">Order no.: {{order.id}}</td><td width="50%" align="right">{{order.created_at}}</td></tr>
+                                </table>
+                            </div>
+                            <div style="margin-bottom: 10px; font-size: 14px;"><b>Customer details</b></div>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 14px; line-height: 20px;">
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">E-mail</td><td width="10">&nbsp;</td><td>{{customer.email}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>                        
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">First name</td><td width="10">&nbsp;</td><td>{{order.firstname}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>                        
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">Last name</td><td width="10">&nbsp;</td><td>{{order.lastname}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">Phone</td><td width="10">&nbsp;</td><td>{{order.phone}}</td></tr>
+                                <tr><td height="10"></td></tr>  
+
+                                <tr><td height="20"></td></tr>
+                                
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">Country</td><td width="10">&nbsp;</td><td>{{order.country}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">Region/state</td><td width="10">&nbsp;</td><td>{{order.region}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">City</td><td width="10">&nbsp;</td><td>{{order.city}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">Postal code/ZIP</td><td width="10">&nbsp;</td><td>{{order.zip}}</td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>
+                                <tr><td height="10"></td></tr>
+                                <tr><td width="115" style="color: #666666;">Address</td><td width="10">&nbsp;</td><td>{{order.address}}</td></tr>
+                                <tr><td height="10"></td></tr>                                
+                            </table>
+                        </td>
+                    </tr>
+                    <tr><td height="20"></td></tr>
+                    <tr>
+                        <td class="email-blk">
+                            <div style="margin-bottom: 15px; font-size: 14px;"><b>Order details</b></div>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 14px; line-height: 20px;">                                
+                                <!-- products -->
+                                {{order.records}}
+                                <!--
+                                <tr><td height="15"></td></tr>
+                                <tr>
+                                    <td width="80" valign="top"><img src="https://static.monoshop.vio.net.ua/images/email/product.jpg" width="80"></td>
+                                    <td width="20">&nbsp;</td>
+                                    <td>
+                                        <div><b>Nike Air Max 105</b></div>
+                                        <div>SKU: 12938783743</div>
+                                        <div>Price: 100 USD</div>
+                                        <div>Qty: 1</div>
+                                    </td>
+                                </tr>
+                                <tr><td height="15"></td></tr>
+                                <tr><td colspan="3" height="1" bgcolor="#f0f0f0"></td></tr>        
+                                -->
+                                <!-- /products -->
+                                <tr><td height="15"></td></tr>
+                                <tr><td width="80"><b>Total</b></td><td width="20">&nbsp;</td><td align="right">{{order.total}}</td></tr>
+                                <tr><td height="15"></td></tr>
+                            </table>
+                        </td>
+                    </tr>                                                                 
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
+
+

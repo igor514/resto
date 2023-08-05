@@ -1,0 +1,15 @@
+<div class="the-table">
+    <div class="tt-no"># {{table.no}}</div>
+    <div class="tt-seats">{{table.seats}} {{words['common']['pers'][currentLang.slug]}}</div>   
+    <div class="tt-img">
+        <img src="/assets/images/table2.svg" *ngIf="table.seats < 3">
+        <img src="/assets/images/table3.svg" *ngIf="table.seats === 3">
+        <img src="/assets/images/table4.svg" *ngIf="table.seats === 4">
+        <img src="/assets/images/table6.svg" *ngIf="table.seats === 5 || table.seats === 6">
+        <img src="/assets/images/table8.svg" *ngIf="table.seats === 7 || table.seats === 8">
+        <img src="/assets/images/table10.svg" *ngIf="table.seats > 8">
+    </div>
+    <div class="tt-btn delete" *ngIf="canDelete" (click)="onDelete()" [title]="words['common']['delete'][currentLang.slug]"><span></span></div> 
+    <div class="tt-btn qr" *ngIf="table.id" (click)="onQr()" [title]="words['common']['qr'][currentLang.slug]"><span></span></div>           
+    <div class="tt-btn history" *ngIf="table.id" (click)="onHistory()" [title]="words['common']['order-history'][currentLang.slug]"><span></span></div>           
+</div>

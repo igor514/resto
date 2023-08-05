@@ -1,0 +1,20 @@
+.input-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+
+  .in-value {
+    min-width: 30px;
+    padding: 0 5px;
+    text-align: center;
+    font-weight: bold;
+    width: 80px;
+  }
+  input.in-value  {
+    border: none;
+    outline: none;
+    background: transparent;
+    display: inline;
+  }
+}

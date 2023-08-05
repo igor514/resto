@@ -1,0 +1,30 @@
+<div class="stat-employees">
+    <div class="se-title">{{words['restorator-stats']['stat-employees'][currentLang.slug]}}</div>
+    <div class="se-graph">
+        <div class="seg-max">{{xlMax}} {{words['common']['currency-name'][currentLang.slug]}}</div>
+        <div class="seg-content beauty-scroll-v-compact">
+            <div class="seg-item" *ngFor="let x of xl">
+                <div class="seg-name">{{x.name}}</div>
+                <div class="seg-body" [style.width]="x.active ? sum2percent(x.sum)+'%' : 0" [title]="x.sum + ' ' + words['common']['currency-name'][currentLang.slug]"></div>
+            </div>                 
+        </div>        
+    </div>
+    <div class="se-date">
+        <div class="sed-item">
+            <span>{{words['common']['month'][currentLang.slug]}}:&nbsp;</span>
+            <div class="sed-selectwrap">
+                <select [(ngModel)]="currentMonth" (change)="initStats()">
+                    <option *ngFor="let m of months" [ngValue]="m">{{m}}</option>
+                </select>
+            </div>
+        </div> 
+        <div class="sed-item">
+            <span>{{words['common']['year'][currentLang.slug]}}:&nbsp;</span>
+            <div class="sed-selectwrap">
+                <select [(ngModel)]="currentYear" (change)="initStats()">
+                    <option *ngFor="let y of years" [ngValue]="y">{{y}}</option>
+                </select>
+            </div>
+        </div>        
+    </div>
+</div>

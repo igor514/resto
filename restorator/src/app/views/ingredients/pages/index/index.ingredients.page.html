@@ -1,0 +1,78 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn create" routerLink="/kitchen/ingredients/create"><span>{{words['common']['create'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <ng-container *ngIf="chunk">
+        <!-- desktop -->
+        <div class="datalist-desktop">
+            <div class="datalist-overlay" [class.active]="isLoading"></div>
+            <table>
+                <tr>
+                    <th class="align-left"><label class="sortable" [class.sorted-forward]="sortBy === 'name' && sortDir === 1" [class.sorted-backward]="sortBy === 'name' && sortDir === -1" (click)="changeSorting('name')">{{words['restorator-ingr-units']['ingr-name'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-ingr-units']['ingr-unit'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['restorator-ingr-units']['ingr-price'][currentLang.slug]}}</label></th>
+                    <th class="align-center"><label>{{words['common']['actions'][currentLang.slug]}}</label></th>
+                </tr>
+                <ng-container *ngIf="ig.length">
+                    <tr *ngFor="let i of ig">
+                        <td [innerHTML]="i.name"></td>
+                        <td class="align-center">{{i.unit.translationByLang(this.currentLang.id).name}}</td>
+                        <td class="align-center">{{i.price}}</td>
+                        <td class="align-center nowrap">
+                            <a class="datalist-btn edit" [routerLink]="'/kitchen/ingredients/edit/'+i.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                            <a class="datalist-btn delete" (click)="onDelete(i)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="!ig.length">
+                    <tr><td>{{words['common']['none'][currentLang.slug]}}</td></tr>
+                </ng-container>
+            </table>
+        </div>
+        <!-- mobile -->
+        <div class="datalist-mobile">
+            <div class="datalist-overlay" [class.active]="isLoading"></div>
+            <div class="dlm-dash">
+                <div class="dlmd-head">{{words['common']['sorting'][currentLang.slug]}}</div>
+                <div class="dlmd-param">
+                    <div class="dlmd-selectwrap">
+                        <select #mobsortingname (change)="setSorting(mobsortingname.value)">
+                            <option [selected]="sortBy === 'name' && sortDir === 1" [value]="0">{{words['restorator-ingr-units']['ingr-name'][currentLang.slug]}} &#9660;</option>
+                            <option [selected]="sortBy === 'name' && sortDir === -1" [value]="1">{{words['restorator-ingr-units']['ingr-name'][currentLang.slug]}} &#9650;</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="ig.length">
+                <div class="dlm-item" *ngFor="let i of ig">
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-ingr-units']['ingr-name'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value" [innerHTML]="i.name"></div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-ingr-units']['ingr-unit'][currentLang.slug]}}:</div>
+                        <div class="dlmi-value">{{i.unit.translationByLang(this.currentLang.id).name}}</div>
+                    </div>
+                    <div class="dlmi-param">
+                        <div class="dlmi-title">{{words['restorator-ingr-units']['ingr-price'][currentLang.slug]}}:</div>
+                      <div class="dlmi-value">{{i.price}}</div>
+                    </div>
+                    <div class="dlmi-actions rtl-rev">
+                        <a class="datalist-btn edit" [routerLink]="'/kitchen/ingredients/edit/'+i.id" [title]="words['common']['edit'][currentLang.slug]"><span></span></a>
+                        <a class="datalist-btn delete" (click)="onDelete(i)" [title]="words['common']['delete'][currentLang.slug]"><span></span></a>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!ig.length">
+                <div class="dlm-item">{{words['common']['none'][currentLang.slug]}}</div>
+            </ng-container>
+        </div>
+        <!-- paging -->
+        <pagination [allLength]="allLength" [length]="length" [current]="currentPart" (currentChanged)="currentPart = $event; initIngredients();"></pagination>
+    </ng-container>
+    <ng-container *ngIf="!chunk">
+        <div class="loading"><span></span></div>
+    </ng-container>
+</div>
+
+<the-confirm [(active)]="deleteConfirmActive" [msg]="deleteConfirmMsg" (confirmed)="delete()"></the-confirm>

@@ -1,0 +1,13 @@
+<div class="popup" [class.active]="active">
+    <div class="p-overlay" (click)="close()"></div>
+    <div class="p-win">
+        <div class="pw-content">
+            <div class="pw-list">
+                <ul>
+                    <li *ngFor="let l of langs" (click)="setLang(l);"><a [class.active]="l.slug === currentLang.slug">{{l.shorttitle}}</a></li>
+                </ul>
+            </div>            
+        </div>        
+        <div class="pw-close" (click)="close()"><span></span></div>
+    </div>
+</div>

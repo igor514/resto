@@ -1,0 +1,32 @@
+<form (submit)="onSave();">            
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-halls']['name'][currentLang.slug]}}: <span class="red">*</span></div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input type="text" name="name" [(ngModel)]="x.name" [class.error]="errorName"></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-halls']['nx'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input-number [(value)]="x.nx" [min]="1"></input-number></div>
+        </div>
+    </div>
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-halls']['ny'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input-number [(value)]="x.ny" [min]="1"></input-number></div>
+        </div>
+    </div>    
+    <div class="de-row">
+        <div class="de-title">{{words['restorator-halls']['pos'][currentLang.slug]}}:</div>
+        <div class="de-value">
+            <div class="de-inputwrap"><input-number [(value)]="x.pos"></input-number></div>
+        </div>
+    </div>    
+    <div class="de-row">
+        <div class="de-title"></div>
+        <div class="de-value">
+            <div class="de-btnwrap"><button type="submit" [disabled]="loading" class="save"><span>{{words['common']['save'][currentLang.slug]}}</span></button></div>
+        </div>                
+    </div>
+</form> 

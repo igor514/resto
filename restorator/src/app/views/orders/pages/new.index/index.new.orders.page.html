@@ -1,0 +1,38 @@
+<div class="dash-placeholder"></div>
+<div class="orders">
+    <ng-container *ngIf="olReady">        
+        <ng-container *ngIf="ol.length">
+            <div *ngFor="let o of ol" class="order">
+                <div class="o-date">{{o.formattedCreatedAt}}</div>
+                <div class="o-main" [class.highlight]="o._highlight">                                
+                    <div class="o-content">
+                        <div class="oc-table">
+                            <div class="oct-title">{{o.table?.no}} {{words['restorator-orders']['table'][currentLang.slug]}}</div>
+                            <div class="oct-btns">
+                                <div *ngIf="o.need_waiter" class="oct-btn need-waiter inactive" [class.highlight]="o._highlightNeedWaiter"  [title]="words['restorator-orders']['need-waiter'][currentLang.slug]"><span></span></div>   
+                                <div *ngIf="o.need_products" class="oct-btn need-products inactive" [class.highlight]="o._highlightNeedProducts"  [title]="words['restorator-orders']['need-products'][currentLang.slug]"><span></span></div>
+                                <div *ngIf="o.need_invoice" class="oct-btn need-invoice inactive" [class.highlight]="o._highlightNeedInvoice"  [title]="words['restorator-orders']['need-invoice'][currentLang.slug]"><span></span></div>                  
+                            </div>                        
+                        </div>
+                        <div>{{words['restorator-orders']['seats'][currentLang.slug]}}: <strong>{{o.table?.seats}}</strong>, {{words['restorator-orders']['hall2'][currentLang.slug]}}: <strong>{{o.table?.hall?.name}}</strong></div>
+                        <div>{{words['restorator-orders']['q'][currentLang.slug]}}: <strong><a routerLink="/orders/new/view/{{o.id}}">{{o.q}}</a></strong></div>                    
+                    </div>
+                    <div class="o-dash">                    
+                        <div class="od-title">{{words['common']['actions'][currentLang.slug]}}:</div>
+                        <div class="od-btn accept" [title]="words['common']['accept'][currentLang.slug]" (click)="olOnAccept(o)"><span></span></div>                    
+                        <div class="od-btn view" [title]="words['common']['view'][currentLang.slug]" routerLink="/orders/new/view/{{o.id}}"><span></span></div>
+                        <div class="od-btn cancel" [title]="words['common']['cancel'][currentLang.slug]" (click)="olOnCancel(o)"><span></span></div>   
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!ol.length">{{words['common']['none'][currentLang.slug]}}</ng-container>
+    </ng-container>
+    <ng-container *ngIf="!olReady">
+        <div class="loading"><span></span></div>        
+    </ng-container>  
+</div>
+
+<the-confirm [(active)]="olCancelConfirmActive" [msg]="words['restorator-orders']['confirm-cancel'][currentLang.slug]" (confirmed)="olCancel()"></the-confirm>
+<the-confirm [(active)]="olAcceptConfirmActive" [msg]="words['restorator-orders']['confirm-accept'][currentLang.slug]" (confirmed)="olAccept()"></the-confirm>
+<the-alert [(active)]="olAcceptConflictAlertActive" [msg]="words['restorator-orders']['accept-conflict'][currentLang.slug]"></the-alert>

@@ -1,0 +1,14 @@
+.input-search {
+    position: relative; 
+    &.block {display: block;}
+    &.inline-block {display: inline-block;}
+    &.adopt-block {
+        @media (min-width:0) {display: block;}
+        @media (min-width:500px) {display: inline-block;}        
+    }
+    input {height: 30px; border-radius: 15px; border:1px var(--color-grey) solid; width:100%; padding: 0 30px 0 10px; background: white;}
+    .is-reset {
+        position: absolute; right: 10px; top:50%; transform: translateY(-50%); width:20px; height: 20px; cursor: pointer; display: flex; justify-content: center; align-items: center;
+        span::before {content:"\f00d"; font-family: "fa-solid";}
+    }
+}

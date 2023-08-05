@@ -1,0 +1,16 @@
+<div class="dash rtl-rev">
+    <a class="dash-btn save" [class.disabled]="!cat || formLoading" (click)="cmdSave.next(true)"><span>{{words['common']['save'][currentLang.slug]}}</span></a>
+    <a class="dash-btn back" routerLink="/kitchen/cats"><span>{{words['common']['back'][currentLang.slug]}}</span></a>
+</div>
+<div class="data">
+    <div class="dataedit">
+        <the-cat
+            *ngIf="cat"
+            [x]="cat"
+            [il]="il"
+            [loading]="formLoading"
+            [cmdSave]="cmdSave"
+            (save)="update();"
+        ></the-cat>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="dtp-component" *ngIf="ready">
+    <div class="dtp-date">{{formatedDate}}</div>
+    <div class="dtp-btn active" (click)="toggle();"><span></span></div>
+    <div class="dtp-btn setnull" (click)="setNull();" *ngIf="value && canBeNull"><span></span></div>
+    <div class="dtp-picker" [class.active]="active" [class.compact]="!withTime">
+        <div class="dtp-content">
+            <div class="dtp-month">
+                <div class="dtp-month-back" (click)="onMonthBack();"><span></span></div>
+                <div class="dtp-month-current"><span>{{monthAndYear}}</span></div>
+                <div class="dtp-month-forward" (click)="onMonthForward();"><span></span></div>
+            </div>
+            <div class="dtp-days">                
+                <div class="dtp-days-content">
+                    <div class="head">{{this.words['common']['mo'][currentLang.slug]}}</div>
+                    <div class="head">{{this.words['common']['tu'][currentLang.slug]}}</div>
+                    <div class="head">{{this.words['common']['we'][currentLang.slug]}}</div>
+                    <div class="head">{{this.words['common']['th'][currentLang.slug]}}</div>
+                    <div class="head">{{this.words['common']['fr'][currentLang.slug]}}</div>
+                    <div class="head">{{this.words['common']['sa'][currentLang.slug]}}</div>
+                    <div class="head">{{this.words['common']['su'][currentLang.slug]}}</div>
+                    <div *ngFor="let day of days" class="day" [class.hidden]="day.hidden" [class.holiday]="day.holiday" [class.current]="day.current" (click)="setDate(day);">{{day.n}}</div>
+                </div>
+            </div>
+            <div class="dtp-time" *ngIf="withTime">
+                <div><input type="number" min="0" max="23" [(ngModel)]="currentHour" (keydown)="onKeyDown($event);"></div>
+                <div>:</div>
+                <div><input type="number" min="0" max="59" [ngModel]="currentMinute | number : '2.0-0'" (ngModelChange)="currentMinute = $event;" (keydown)="onKeyDown($event);"></div>
+            </div>
+            <div class="dtp-apply"><button type="button" (click)="apply();">{{this.words['common']['apply'][currentLang.slug]}}</button></div>
+        </div>        
+    </div>    
+    <div class="dtp-bgoverlay" [class.active]="active" (mousedown)="active = false;"></div> 
+</div>
